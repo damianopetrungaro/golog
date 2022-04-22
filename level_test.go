@@ -30,13 +30,13 @@ func TestParseLevel(t *testing.T) {
 			if got != test.want {
 				t.Error("could not match parsed level")
 				t.Errorf("got: %s", got)
-				t.Errorf("wantLog: %s", test.want)
+				t.Errorf("want: %s", test.want)
 			}
 
 			if !errors.Is(err, test.wantErr) {
 				t.Error("could not match error")
 				t.Errorf("got: %v", err)
-				t.Errorf("wantLog: %v", test.wantErr)
+				t.Errorf("want: %v", test.wantErr)
 			}
 		})
 	}
