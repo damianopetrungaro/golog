@@ -120,3 +120,19 @@ func testFieldHelper(t *testing.T, k string, v any, f golog.Field) {
 		t.Errorf("want: %v", v)
 	}
 }
+
+func FieldMatcher(t *testing.T, xs, ys golog.Fields) {
+	if len(xs) != len(ys) {
+		t.Error("could not match fields length")
+		t.Errorf("xs: %v", len(xs))
+		t.Errorf("ys: %v", len(ys))
+	}
+
+	for i, x := range xs {
+		if !reflect.DeepEqual(x, ys[i]) {
+			t.Errorf("could not match value at index %d", i)
+			t.Errorf("x: %v", x)
+			t.Errorf("y: %v", ys[i])
+		}
+	}
+}
