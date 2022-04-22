@@ -1,6 +1,6 @@
 package golog
 
-//Fields is a slice of fields
+//Fields is a slice of Field
 type Fields []Field
 
 // Field is a key value pair representing a log entry metadata field
