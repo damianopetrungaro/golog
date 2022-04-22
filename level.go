@@ -14,10 +14,13 @@ const (
 	FATAL
 )
 
+// ErrLevelNotParsed is an error returned when a given string can't be parsed as a log Level
 var ErrLevelNotParsed = errors.New("golog: could not parse level")
 
+// Level is a log severity level
 type Level int
 
+// ParseLevel returns a Level given a string, returns an error in case the string is not a recognized one
 func ParseLevel(s string) (Level, error) {
 	switch strings.ToUpper(s) {
 	case "DEBUG":
@@ -35,6 +38,7 @@ func ParseLevel(s string) (Level, error) {
 	return 0, ErrLevelNotParsed
 }
 
+// String returns a string format of a log Level
 func (l Level) String() string {
 	switch l {
 	case DEBUG:
