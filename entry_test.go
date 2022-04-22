@@ -43,3 +43,39 @@ func TestStdEntry(t *testing.T) {
 	e = e.With(otherFlds)
 	FieldMatcher(t, append(flds, otherFlds...), e.Fields())
 }
+
+func EntryMatcher(t *testing.T, x, y Entry) {
+	t.Helper()
+	if x == nil && y == nil {
+		return
+	}
+
+	stdX, ok := x.(StdEntry)
+	if !ok {
+		t.Error("x is not a stdEntry")
+		return
+	}
+	stdY, ok := y.(StdEntry)
+	if !ok {
+		t.Error("y is not a stdEntry")
+		return
+	}
+
+	if stdX.Ctx != stdY.Ctx {
+		t.Error("could not match context")
+		t.Errorf("x: %v", stdX.Ctx)
+		t.Errorf("y: %v", stdY.Ctx)
+	}
+	if stdX.Lvl != stdY.Lvl {
+		t.Error("could not match level")
+		t.Errorf("x: %s", stdX.Lvl)
+		t.Errorf("y: %s", stdY.Lvl)
+	}
+	if stdX.Msg != stdY.Msg {
+		t.Error("could not match message")
+		t.Errorf("x: %s", stdX.Msg)
+		t.Errorf("y: %s", stdY.Msg)
+	}
+
+	FieldMatcher(t, stdX.Fields(), stdY.Fields())
+}
