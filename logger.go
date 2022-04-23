@@ -16,7 +16,7 @@ type Logger interface {
 
 // StdLogger is a representation of the standard Logger
 type StdLogger struct {
-	MinSeverity Level
+	MinSeverity MinSeverity
 	Writer      Writer
 	Fields      Fields
 	Decorators  []Decorator
@@ -40,9 +40,9 @@ func (fn DecoratorFunc) Decorate(e Entry) Entry {
 
 // New returns a StdLogger which writes starting from the given Level to the given Writer
 // It optionally accepts decorators
-func New(minSeverity Level, w Writer, ds ...Decorator) StdLogger {
+func New(minSev MinSeverity, w Writer, ds ...Decorator) StdLogger {
 	return StdLogger{
-		MinSeverity: minSeverity,
+		MinSeverity: minSev,
 		Writer:      w,
 		Decorators:  ds,
 	}
