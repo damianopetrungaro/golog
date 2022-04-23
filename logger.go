@@ -87,7 +87,7 @@ func (l StdLogger) Fatal(ctx context.Context, msg Message) {
 
 // With returns a new Logger appending the given extra Fields
 func (l StdLogger) With(fields Fields) Logger {
-	return &StdLogger{
+	return StdLogger{
 		MinSeverity: l.MinSeverity,
 		Writer:      l.Writer,
 		Decorators:  l.Decorators,

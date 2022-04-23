@@ -167,3 +167,27 @@ func TestStdLogger(t *testing.T) {
 		})
 	}
 }
+
+func TestStdLogger_With(t *testing.T) {
+	var l Logger = New(DEBUG, &FakeWriter{}, DecoratorFunc(func(e Entry) Entry { return e }))
+
+	flds := Fields{String("a", "A"), String("b", "B")}
+	l = l.With(flds)
+	if len(l.(StdLogger).Decorators) != 1 {
+		t.Fatal("could not match decorators")
+	}
+	if DEBUG != l.(StdLogger).MinSeverity {
+		t.Fatal("could not match level")
+	}
+	FieldMatcher(t, flds, l.(StdLogger).Fields)
+
+	otherFlds := Fields{String("c", "C"), String("d", "D")}
+	l = l.With(otherFlds)
+	if len(l.(StdLogger).Decorators) != 1 {
+		t.Fatal("could not match decorators")
+	}
+	if DEBUG != l.(StdLogger).MinSeverity {
+		t.Fatal("could not match level")
+	}
+	FieldMatcher(t, append(flds, otherFlds...), l.(StdLogger).Fields)
+}
