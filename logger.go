@@ -4,7 +4,7 @@ import (
 	"context"
 )
 
-// Logger is a logger able to write custom log entries with
+// Logger is a logger able to write custom log Message with Fields
 type Logger interface {
 	Debug(context.Context, Message)
 	Info(context.Context, Message)
@@ -14,96 +14,37 @@ type Logger interface {
 	With(Fields) Logger
 }
 
-// StdLogger is a representation of the standard Logger
-type StdLogger struct {
-	MinSeverity MinSeverity
-	Writer      Writer
-	Fields      Fields
-	Decorators  []Decorator
+// CheckLogger is a logger able to check if a message should be written
+type CheckLogger interface {
+	CheckDebug(context.Context, Message) (CheckedLogger, bool)
+	CheckInfo(context.Context, Message) (CheckedLogger, bool)
+	CheckWarning(context.Context, Message) (CheckedLogger, bool)
+	CheckError(context.Context, Message) (CheckedLogger, bool)
+	CheckFatal(context.Context, Message) (CheckedLogger, bool)
 }
 
-// Decorators is a slice of Decorator
-type Decorators []Decorator
-
-// Decorator modifies an entry before it get written
-type Decorator interface {
-	Decorate(Entry) Entry
+// CheckedLogger logs an already checked log
+type CheckedLogger interface {
+	Log(Fields)
 }
 
-// DecoratorFunc is a handy function which implements Decorator
-type DecoratorFunc func(Entry) Entry
+// NoopCheckedLogger is a nil-like CheckedLogger
+type NoopCheckedLogger struct{}
 
-// Decorate change the entry with custom logic and return the new modified one
-func (fn DecoratorFunc) Decorate(e Entry) Entry {
-	return fn(e)
+// Log does nothing
+func (n NoopCheckedLogger) Log(_ Fields) {}
+
+// StdCheckedLogger is a CheckedLogger which will write when called
+type StdCheckedLogger struct {
+	Writer Writer
+	Entry  Entry
 }
 
-// New returns a StdLogger which writes starting from the given Level to the given Writer
-// It optionally accepts decorators
-func New(minSev MinSeverity, w Writer, ds ...Decorator) StdLogger {
-	return StdLogger{
-		MinSeverity: minSev,
-		Writer:      w,
-		Decorators:  ds,
+// Log writes a log with the given Fields
+// Log panics with the message if the Level is FATAL
+func (l StdCheckedLogger) Log(flds Fields) {
+	l.Writer.Write(l.Entry.With(flds))
+	if l.Entry.Level() == FATAL {
+		panic(l.Entry.Message())
 	}
-}
-
-// WithDecorator returns a new StdLogger appending the given extra Decorators
-func (l StdLogger) WithDecorator(ds ...Decorator) StdLogger {
-	return StdLogger{
-		MinSeverity: l.MinSeverity,
-		Writer:      l.Writer,
-		Decorators:  append(l.Decorators, ds...),
-		Fields:      l.Fields,
-	}
-}
-
-// Debug writes a log with the DEBUG Level
-func (l StdLogger) Debug(ctx context.Context, msg Message) {
-	l.log(ctx, DEBUG, msg)
-}
-
-// Info writes a log with the INFO Level
-func (l StdLogger) Info(ctx context.Context, msg Message) {
-	l.log(ctx, INFO, msg)
-}
-
-// Warning writes a log with the WARN Level
-func (l StdLogger) Warning(ctx context.Context, msg Message) {
-	l.log(ctx, WARN, msg)
-}
-
-// Error writes a log with the ERROR Level
-func (l StdLogger) Error(ctx context.Context, msg Message) {
-	l.log(ctx, ERROR, msg)
-}
-
-// Fatal writes a log with the FATAL Level
-// Fatal also panic with the given message
-func (l StdLogger) Fatal(ctx context.Context, msg Message) {
-	l.log(ctx, FATAL, msg)
-	panic(msg)
-}
-
-// With returns a new Logger appending the given extra Fields
-func (l StdLogger) With(fields Fields) Logger {
-	return StdLogger{
-		MinSeverity: l.MinSeverity,
-		Writer:      l.Writer,
-		Decorators:  l.Decorators,
-		Fields:      append(l.Fields, fields...),
-	}
-}
-
-func (l StdLogger) log(ctx context.Context, lvl Level, msg Message) {
-	if lvl < l.MinSeverity {
-		return
-	}
-
-	var e Entry = NewStdEntry(ctx, lvl, msg, l.Fields)
-	for _, d := range l.Decorators {
-		e = d.Decorate(e)
-	}
-
-	l.Writer.Write(e)
 }
