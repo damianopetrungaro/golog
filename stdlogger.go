@@ -6,18 +6,16 @@ import (
 
 // StdLogger is a representation of the standard Logger
 type StdLogger struct {
-	MinSeverity MinSeverity
-	Writer      Writer
-	Fields      Fields
-	Decorators  Decorators
-	Checkers    Checkers
+	Writer     Writer
+	Fields     Fields
+	Decorators Decorators
+	Checkers   Checkers
 }
 
 // New returns a StdLogger which writes starting from the given Level to the given Writer
-func New(minSev MinSeverity, w Writer, options ...Option) StdLogger {
+func New(w Writer, options ...Option) StdLogger {
 	l := StdLogger{
-		MinSeverity: minSev,
-		Writer:      w,
+		Writer: w,
 	}
 
 	for _, o := range options {
@@ -30,22 +28,20 @@ func New(minSev MinSeverity, w Writer, options ...Option) StdLogger {
 // WithDecorator returns a new StdLogger appending the given extra Decorators
 func (l StdLogger) WithDecorator(ds ...Decorator) StdLogger {
 	return StdLogger{
-		MinSeverity: l.MinSeverity,
-		Writer:      l.Writer,
-		Fields:      l.Fields,
-		Decorators:  append(l.Decorators, ds...),
-		Checkers:    l.Checkers,
+		Writer:     l.Writer,
+		Fields:     l.Fields,
+		Decorators: append(l.Decorators, ds...),
+		Checkers:   l.Checkers,
 	}
 }
 
 // WithCheckers returns a new StdLogger appending the given extra Checkers
 func (l StdLogger) WithCheckers(cs ...Checker) StdLogger {
 	return StdLogger{
-		MinSeverity: l.MinSeverity,
-		Writer:      l.Writer,
-		Fields:      l.Fields,
-		Decorators:  l.Decorators,
-		Checkers:    append(l.Checkers, cs...),
+		Writer:     l.Writer,
+		Fields:     l.Fields,
+		Decorators: l.Decorators,
+		Checkers:   append(l.Checkers, cs...),
 	}
 }
 
@@ -110,22 +106,23 @@ func (l StdLogger) CheckFatal(ctx context.Context, msg Message) (CheckedLogger, 
 // With returns a new Logger appending the given extra Fields
 func (l StdLogger) With(fields Fields) Logger {
 	return StdLogger{
-		MinSeverity: l.MinSeverity,
-		Writer:      l.Writer,
-		Fields:      append(l.Fields, fields...),
-		Decorators:  l.Decorators,
-		Checkers:    l.Checkers,
+		Writer:     l.Writer,
+		Fields:     append(l.Fields, fields...),
+		Decorators: l.Decorators,
+		Checkers:   l.Checkers,
 	}
 }
 
 func (l StdLogger) log(ctx context.Context, lvl Level, msg Message) {
-	if lvl < l.MinSeverity {
-		return
-	}
-
 	var e Entry = NewStdEntry(ctx, lvl, msg, l.Fields)
 	for _, d := range l.Decorators {
 		e = d.Decorate(e)
+	}
+
+	for _, c := range l.Checkers {
+		if !c.Check(e) {
+			return
+		}
 	}
 
 	l.Writer.Write(e)
