@@ -19,10 +19,12 @@ var (
 	}
 )
 
+// Encoder transforms an entry into io.WriterTo which holds the encoded content
 type Encoder interface {
 	Encode(Entry) (io.WriterTo, error)
 }
 
+// JsonConfig is a configuration for JsonEncoder
 type JsonConfig struct {
 	LevelKeyName        string
 	TimestampKeyName    string
@@ -33,19 +35,23 @@ type JsonConfig struct {
 	StackTraceFieldName string
 }
 
+// JsonEncoder is an encoder for json
 type JsonEncoder struct {
 	Config JsonConfig
 }
 
+// DefaultJsonConfig returns a default JsonConfig
 func DefaultJsonConfig() JsonConfig {
 	return defaultJsonConfig
 }
 
-func NewJsonEncoder(cfg JsonConfig) *JsonEncoder {
-	return &JsonEncoder{Config: cfg}
+// NewJsonEncoder returns a JsonEncoder
+func NewJsonEncoder(cfg JsonConfig) JsonEncoder {
+	return JsonEncoder{Config: cfg}
 }
 
-func (j *JsonEncoder) Encode(e Entry) (io.WriterTo, error) {
+// Encode encodes an entry into a json content holds into an io.WriterTo
+func (j JsonEncoder) Encode(e Entry) (io.WriterTo, error) {
 	w := &bytes.Buffer{}
 	w.WriteString(`{`)
 	addElemQuoted(w, j.Config.LevelKeyName, e.Level().String())
@@ -59,7 +65,7 @@ func (j *JsonEncoder) Encode(e Entry) (io.WriterTo, error) {
 	return w, nil
 }
 
-func (j *JsonEncoder) encodeFields(flds Fields, w *bytes.Buffer) {
+func (j JsonEncoder) encodeFields(flds Fields, w *bytes.Buffer) {
 	if len(flds) == 0 {
 		return
 	}
@@ -76,7 +82,7 @@ func (j *JsonEncoder) encodeFields(flds Fields, w *bytes.Buffer) {
 	w.WriteString(`}`)
 }
 
-func (j *JsonEncoder) encodeStackTrace(w *bytes.Buffer) {
+func (j JsonEncoder) encodeStackTrace(w *bytes.Buffer) {
 	if !j.Config.EnableStackTrace {
 		return
 	}
@@ -84,7 +90,7 @@ func (j *JsonEncoder) encodeStackTrace(w *bytes.Buffer) {
 	// TODO
 }
 
-func (j *JsonEncoder) encodeField(f Field, w *bytes.Buffer) {
+func (j JsonEncoder) encodeField(f Field, w *bytes.Buffer) {
 	switch t := f.Value().(type) {
 	case bool:
 		addElem(w, f.Key(), strconv.FormatBool(t))

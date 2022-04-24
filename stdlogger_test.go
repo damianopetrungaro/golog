@@ -153,6 +153,7 @@ func TestStdLogger(t *testing.T) {
 	for name, test := range tests {
 		test := test
 		t.Run(name, func(t *testing.T) {
+			t.Parallel()
 			w := &FakeWriter{}
 
 			defer func() {
@@ -169,7 +170,9 @@ func TestStdLogger(t *testing.T) {
 }
 
 func TestStdLogger_With(t *testing.T) {
-	var l Logger = New(DEBUG, &FakeWriter{}, DecoratorFunc(func(e Entry) Entry { return e }))
+	var l Logger = New(DEBUG, &FakeWriter{}, OptionFunc(func(l StdLogger) StdLogger {
+		return l.WithDecorator(DecoratorFunc(func(e Entry) Entry { return e }))
+	}))
 
 	flds := Fields{String("a", "A"), String("b", "B")}
 	l = l.With(flds)
