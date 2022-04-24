@@ -115,9 +115,6 @@ func (l StdLogger) With(fields Fields) Logger {
 
 func (l StdLogger) log(ctx context.Context, lvl Level, msg Message) {
 	var e Entry = NewStdEntry(ctx, lvl, msg, l.Fields)
-	for _, d := range l.Decorators {
-		e = d.Decorate(e)
-	}
 
 	for _, c := range l.Checkers {
 		if !c.Check(e) {
@@ -125,11 +122,14 @@ func (l StdLogger) log(ctx context.Context, lvl Level, msg Message) {
 		}
 	}
 
+	for _, d := range l.Decorators {
+		e = d.Decorate(e)
+	}
+
 	l.Writer.Write(e)
 }
 
 func (l StdLogger) check(ctx context.Context, lvl Level, msg Message) (CheckedLogger, bool) {
-
 	var e Entry = NewStdEntry(ctx, lvl, msg, l.Fields)
 	for _, c := range l.Checkers {
 		if !c.Check(e) {
