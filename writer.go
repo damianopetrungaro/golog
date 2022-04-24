@@ -62,6 +62,13 @@ func (w *BufWriter) Write(e Entry) {
 
 // Flush forces the data in the buffer to be written
 func (w *BufWriter) Flush() error {
+	w.mu.Lock()
+	defer w.mu.Unlock()
+
+	if w.Writer.Buffered() == 0 {
+		return nil
+	}
+
 	if err := w.Writer.Flush(); err != nil {
 		return fmt.Errorf("%w: buf writer on flush: %s", ErrEntriesNotFlushed, err)
 	}
