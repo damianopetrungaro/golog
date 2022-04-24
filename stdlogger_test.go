@@ -9,142 +9,109 @@ import (
 
 func TestStdLogger(t *testing.T) {
 	ctx := context.Background()
-	msg := "This is a log message"
-
-	debugEntry := NewStdEntry(ctx, DEBUG, msg, nil)
-	infoEntry := NewStdEntry(ctx, INFO, msg, nil)
-	warnEntry := NewStdEntry(ctx, WARN, msg, nil)
-	errorEntry := NewStdEntry(ctx, ERROR, msg, nil)
-	fatalEntry := NewStdEntry(ctx, FATAL, msg, nil)
 
 	tests := map[string]struct {
-		lvl       Level
 		w         Writer
 		log       func(Logger, context.Context, Message)
 		wantEntry Entry
 	}{
 		"debug logger must write an debug entry": {
-			lvl:       DEBUG,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
 			wantEntry: debugEntry,
 		},
 		"debug logger must write an info entry": {
-			lvl:       DEBUG,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
 			wantEntry: infoEntry,
 		},
 		"debug logger must write an warn entry": {
-			lvl:       DEBUG,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"debug logger must write an error entry": {
-			lvl:       DEBUG,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
 			wantEntry: errorEntry,
 		},
 		"debug logger must write an fatal entry": {
-			lvl:       DEBUG,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
 			wantEntry: fatalEntry,
 		},
 		"info logger must write an debug entry": {
-			lvl:       INFO,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
-			wantEntry: nil,
+			wantEntry: debugEntry,
 		},
 		"info logger must write an info entry": {
-			lvl:       INFO,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
 			wantEntry: infoEntry,
 		},
 		"info logger must write an warn entry": {
-			lvl:       INFO,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"info logger must write an error entry": {
-			lvl:       INFO,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
 			wantEntry: errorEntry,
 		},
 		"info logger must write an fatal entry": {
-			lvl:       INFO,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
 			wantEntry: fatalEntry,
 		},
 		"warn logger must write an debug entry": {
-			lvl:       WARN,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
-			wantEntry: nil,
+			wantEntry: debugEntry,
 		},
 		"warn logger must write an info entry": {
-			lvl:       WARN,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
-			wantEntry: nil,
+			wantEntry: infoEntry,
 		},
 		"warn logger must write an warn entry": {
-			lvl:       WARN,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"warn logger must write an error entry": {
-			lvl:       WARN,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
 			wantEntry: errorEntry,
 		},
 		"warn logger must write an fatal entry": {
-			lvl:       WARN,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
 			wantEntry: fatalEntry,
 		},
 		"error logger must write an debug entry": {
-			lvl:       ERROR,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
-			wantEntry: nil,
+			wantEntry: debugEntry,
 		},
 		"error logger must write an info entry": {
-			lvl:       ERROR,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
-			wantEntry: nil,
+			wantEntry: infoEntry,
 		},
 		"error logger must write an warn entry": {
-			lvl:       ERROR,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
-			wantEntry: nil,
+			wantEntry: warnEntry,
 		},
 		"error logger must write an error entry": {
-			lvl:       ERROR,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
 			wantEntry: errorEntry,
 		},
 		"error logger must write an fatal entry": {
-			lvl:       ERROR,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
 			wantEntry: fatalEntry,
 		},
 		"fatal logger must write an debug entry": {
-			lvl:       FATAL,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
-			wantEntry: nil,
+			wantEntry: debugEntry,
 		},
 		"fatal logger must write an info entry": {
-			lvl:       FATAL,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
-			wantEntry: nil,
+			wantEntry: infoEntry,
 		},
 		"fatal logger must write an warn entry": {
-			lvl:       FATAL,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
-			wantEntry: nil,
+			wantEntry: warnEntry,
 		},
 		"fatal logger must write an error entry": {
-			lvl:       FATAL,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
-			wantEntry: nil,
+			wantEntry: errorEntry,
 		},
 		"fatal logger must write an fatal entry": {
-			lvl:       FATAL,
 			log:       func(l Logger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
 			wantEntry: fatalEntry,
 		},
@@ -164,13 +131,13 @@ func TestStdLogger(t *testing.T) {
 				}
 			}()
 
-			test.log(New(test.lvl, w), ctx, msg)
+			test.log(New(w), ctx, msg)
 		})
 	}
 }
 
 func TestStdLogger_With(t *testing.T) {
-	var l Logger = New(DEBUG, &FakeWriter{}, OptionFunc(func(l StdLogger) StdLogger {
+	var l Logger = New(&FakeWriter{}, OptionFunc(func(l StdLogger) StdLogger {
 		return l.WithDecorator(DecoratorFunc(func(e Entry) Entry { return e }))
 	}))
 
@@ -179,18 +146,12 @@ func TestStdLogger_With(t *testing.T) {
 	if len(l.(StdLogger).Decorators) != 1 {
 		t.Fatal("could not match decorators")
 	}
-	if DEBUG != l.(StdLogger).MinSeverity {
-		t.Fatal("could not match level")
-	}
 	FieldMatcher(t, flds, l.(StdLogger).Fields)
 
 	otherFlds := Fields{String("c", "C"), String("d", "D")}
 	l = l.With(otherFlds)
 	if len(l.(StdLogger).Decorators) != 1 {
 		t.Fatal("could not match decorators")
-	}
-	if DEBUG != l.(StdLogger).MinSeverity {
-		t.Fatal("could not match level")
 	}
 	FieldMatcher(t, append(flds, otherFlds...), l.(StdLogger).Fields)
 }
