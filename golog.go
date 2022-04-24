@@ -11,7 +11,7 @@ var (
 	logger Logger = New(
 		INFO,
 		NewBufWriter(
-			Encoder(nil), // TODO: add a real encoder
+			NewJsonEncoder(DefaultJsonConfig()),
 			bufio.NewWriter(os.Stdout),
 			DefaultErrorHandler(),
 		),
@@ -34,6 +34,51 @@ type ErrorHandler func(error)
 // DefaultErrorHandler returns the default error handler
 func DefaultErrorHandler() ErrorHandler {
 	return errorHandler
+}
+
+// Decorators is a slice of Decorator
+type Decorators []Decorator
+
+// Decorator modifies an entry before it get written
+type Decorator interface {
+	Decorate(Entry) Entry
+}
+
+// DecoratorFunc is a handy function which implements Decorator
+type DecoratorFunc func(Entry) Entry
+
+// Decorate changes the entry with custom logic and return the new modified one
+func (fn DecoratorFunc) Decorate(e Entry) Entry {
+	return fn(e)
+}
+
+// Checkers is a slice of Checker
+type Checkers []Checker
+
+// Checker modifies an entry before it get written
+type Checker interface {
+	Check(Entry) bool
+}
+
+// CheckerFunc is a handy function which implements Checker
+type CheckerFunc func(Entry) bool
+
+// Check checks if an entry should proceed to be written when using a CheckLogger
+func (fn CheckerFunc) Check(e Entry) bool {
+	return fn(e)
+}
+
+// Option modifies a StdLogger and returns the modified one
+type Option interface {
+	Apply(StdLogger) StdLogger
+}
+
+// OptionFunc is a handy function which implements Option
+type OptionFunc func(StdLogger) StdLogger
+
+// Apply change a StdLogger with custom logic and return the new modified one
+func (fn OptionFunc) Apply(l StdLogger) StdLogger {
+	return fn(l)
 }
 
 // SetLogger overrides the base Logger
