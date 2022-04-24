@@ -24,10 +24,12 @@ type LevelChecker struct {
 	MinSeverity MinSeverity
 }
 
+// NewLevelChecker returns a LevelChecker with the given MinSeverity
 func NewLevelChecker(minSev MinSeverity) LevelChecker {
 	return LevelChecker{MinSeverity: minSev}
 }
 
+// NewLevelCheckerOption returns an Option which applies a LevelChecker with the given MinSeverity
 func NewLevelCheckerOption(minSev MinSeverity) Option {
 	return OptionFunc(func(l StdLogger) StdLogger {
 		return l.WithCheckers(LevelChecker{MinSeverity: minSev})

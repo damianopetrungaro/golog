@@ -60,7 +60,6 @@ func (j JsonEncoder) Encode(e Entry) (io.WriterTo, error) {
 	w.WriteString(`,`)
 	addElemQuoted(w, j.Config.MessageKeyName, e.Message())
 	j.encodeFields(e.Fields(), w)
-	j.encodeStackTrace(nil)
 	w.WriteString(`}\n`)
 	return w, nil
 }
@@ -80,14 +79,6 @@ func (j JsonEncoder) encodeFields(flds Fields, w *bytes.Buffer) {
 		}
 	}
 	w.WriteString(`}`)
-}
-
-func (j JsonEncoder) encodeStackTrace(w *bytes.Buffer) {
-	if !j.Config.EnableStackTrace {
-		return
-	}
-
-	// TODO
 }
 
 func (j JsonEncoder) encodeField(f Field, w *bytes.Buffer) {

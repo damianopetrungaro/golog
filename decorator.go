@@ -21,10 +21,12 @@ type StackTraceDecorator struct {
 	StacktraceFieldName string
 }
 
+// NewStackTraceDecorator returns a StackTraceDecorator with the given field name
 func NewStackTraceDecorator(n string) StackTraceDecorator {
 	return StackTraceDecorator{StacktraceFieldName: n}
 }
 
+// NewStackTraceDecoratorOption returns an Option which applies a StackTraceDecorator with the given field name
 func NewStackTraceDecoratorOption(n string) Option {
 	return OptionFunc(func(l StdLogger) StdLogger {
 		return l.WithDecorator(StackTraceDecorator{StacktraceFieldName: n})
