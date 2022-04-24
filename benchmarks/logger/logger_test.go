@@ -24,15 +24,12 @@ func BenchmarkLogger(b *testing.B) {
 			golog.DefaultErrorHandler(),
 		)
 
-		logger := golog.New(
-			golog.DEBUG,
-			writer,
-		)
+		logger := golog.New(writer, golog.NewLevelCheckerOption(golog.DEBUG))
 		logger.WithDecorator(opencensus.TraceDecorator())
 
 		golog.SetLogger(logger)
+		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
-			b.ResetTimer()
 			for pb.Next() {
 				golog.With(golog.Fields{
 					golog.Int("int", 10),
@@ -65,8 +62,8 @@ func BenchmarkLogger(b *testing.B) {
 		core := zapcore.NewCore(zapcore.NewJSONEncoder(encoderCfg), &Discarder{}, zap.DebugLevel)
 		logger := zap.New(core).WithOptions()
 
+		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
-			b.ResetTimer()
 			for pb.Next() {
 				logger.With(
 					zap.Int("int", 10),
@@ -95,10 +92,10 @@ func BenchmarkLogger(b *testing.B) {
 			golog.DefaultErrorHandler(),
 		)
 
-		logger := golog.New(golog.WARN, writer)
+		logger := golog.New(writer, golog.NewLevelCheckerOption(golog.WARN))
 
+		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
-			b.ResetTimer()
 			for pb.Next() {
 				if checked, ok := logger.CheckDebug(ctx, "This is a message"); ok {
 					checked.Log(golog.Fields{
@@ -133,8 +130,8 @@ func BenchmarkLogger(b *testing.B) {
 		core := zapcore.NewCore(zapcore.NewJSONEncoder(encoderCfg), &Discarder{}, zap.WarnLevel)
 		logger := zap.New(core).WithOptions()
 
+		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
-			b.ResetTimer()
 			for pb.Next() {
 				if ce := logger.Check(zap.DebugLevel, "This is a message"); ce != nil {
 					ce.Write(
