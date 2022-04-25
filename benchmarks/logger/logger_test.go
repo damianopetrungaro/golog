@@ -7,7 +7,6 @@ import (
 	"io"
 	"testing"
 
-	"github.com/damianopetrungaro/golog/opencensus"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
@@ -25,7 +24,6 @@ func BenchmarkLogger(b *testing.B) {
 		)
 
 		logger := golog.New(writer, golog.NewLevelCheckerOption(golog.DEBUG))
-		logger.WithDecorator(opencensus.TraceDecorator())
 
 		golog.SetLogger(logger)
 		b.ResetTimer()
