@@ -15,6 +15,12 @@ var decorator golog.DecoratorFunc = func(e golog.Entry) golog.Entry {
 	})
 }
 
+func TraceDecoratorOption() golog.Option {
+	return golog.OptionFunc(func(l golog.StdLogger) golog.StdLogger {
+		return l.WithDecorator(decorator)
+	})
+}
+
 func TraceDecorator() golog.Decorator {
 	return decorator
 }
