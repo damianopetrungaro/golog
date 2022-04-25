@@ -7,6 +7,7 @@ import (
 	"io"
 	"testing"
 
+	"github.com/sirupsen/logrus"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 
@@ -78,6 +79,32 @@ func BenchmarkLogger(b *testing.B) {
 					zap.Strings("strings_3", []string{"one", "one", "one", "one", "one", "one"}),
 					zap.Error(fmt.Errorf("an error occurred")),
 				).Debug("This is a message")
+			}
+		})
+	})
+
+	b.Run("logrus", func(b *testing.B) {
+		logrus.SetFormatter(&logrus.JSONFormatter{})
+		logrus.SetOutput(io.Discard)
+		logrus.SetLevel(logrus.DebugLevel)
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				logrus.WithFields(logrus.Fields{
+					"int":       10,
+					"ints":      []int{1, 2, 3, 4, 5, 6, 7},
+					"string":    "a string",
+					"strings":   []string{"one", "one", "one", "one", "one", "one"},
+					"int_2":     10,
+					"ints_2":    []int{1, 2, 3, 4, 5, 6, 7},
+					"string_2":  "a string",
+					"strings_2": []string{"one", "one", "one", "one", "one", "one"},
+					"int_3":     10,
+					"ints_3":    []int{1, 2, 3, 4, 5, 6, 7},
+					"string_3":  "a string",
+					"strings_3": []string{"one", "one", "one", "one", "one", "one"},
+					"error":     fmt.Errorf("an error occurred"),
+				}).Debug("This is a message")
 			}
 		})
 	})
