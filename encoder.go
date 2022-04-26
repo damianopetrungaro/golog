@@ -4,14 +4,11 @@ import (
 	"bytes"
 	"io"
 	"strconv"
-	"time"
 )
 
 var (
 	defaultJsonConfig = JsonConfig{
 		LevelKeyName:        "level",
-		TimestampKeyName:    "timestamp",
-		TimestampLayout:     time.RFC3339Nano,
 		MessageKeyName:      "message",
 		FieldsKeyName:       "fields",
 		EnableStackTrace:    false,
@@ -27,8 +24,6 @@ type Encoder interface {
 // JsonConfig is a configuration for JsonEncoder
 type JsonConfig struct {
 	LevelKeyName        string
-	TimestampKeyName    string
-	TimestampLayout     string
 	MessageKeyName      string
 	FieldsKeyName       string
 	EnableStackTrace    bool
@@ -56,11 +51,10 @@ func (j JsonEncoder) Encode(e Entry) (io.WriterTo, error) {
 	w.WriteString(`{`)
 	addElemQuoted(w, j.Config.LevelKeyName, e.Level().String())
 	w.WriteString(`,`)
-	addElemQuoted(w, j.Config.TimestampKeyName, time.Now().Format(j.Config.TimestampLayout))
-	w.WriteString(`,`)
 	addElemQuoted(w, j.Config.MessageKeyName, e.Message())
 	j.encodeFields(e.Fields(), w)
-	w.WriteString(`}\n`)
+	w.WriteString(`}`)
+	w.WriteByte('\n')
 	return w, nil
 }
 

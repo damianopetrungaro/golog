@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"time"
 )
 
 var (
@@ -15,7 +16,8 @@ var (
 			DefaultErrorHandler(),
 			INFO,
 		),
-		NewLevelCheckerOption(INFO),
+		levelChecker,
+		timestampDecorator,
 	)
 
 	checkLogger CheckLogger = New(
@@ -25,12 +27,16 @@ var (
 			DefaultErrorHandler(),
 			INFO,
 		),
-		NewLevelCheckerOption(INFO),
+		levelChecker,
+		timestampDecorator,
 	)
 
 	errorHandler = func(err error) {
 		fmt.Println(fmt.Sprintf("golog: could not write: %s\n", err))
 	}
+
+	levelChecker       = NewLevelCheckerOption(INFO)
+	timestampDecorator = NewTimestampDecoratorOption("timestamp", time.RFC3339Nano)
 )
 
 // Message is a log entry message
