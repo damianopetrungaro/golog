@@ -13,6 +13,7 @@ var (
 			NewJsonEncoder(DefaultJsonConfig()),
 			bufio.NewWriter(os.Stdout),
 			DefaultErrorHandler(),
+			INFO,
 		),
 		NewLevelCheckerOption(INFO),
 	)
@@ -22,6 +23,7 @@ var (
 			NewJsonEncoder(DefaultJsonConfig()),
 			bufio.NewWriter(os.Stdout),
 			DefaultErrorHandler(),
+			INFO,
 		),
 		NewLevelCheckerOption(INFO),
 	)

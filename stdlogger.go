@@ -126,7 +126,7 @@ func (l StdLogger) log(ctx context.Context, lvl Level, msg Message) {
 		e = d.Decorate(e)
 	}
 
-	l.Writer.Write(e)
+	l.Writer.WriteEntry(e)
 }
 
 func (l StdLogger) check(ctx context.Context, lvl Level, msg Message) (CheckedLogger, bool) {

@@ -88,6 +88,20 @@ logger := golog.New(
 golog.SetCheckLogger(logger)
  ```
 
+### Standard Library support
+Golog Writer can be used by the go `log` package as well as output
+```go
+w := &BufWriter{
+    Encoder:         enc,
+    Writer:          bufio.NewWriter(buf),
+    ErrHandler:      errHandler.Handle,
+    DefaultLogLevel: DEBUG, //! This will be the log level used for all the logs by the stdlib logger
+}
+
+log.SetOutput(w)
+log.Println("your log message here...")
+```
+
 ## Customization
 Golog provides multiple ways to customize behaviors  
 

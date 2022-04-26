@@ -5,7 +5,9 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"io"
+	"log"
 	"strings"
 	"sync/atomic"
 	"testing"
@@ -29,8 +31,12 @@ type FakeWriter struct {
 	Entry Entry
 }
 
-func (fw *FakeWriter) Write(e Entry) {
+func (fw *FakeWriter) WriteEntry(e Entry) {
 	fw.Entry = e
+}
+
+func (fw *FakeWriter) Write([]byte) (int, error) {
+	return 0, nil
 }
 
 // FakeFlusher used for internal testing purposes
@@ -62,7 +68,7 @@ func (fw *FakeIoWriterTo) WriteTo(w io.Writer) (int64, error) {
 	return 0, nil
 }
 
-func TestBufWriter_Write(t *testing.T) {
+func TestBufWriter_WriteEntry(t *testing.T) {
 	t.Run("successfully write", func(t *testing.T) {
 		data := []byte(`This is the data written`)
 		buf := &bytes.Buffer{}
@@ -77,7 +83,7 @@ func TestBufWriter_Write(t *testing.T) {
 		}
 
 		e := NewStdEntry(context.Background(), ERROR, "A log error message", Fields{Bool("test", true)})
-		w.Write(e)
+		w.WriteEntry(e)
 		_ = w.Writer.Flush()
 
 		EntryMatcher(t, e, enc.Entry)
@@ -103,7 +109,7 @@ func TestBufWriter_Write(t *testing.T) {
 		}
 
 		e := NewStdEntry(context.Background(), ERROR, "A log error message", Fields{Bool("test", true)})
-		w.Write(e)
+		w.WriteEntry(e)
 		_ = w.Writer.Flush()
 
 		EntryMatcher(t, e, enc.Entry)
@@ -132,7 +138,7 @@ func TestBufWriter_Write(t *testing.T) {
 		}
 
 		e := NewStdEntry(context.Background(), ERROR, "A log error message", Fields{Bool("test", true)})
-		w.Write(e)
+		w.WriteEntry(e)
 		_ = w.Writer.Flush()
 
 		EntryMatcher(t, e, enc.Entry)
@@ -147,6 +153,34 @@ func TestBufWriter_Write(t *testing.T) {
 			t.Errorf("want: %s", ErrFakeEncoder)
 		}
 	})
+}
+
+func TestBufWriter_Write(t *testing.T) {
+	data := []byte(`This is the data written`)
+	buf := &bytes.Buffer{}
+	writerTo := bytes.NewBuffer(data)
+	enc := &FakeEncoder{ShouldWriterTo: writerTo}
+	errHandler := &FakeErrorHandler{}
+
+	w := &BufWriter{
+		Encoder:         enc,
+		Writer:          bufio.NewWriter(buf),
+		ErrHandler:      errHandler.Handle,
+		DefaultLogLevel: DEBUG,
+	}
+	log.SetFlags(0)
+	log.SetOutput(w)
+	log.Printf("%s", data)
+	_ = w.Writer.Flush()
+
+	e := NewStdEntry(context.Background(), DEBUG, fmt.Sprintf("%s\n", data), nil)
+	EntryMatcher(t, e, enc.Entry)
+
+	if got := buf.Bytes(); !bytes.Equal(got, data) {
+		t.Error("could not match data written")
+		t.Errorf("got: %s", got)
+		t.Errorf("want: %s", data)
+	}
 }
 
 func TestNewTickFlusher(t *testing.T) {

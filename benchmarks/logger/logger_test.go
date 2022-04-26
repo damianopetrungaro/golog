@@ -22,6 +22,7 @@ func BenchmarkLogger(b *testing.B) {
 			golog.NewJsonEncoder(golog.DefaultJsonConfig()),
 			bufio.NewWriter(io.Discard),
 			golog.DefaultErrorHandler(),
+			golog.DEBUG,
 		)
 
 		logger := golog.New(writer, golog.NewLevelCheckerOption(golog.DEBUG))
@@ -115,6 +116,7 @@ func BenchmarkLogger(b *testing.B) {
 			golog.NewJsonEncoder(golog.DefaultJsonConfig()),
 			bufio.NewWriter(io.Discard),
 			golog.DefaultErrorHandler(),
+			golog.WARN,
 		)
 
 		logger := golog.New(writer, golog.NewLevelCheckerOption(golog.WARN))
