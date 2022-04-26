@@ -28,7 +28,7 @@ func (j *JsonEncoder) StdLinEncode(e golog.Entry) (io.WriterTo, error) {
 		return nil, err
 	}
 
-	w.WriteString(`\n`)
+	w.WriteByte('\n')
 	return w, nil
 }
 
@@ -45,7 +45,7 @@ func (j *JsonEncoder) GoJsonEncode(e golog.Entry) (io.WriterTo, error) {
 		return nil, err
 	}
 
-	w.WriteString(`\n`)
+	w.WriteByte('\n')
 	return w, nil
 }
 
@@ -64,7 +64,7 @@ func (j *JsonEncoder) JsoniterEncode(e golog.Entry) (io.WriterTo, error) {
 
 	w := &bytes.Buffer{}
 	w.Write(raw)
-	w.WriteString(`\n`)
+	w.WriteByte('\n')
 	return w, nil
 }
 
@@ -88,7 +88,8 @@ func (j *JsonEncoder) ManualEncode(e golog.Entry) (io.WriterTo, error) {
 	w.WriteString(`,`)
 	addElemQuoted(w, "message", e.Message())
 	j.manualEncodeFields(e.Fields(), w)
-	w.WriteString(`}\n`)
+	w.WriteString(`}`)
+	w.WriteByte('\n')
 	return w, nil
 }
 
