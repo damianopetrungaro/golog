@@ -89,4 +89,20 @@ func BenchmarkJsonEncoder(b *testing.B) {
 			}
 		})
 	})
+
+	b.Run("golog.map", func(b *testing.B) {
+		enc := &JsonEncoder{}
+		mapFields := map[string]any{}
+		for _, f := range entry.Fields() {
+			mapFields[f.Key()] = f.Value()
+		}
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				if _, err := enc.ManualMapEncode(entry.Lvl, entry.Msg, mapFields); err != nil {
+					b.Fatal("encode failed")
+				}
+			}
+		})
+	})
 }

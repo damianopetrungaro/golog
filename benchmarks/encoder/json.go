@@ -79,6 +79,20 @@ func (j *JsonEncoder) mapEncodeFields(flds golog.Fields, log map[string]any) {
 	log["fields"] = fields
 }
 
+func (j *JsonEncoder) ManualMapEncode(lvl golog.Level, msg golog.Message, flds map[string]any) (io.WriterTo, error) {
+	w := &bytes.Buffer{}
+	w.WriteString(`{`)
+	addElemQuoted(w, "level", lvl.String())
+	w.WriteString(`,`)
+	addElemQuoted(w, "timestamp", time.Now().Format(`2006-01-02`))
+	w.WriteString(`,`)
+	addElemQuoted(w, "message", msg)
+	j.manualEncodeMapFields(flds, w)
+	w.WriteString(`}`)
+	w.WriteByte('\n')
+	return w, nil
+}
+
 func (j *JsonEncoder) ManualEncode(e golog.Entry) (io.WriterTo, error) {
 	w := &bytes.Buffer{}
 	w.WriteString(`{`)
@@ -106,6 +120,22 @@ func (j *JsonEncoder) manualEncodeFields(flds golog.Fields, w *bytes.Buffer) {
 		}
 	}
 	w.WriteString(`}`)
+}
+
+func (j *JsonEncoder) manualEncodeMapFields(flds map[string]any, w *bytes.Buffer) {
+	if len(flds) == 0 {
+		return
+	}
+	total := len(flds) - 1
+	i := 0
+	w.WriteString(`,`)
+	for k, v := range flds {
+		j.encodeFieldFromMap(k, v, w)
+		if i != total {
+			w.WriteString(`,`)
+		}
+		i++
+	}
 }
 
 func (j *JsonEncoder) encodeField(f golog.Field, w *bytes.Buffer) {
@@ -175,6 +205,80 @@ func (j *JsonEncoder) encodeField(f golog.Field, w *bytes.Buffer) {
 		})
 	case []float32:
 		addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, val := range t {
+				addArrayElem(w, strconv.FormatFloat(float64(val), 'f', 10, 32), i != len(t)-1)
+			}
+		})
+	}
+}
+
+func (j *JsonEncoder) encodeFieldFromMap(k string, v any, w *bytes.Buffer) {
+	switch t := v.(type) {
+	case bool:
+		addElem(w, k, strconv.FormatBool(t))
+	case []bool:
+		addElements(w, k, func(w *bytes.Buffer) {
+			for i, val := range t {
+				addArrayElem(w, strconv.FormatBool(val), i != len(t)-1)
+			}
+		})
+	case string:
+		addElemQuoted(w, k, t)
+	case error:
+		switch t {
+		case nil:
+			addElemQuoted(w, k, "null")
+		default:
+			addElemQuoted(w, k, t.Error())
+		}
+	case []string:
+		addElements(w, k, func(w *bytes.Buffer) {
+			for i, val := range t {
+				addArrayElemQuoted(w, val, i != len(t)-1)
+			}
+		})
+	case []error:
+		addElements(w, k, func(w *bytes.Buffer) {
+			for i, val := range t {
+				switch t {
+				case nil:
+					addElemQuoted(w, k, "null")
+				default:
+					addElemQuoted(w, k, val.Error())
+				}
+				if i != len(t)-1 {
+					w.WriteString(`,`)
+				}
+			}
+		})
+	case uint:
+		addElem(w, k, strconv.Itoa(int(t)))
+	case int:
+		addElem(w, k, strconv.Itoa(t))
+	case []uint:
+		addElements(w, k, func(w *bytes.Buffer) {
+			for i, val := range t {
+				addArrayElem(w, strconv.Itoa(int(val)), i != len(t)-1)
+			}
+		})
+	case []int:
+		addElements(w, k, func(w *bytes.Buffer) {
+			for i, val := range t {
+				addArrayElem(w, strconv.Itoa(val), i != len(t)-1)
+			}
+		})
+	case float64:
+		addElem(w, k, strconv.FormatFloat(t, 'f', 10, 64))
+	case float32:
+		addElem(w, k, strconv.FormatFloat(float64(t), 'f', 10, 32))
+	case []float64:
+		addElements(w, k, func(w *bytes.Buffer) {
+			for i, val := range t {
+				addArrayElem(w, strconv.FormatFloat(val, 'f', 10, 64), i != len(t)-1)
+			}
+		})
+	case []float32:
+		addElements(w, k, func(w *bytes.Buffer) {
 			for i, val := range t {
 				addArrayElem(w, strconv.FormatFloat(float64(val), 'f', 10, 32), i != len(t)-1)
 			}
