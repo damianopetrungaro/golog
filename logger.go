@@ -43,7 +43,7 @@ type StdCheckedLogger struct {
 // Log writes a log with the given Fields
 // Log panics with the message if the Level is FATAL
 func (l StdCheckedLogger) Log(flds Fields) {
-	l.Writer.Write(l.Entry.With(flds))
+	l.Writer.WriteEntry(l.Entry.With(flds))
 	if l.Entry.Level() == FATAL {
 		panic(l.Entry.Message())
 	}

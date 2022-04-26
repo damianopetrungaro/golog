@@ -2,8 +2,10 @@ package golog
 
 import (
 	"bufio"
+	"context"
 	"errors"
 	"fmt"
+	"io"
 	"sync"
 	"time"
 )
@@ -15,7 +17,8 @@ var (
 
 // Writer is an Entry writer
 type Writer interface {
-	Write(Entry)
+	WriteEntry(Entry)
+	io.Writer
 }
 
 // Flusher ensure that the data that a Writer may hold is written
@@ -25,10 +28,11 @@ type Flusher interface {
 
 // BufWriter is a Writer which holds a buffer behind the scene to reduce sys calls
 type BufWriter struct {
-	Encoder    Encoder
-	Writer     *bufio.Writer
-	ErrHandler ErrorHandler
-	mu         sync.Mutex
+	Encoder         Encoder
+	Writer          *bufio.Writer
+	ErrHandler      ErrorHandler
+	DefaultLogLevel Level
+	mu              sync.Mutex
 }
 
 // NewBufWriter returns a BufWriter
@@ -36,16 +40,18 @@ func NewBufWriter(
 	enc Encoder,
 	w *bufio.Writer,
 	errHandler ErrorHandler,
+	defaultLogLevel Level,
 ) *BufWriter {
 	return &BufWriter{
-		Encoder:    enc,
-		Writer:     w,
-		ErrHandler: errHandler,
+		Encoder:         enc,
+		Writer:          w,
+		ErrHandler:      errHandler,
+		DefaultLogLevel: defaultLogLevel,
 	}
 }
 
-// Write writes an Entry to the buffer
-func (w *BufWriter) Write(e Entry) {
+// WriteEntry writes an Entry to the buffer
+func (w *BufWriter) WriteEntry(e Entry) {
 	wTo, err := w.Encoder.Encode(e)
 	if err != nil {
 		w.ErrHandler(fmt.Errorf("%w: buf writer on encoding: %s", ErrEntryNotWritten, err))
@@ -58,6 +64,13 @@ func (w *BufWriter) Write(e Entry) {
 		w.ErrHandler(fmt.Errorf("%w: buf writer on write to: %s", ErrEntryNotWritten, err))
 		return
 	}
+}
+
+// Write writes an Entry to the buffer
+// This method is implemented to add provide support the std library log package
+func (w *BufWriter) Write(msg []byte) (int, error) {
+	w.WriteEntry(NewStdEntry(context.Background(), w.DefaultLogLevel, string(msg), Fields{}))
+	return len(msg), nil
 }
 
 // Flush forces the data in the buffer to be written
