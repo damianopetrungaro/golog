@@ -8,11 +8,8 @@ import (
 
 var (
 	defaultJsonConfig = JsonConfig{
-		LevelKeyName:        "level",
-		MessageKeyName:      "message",
-		FieldsKeyName:       "fields",
-		EnableStackTrace:    false,
-		StackTraceFieldName: "stacktrace",
+		LevelKeyName:   "level",
+		MessageKeyName: "message",
 	}
 )
 
@@ -23,11 +20,8 @@ type Encoder interface {
 
 // JsonConfig is a configuration for JsonEncoder
 type JsonConfig struct {
-	LevelKeyName        string
-	MessageKeyName      string
-	FieldsKeyName       string
-	EnableStackTrace    bool
-	StackTraceFieldName string
+	LevelKeyName   string
+	MessageKeyName string
 }
 
 // JsonEncoder is an encoder for json
@@ -63,16 +57,13 @@ func (j JsonEncoder) encodeFields(flds Fields, w *bytes.Buffer) {
 		return
 	}
 
-	w.WriteString(`,"`)
-	w.WriteString(j.Config.FieldsKeyName)
-	w.WriteString(`":{`)
+	w.WriteString(`,`)
 	for i, f := range flds {
 		j.encodeField(f, w)
 		if i != len(flds)-1 {
 			w.WriteString(`,`)
 		}
 	}
-	w.WriteString(`}`)
 }
 
 func (j JsonEncoder) encodeField(f Field, w *bytes.Buffer) {

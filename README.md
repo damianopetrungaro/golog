@@ -220,3 +220,20 @@ Considering the nature of the logger and the design it has, the performances are
 
 In the future there may be a support for an even faster and zero allocations version of the logger, 
 but the APIs exposed won't be matching the current one and there will be a different interface provided for that purpose.
+
+# Note
+
+Golog doesn't hande key deduplication.
+
+Meaning that 
+```go
+golog.With(golog.Fields{
+    golog.String("hello", "world"), 
+    golog.String("hello", "another world"),
+}).Info(ctx, "no deduplication")
+```
+
+will print 
+```json
+{"level":"INFO","message":"no deduplication","hello":"world","hello":"another world"}
+```
