@@ -15,8 +15,8 @@ func TestStackTraceDecorator_Decorate(t *testing.T) {
 	logger := New(w).WithDecorator(NewStackTraceDecorator(fieldName, 2))
 
 	wantStack := []string{
-		"/github.com/damianopetrungaro/golog/decorator_test.go:24",
-		"/usr/local/go/src/testing/testing.go:1439",
+		"golog/decorator_test.go:24",
+		"testing/testing.go:1439",
 	}
 
 	ctx := context.Background()
@@ -32,8 +32,11 @@ func TestStackTraceDecorator_Decorate(t *testing.T) {
 		}
 
 		for i, trace := range stack {
-			if strings.HasSuffix(trace, "/github.com/damianopetrungaro/golog/decorator_test.go:24") {
-				stack[i] = "/github.com/damianopetrungaro/golog/decorator_test.go:24"
+			if strings.HasSuffix(trace, "golog/decorator_test.go:24") {
+				stack[i] = "golog/decorator_test.go:24"
+			}
+			if strings.HasSuffix(trace, "testing/testing.go:1439") {
+				stack[i] = "testing/testing.go:1439"
 			}
 		}
 
