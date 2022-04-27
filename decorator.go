@@ -1,6 +1,8 @@
 package golog
 
 import (
+	"fmt"
+	"runtime"
 	"time"
 )
 
@@ -46,21 +48,42 @@ func (td TimestampDecorator) Decorate(e Entry) Entry {
 // StackTraceDecorator is a Decorator which add the log stacktrace
 type StackTraceDecorator struct {
 	StacktraceFieldName string
+	Depth               int
 }
 
 // NewStackTraceDecorator returns a StackTraceDecorator with the given field name
-func NewStackTraceDecorator(n string) StackTraceDecorator {
-	return StackTraceDecorator{StacktraceFieldName: n}
+func NewStackTraceDecorator(n string, depth int) StackTraceDecorator {
+	return StackTraceDecorator{StacktraceFieldName: n, Depth: depth}
 }
 
 // NewStackTraceDecoratorOption returns an Option which applies a StackTraceDecorator with the given field name
-func NewStackTraceDecoratorOption(n string) Option {
+func NewStackTraceDecoratorOption(n string, depth int) Option {
 	return OptionFunc(func(l StdLogger) StdLogger {
-		return l.WithDecorator(NewStackTraceDecorator(n))
+		return l.WithDecorator(NewStackTraceDecorator(n, depth))
 	})
 }
 
 // Decorate adds the stacktrace to the entry
 func (sd StackTraceDecorator) Decorate(e Entry) Entry {
-	return e.With(Fields{String(sd.StacktraceFieldName, "TODO")})
+	framesToField := func(fs *runtime.Frames) Field {
+		var trace []string
+		for {
+			f, ok := fs.Next()
+			trace = append(trace, fmt.Sprintf("%v:%v", f.File, f.Line))
+			if !ok {
+				break
+			}
+		}
+
+		return Strings(sd.StacktraceFieldName, trace)
+	}
+
+	const skip = 4
+	pc := make([]uintptr, sd.Depth)
+	if n := runtime.Callers(skip, pc[:]); n != 0 {
+		field := framesToField(runtime.CallersFrames(pc[:]))
+		return e.With(Fields{field})
+	}
+
+	return e
 }
