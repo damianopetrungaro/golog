@@ -32,7 +32,7 @@ func BenchmarkLogger(b *testing.B) {
 	b.Run("golog", func(b *testing.B) {
 		ctx := context.Background()
 		writer := golog.NewBufWriter(
-			golog.NewJsonEncoder(golog.DefaultJsonConfig()),
+			golog.NewTextEncoder(golog.DefaultTextConfig()),
 			bufio.NewWriter(io.Discard),
 			golog.DefaultErrorHandler(),
 			golog.DEBUG,
