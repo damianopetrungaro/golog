@@ -18,6 +18,7 @@ var (
 		),
 		levelChecker,
 		timestampDecorator,
+		stackTraceDecorator,
 	)
 
 	checkLogger CheckLogger = New(
@@ -29,14 +30,16 @@ var (
 		),
 		levelChecker,
 		timestampDecorator,
+		stackTraceDecorator,
 	)
 
 	errorHandler = func(err error) {
 		fmt.Println(fmt.Sprintf("golog: could not write: %s\n", err))
 	}
 
-	levelChecker       = NewLevelCheckerOption(INFO)
-	timestampDecorator = NewTimestampDecoratorOption("timestamp", time.RFC3339Nano)
+	levelChecker        = NewLevelCheckerOption(INFO)
+	timestampDecorator  = NewTimestampDecoratorOption("timestamp", time.RFC3339Nano)
+	stackTraceDecorator = NewStackTraceDecoratorOption("stacktrace", 5)
 )
 
 // Message is a log entry message
