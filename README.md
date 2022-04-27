@@ -206,14 +206,13 @@ goos: darwin
 goarch: amd64
 pkg: github.com/damianopetrungaro/golog/benchmarks/logger
 cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
-BenchmarkLogger/golog-12                 1000000              1065 ns/op            2858 B/op         27 allocs/op
-BenchmarkLogger/zap-12                   1000000              1073 ns/op            2835 B/op         20 allocs/op
-BenchmarkLogger/logrus-12                 380514              3162 ns/op            6165 B/op         69 allocs/op
-BenchmarkLogger/golog.Check-12          57151006                23.03 ns/op           64 B/op          1 allocs/op
-BenchmarkLogger/zap.Check-12            1000000000               0.9155 ns/op          0 B/op          0 allocs/op
+BenchmarkLogger/golog-12                 1266547               929.9 ns/op          2826 B/op         26 allocs/op
+BenchmarkLogger/zap-12                   1000000              1066 ns/op            2836 B/op         20 allocs/op
+BenchmarkLogger/logrus-12                 344604              3395 ns/op            6168 B/op         69 allocs/op
+BenchmarkLogger/golog.Check-12          56982846                20.10 ns/op           64 B/op          1 allocs/op
+BenchmarkLogger/zap.Check-12            1000000000               0.9662 ns/op          0 B/op          0 allocs/op
 PASS
-ok      github.com/damianopetrungaro/golog/benchmarks/logger    5.918s
-
+ok      github.com/damianopetrungaro/golog/benchmarks/logger    6.781s
 ```
 
 Considering the nature of the logger and the design it has, the performances are really high.
