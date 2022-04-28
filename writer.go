@@ -89,6 +89,54 @@ func (w *BufWriter) Flush() error {
 	return nil
 }
 
+// MuxWriterOptionFunc is a handy function which implements attach a Writer for a given Level in a MuxWriter
+type MuxWriterOptionFunc func(*MuxWriter)
+
+// DefaultMuxWriterOptionFunc implements MuxWriterOptionFunc
+func DefaultMuxWriterOptionFunc(lvl Level, w Writer) MuxWriterOptionFunc {
+	return func(mux *MuxWriter) {
+		mux.LevelWriter[lvl] = w
+	}
+}
+
+// MuxWriter is a Writer which based on the log level will write to a writer
+// It also uses a Default one for the Write method
+// as well as supporting the case when the Writer is not found in the Level map
+type MuxWriter struct {
+	Default     Writer
+	LevelWriter map[Level]Writer
+}
+
+// NewMuxWriter returns a MuxWriter
+func NewMuxWriter(
+	defaultWriter Writer,
+	fns ...MuxWriterOptionFunc,
+) *MuxWriter {
+	w := &MuxWriter{Default: defaultWriter, LevelWriter: map[Level]Writer{}}
+	for _, fn := range fns {
+		fn(w)
+	}
+
+	return w
+}
+
+// WriteEntry writes an Entry to the related Writer
+// If not found, then fallback on the Default
+func (m *MuxWriter) WriteEntry(e Entry) {
+	w, ok := m.LevelWriter[e.Level()]
+	if !ok {
+		m.Default.WriteEntry(e)
+		return
+	}
+
+	w.WriteEntry(e)
+}
+
+// Write calls the Default Write method
+func (m *MuxWriter) Write(msg []byte) (int, error) {
+	return m.Default.Write(msg)
+}
+
 // TickFlusher is a Flusher triggered by a time.Ticker
 type TickFlusher struct {
 	Flusher

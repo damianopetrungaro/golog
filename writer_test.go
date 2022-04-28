@@ -28,15 +28,17 @@ var (
 
 // FakeWriter used for internal testing purposes
 type FakeWriter struct {
-	Entry Entry
+	Entry   Entry
+	Message Message
 }
 
 func (fw *FakeWriter) WriteEntry(e Entry) {
 	fw.Entry = e
 }
 
-func (fw *FakeWriter) Write([]byte) (int, error) {
-	return 0, nil
+func (fw *FakeWriter) Write(msg []byte) (int, error) {
+	fw.Message = Message(msg)
+	return len(msg), nil
 }
 
 // FakeFlusher used for internal testing purposes
@@ -183,7 +185,60 @@ func TestBufWriter_Write(t *testing.T) {
 	}
 }
 
-func TestNewTickFlusher(t *testing.T) {
+func TestMuxWriter(t *testing.T) {
+	msg := []byte("A default message")
+
+	defaultWriter := &FakeWriter{}
+	debugWriter := &FakeWriter{}
+	infoWriter := &FakeWriter{}
+	warnWriter := &FakeWriter{}
+	errorWriter := &FakeWriter{}
+	fatalWriter := &FakeWriter{}
+
+	w := NewMuxWriter(
+		defaultWriter,
+		DefaultMuxWriterOptionFunc(DEBUG, debugWriter),
+		DefaultMuxWriterOptionFunc(INFO, infoWriter),
+		DefaultMuxWriterOptionFunc(WARN, warnWriter),
+		DefaultMuxWriterOptionFunc(ERROR, errorWriter),
+		DefaultMuxWriterOptionFunc(FATAL, fatalWriter),
+	)
+
+	w.WriteEntry(debugEntry)
+	w.WriteEntry(infoEntry)
+	w.WriteEntry(warnEntry)
+	w.WriteEntry(errorEntry)
+	w.WriteEntry(fatalEntry)
+	if _, err := w.Write(msg); err != nil {
+		t.Errorf("could not write: %s", err)
+	}
+
+	if debugWriter.Entry.Level() != DEBUG {
+		t.Errorf("could not match level in the debug writer, got: %s", debugWriter.Entry.Level())
+	}
+
+	if infoWriter.Entry.Level() != INFO {
+		t.Errorf("could not match level in the info writer, got: %s", infoWriter.Entry.Level())
+	}
+
+	if warnWriter.Entry.Level() != WARN {
+		t.Errorf("could not match level in the warn writer, got: %s", warnWriter.Entry.Level())
+	}
+
+	if errorWriter.Entry.Level() != ERROR {
+		t.Errorf("could not match level in the error writer, got: %s", errorWriter.Entry.Level())
+	}
+
+	if fatalWriter.Entry.Level() != FATAL {
+		t.Errorf("could not match level in the fatal writer, got: %s", fatalWriter.Entry.Level())
+	}
+
+	if defaultWriter.Message != Message(msg) {
+		t.Errorf("could not match message in the default writer, got: %s", defaultWriter.Entry.Level())
+	}
+}
+
+func TestTickFlusher(t *testing.T) {
 	fflush := &FakeFlusher{}
 	tflush := NewTickFlusher(fflush, 100*time.Millisecond)
 	go func() {
