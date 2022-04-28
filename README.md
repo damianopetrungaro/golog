@@ -1,5 +1,7 @@
 # GOLOG
 
+[![codecov](https://codecov.io/gh/damianopetrungaro/golog/branch/main/graph/badge.svg?token=5ESXFZo2j2)](https://codecov.io/gh/damianopetrungaro/golog)
+
 Golog is an opinionated Go logger 
 with simple APIs and configurable behavior.
 
