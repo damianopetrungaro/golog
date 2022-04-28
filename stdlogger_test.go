@@ -12,107 +12,107 @@ func TestStdLogger(t *testing.T) {
 
 	tests := map[string]struct {
 		w         Writer
-		log       func(Logger, context.Context, Message)
+		log       func(StdLogger, context.Context, Message)
 		wantEntry Entry
 	}{
 		"debug logger must write an debug entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
 			wantEntry: debugEntry,
 		},
 		"debug logger must write an info entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
 			wantEntry: infoEntry,
 		},
 		"debug logger must write an warn entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"debug logger must write an error entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
 			wantEntry: errorEntry,
 		},
 		"debug logger must write an fatal entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
 			wantEntry: fatalEntry,
 		},
 		"info logger must write an debug entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
 			wantEntry: debugEntry,
 		},
 		"info logger must write an info entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
 			wantEntry: infoEntry,
 		},
 		"info logger must write an warn entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"info logger must write an error entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
 			wantEntry: errorEntry,
 		},
 		"info logger must write an fatal entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
 			wantEntry: fatalEntry,
 		},
 		"warn logger must write an debug entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
 			wantEntry: debugEntry,
 		},
 		"warn logger must write an info entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
 			wantEntry: infoEntry,
 		},
 		"warn logger must write an warn entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"warn logger must write an error entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
 			wantEntry: errorEntry,
 		},
 		"warn logger must write an fatal entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
 			wantEntry: fatalEntry,
 		},
 		"error logger must write an debug entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
 			wantEntry: debugEntry,
 		},
 		"error logger must write an info entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
 			wantEntry: infoEntry,
 		},
 		"error logger must write an warn entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"error logger must write an error entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
 			wantEntry: errorEntry,
 		},
 		"error logger must write an fatal entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
 			wantEntry: fatalEntry,
 		},
 		"fatal logger must write an debug entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Debug(ctx, msg) },
 			wantEntry: debugEntry,
 		},
 		"fatal logger must write an info entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Info(ctx, msg) },
 			wantEntry: infoEntry,
 		},
 		"fatal logger must write an warn entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"fatal logger must write an error entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Error(ctx, msg) },
 			wantEntry: errorEntry,
 		},
 		"fatal logger must write an fatal entry": {
-			log:       func(l Logger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Fatal(ctx, msg) },
 			wantEntry: fatalEntry,
 		},
 	}
