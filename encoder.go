@@ -80,31 +80,10 @@ func (t TextEncoder) encodeField(f Field, w *bytes.Buffer) {
 		})
 	case string:
 		t.addElemQuoted(w, f.Key(), val)
-	case error:
-		switch val {
-		case nil:
-			t.addElemQuoted(w, f.Key(), "null")
-		default:
-			t.addElemQuoted(w, f.Key(), val.Error())
-		}
 	case []string:
 		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
-			for i, val := range val {
-				t.addArrayElemQuoted(w, val, i != len(val)-1)
-			}
-		})
-	case []error:
-		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
 			for i, v := range val {
-				switch v {
-				case nil:
-					t.addElemQuoted(w, f.Key(), "null")
-				default:
-					t.addElemQuoted(w, f.Key(), v.Error())
-				}
-				if i != len(val)-1 {
-					w.WriteString(`,`)
-				}
+				t.addArrayElemQuoted(w, v, i != len(val)-1)
 			}
 		})
 	case uint:
@@ -163,7 +142,9 @@ func (t TextEncoder) addArrayElem(w *bytes.Buffer, val string, hasNext bool) {
 }
 
 func (t TextEncoder) addArrayElemQuoted(w *bytes.Buffer, val string, hasNext bool) {
+	w.WriteString(`"`)
 	w.WriteString(val)
+	w.WriteString(`"`)
 	if hasNext {
 		w.WriteString(`,`)
 	}
@@ -236,31 +217,10 @@ func (j JsonEncoder) encodeField(f Field, w *bytes.Buffer) {
 		})
 	case string:
 		j.addElemQuoted(w, f.Key(), val)
-	case error:
-		switch val {
-		case nil:
-			j.addElemQuoted(w, f.Key(), "null")
-		default:
-			j.addElemQuoted(w, f.Key(), val.Error())
-		}
 	case []string:
 		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
-			for i, val := range val {
-				j.addArrayElemQuoted(w, val, i != len(val)-1)
-			}
-		})
-	case []error:
-		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
 			for i, v := range val {
-				switch v {
-				case nil:
-					j.addElemQuoted(w, f.Key(), "null")
-				default:
-					j.addElemQuoted(w, f.Key(), v.Error())
-				}
-				if i != len(val)-1 {
-					w.WriteString(`,`)
-				}
+				j.addArrayElemQuoted(w, v, i != len(val)-1)
 			}
 		})
 	case uint:
