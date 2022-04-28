@@ -89,6 +89,16 @@ func (w *BufWriter) Flush() error {
 	return nil
 }
 
+// MuxWriterOptionFunc is a handy function which implements attach a Writer for a given Level in a MuxWriter
+type MuxWriterOptionFunc func(*MuxWriter)
+
+// DefaultMuxWriterOptionFunc implements MuxWriterOptionFunc
+func DefaultMuxWriterOptionFunc(lvl Level, w Writer) MuxWriterOptionFunc {
+	return func(mux *MuxWriter) {
+		mux.LevelWriter[lvl] = w
+	}
+}
+
 // MuxWriter is a Writer which based on the log level will write to a writer
 // It also uses a Default one for the Write method
 // as well as supporting the case when the Writer is not found in the Level map
@@ -100,22 +110,14 @@ type MuxWriter struct {
 // NewMuxWriter returns a MuxWriter
 func NewMuxWriter(
 	defaultWriter Writer,
-	debugWriter Writer,
-	infoWriter Writer,
-	warnWriter Writer,
-	errorWriter Writer,
-	fatalWriter Writer,
+	fns ...MuxWriterOptionFunc,
 ) *MuxWriter {
-	return &MuxWriter{
-		Default: defaultWriter,
-		LevelWriter: map[Level]Writer{
-			DEBUG: debugWriter,
-			INFO:  infoWriter,
-			WARN:  warnWriter,
-			ERROR: errorWriter,
-			FATAL: fatalWriter,
-		},
+	w := &MuxWriter{Default: defaultWriter, LevelWriter: map[Level]Writer{}}
+	for _, fn := range fns {
+		fn(w)
 	}
+
+	return w
 }
 
 // WriteEntry writes an Entry to the related Writer

@@ -197,11 +197,11 @@ func TestMuxWriter(t *testing.T) {
 
 	w := NewMuxWriter(
 		defaultWriter,
-		debugWriter,
-		infoWriter,
-		warnWriter,
-		errorWriter,
-		fatalWriter,
+		DefaultMuxWriterOptionFunc(DEBUG, debugWriter),
+		DefaultMuxWriterOptionFunc(INFO, infoWriter),
+		DefaultMuxWriterOptionFunc(WARN, warnWriter),
+		DefaultMuxWriterOptionFunc(ERROR, errorWriter),
+		DefaultMuxWriterOptionFunc(FATAL, fatalWriter),
 	)
 
 	w.WriteEntry(debugEntry)
