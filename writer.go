@@ -89,6 +89,52 @@ func (w *BufWriter) Flush() error {
 	return nil
 }
 
+// MuxWriter is a Writer which based on the log level will write to a writer
+// It also uses a Default one for the Write method
+// as well as supporting the case when the Writer is not found in the Level map
+type MuxWriter struct {
+	Default     Writer
+	LevelWriter map[Level]Writer
+}
+
+// NewMuxWriter returns a MuxWriter
+func NewMuxWriter(
+	defaultWriter Writer,
+	debugWriter Writer,
+	infoWriter Writer,
+	warnWriter Writer,
+	errorWriter Writer,
+	fatalWriter Writer,
+) *MuxWriter {
+	return &MuxWriter{
+		Default: defaultWriter,
+		LevelWriter: map[Level]Writer{
+			DEBUG: debugWriter,
+			INFO:  infoWriter,
+			WARN:  warnWriter,
+			ERROR: errorWriter,
+			FATAL: fatalWriter,
+		},
+	}
+}
+
+// WriteEntry writes an Entry to the related Writer
+// If not found, then fallback on the Default
+func (m *MuxWriter) WriteEntry(e Entry) {
+	w, ok := m.LevelWriter[e.Level()]
+	if !ok {
+		m.Default.WriteEntry(e)
+		return
+	}
+
+	w.WriteEntry(e)
+}
+
+// Write calls the Default Write method
+func (m *MuxWriter) Write(msg []byte) (int, error) {
+	return m.Default.Write(msg)
+}
+
 // TickFlusher is a Flusher triggered by a time.Ticker
 type TickFlusher struct {
 	Flusher
