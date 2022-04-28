@@ -93,17 +93,28 @@ func Test_Float32s(t *testing.T) {
 }
 
 func Test_Err(t *testing.T) {
-	k := "error"
-	v := fmt.Errorf("an error")
-	f := Err(v)
-	testFieldHelper(t, k, v, f)
+	t.Run("test nil error", func(t *testing.T) {
+		k := "error"
+		errMsg := "<nil>"
+		f := Err(nil)
+		testFieldHelper(t, k, errMsg, f)
+	})
+
+	t.Run("test actual error", func(t *testing.T) {
+		k := "error"
+		errMsg := "an error"
+		v := fmt.Errorf(errMsg)
+		f := Err(v)
+		testFieldHelper(t, k, errMsg, f)
+	})
 }
 
 func Test_Errs(t *testing.T) {
 	k := "errors"
-	v := []error{fmt.Errorf("an error"), fmt.Errorf("another error")}
+	errMsgs := []string{"an error", "<nil>", "another error"}
+	v := []error{fmt.Errorf("an error"), nil, fmt.Errorf("another error")}
 	f := Errs(v)
-	testFieldHelper(t, k, v, f)
+	testFieldHelper(t, k, errMsgs, f)
 }
 
 // tests Key and Value methods as well implicitly

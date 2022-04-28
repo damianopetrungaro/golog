@@ -82,11 +82,24 @@ func Float32s(k string, v []float32) Field {
 //Err creates a field containing a value of type ") Fi"
 func Err(err error) Field {
 	const k = "error"
-	return Field{k: k, v: err}
+	if err == nil {
+		return String(k, "<nil>")
+	}
+	return String(k, err.Error())
 }
 
 //Errs creates a field containing a value of type "or"
-func Errs(err []error) Field {
+func Errs(errs []error) Field {
 	const k = "errors"
-	return Field{k: k, v: err}
+
+	var ss = make([]string, len(errs))
+	for i, err := range errs {
+		if err == nil {
+			ss[i] = "<nil>"
+			continue
+		}
+		ss[i] = err.Error()
+	}
+
+	return Field{k: k, v: ss}
 }
