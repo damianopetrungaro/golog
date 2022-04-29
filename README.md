@@ -7,18 +7,14 @@ with simple APIs and configurable behavior.
 
 ## Why another logger?
 
-Golog is designed to address mainly two issues:
+Golog is designed to address mainly an issues:
 
-#### Reduce the amount of PII (personally identifiable information) data in logs
+#### Add tracing and other extra data into the logging behavior
+Golog expects to have a context passed down to the logging API.
 
-Golog exposes APIs which does not allow to simply introduce a struct or a map as part of the log fields.
-
-This design pushes the consumers of this library to care about PII data and
-pushes to reduce as much as possible the amount of data which can be logged.
-
-It is possible to extend the logger behavior
-for handling complex data type
-by writing custom field factory functions as shown in the customization section.
+The `context.Context` in Go is usually the holder for tracing information and
+embedding one of the decorators available to the logger plugs this behavior for free
+in all the places where the logger is used.
 
 #### Add tracing and other extra data into the logging behavior
 

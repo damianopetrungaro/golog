@@ -183,6 +183,11 @@ func Times(k string, v []time.Time) Field {
 	return Field{k: k, v: v}
 }
 
+//Any ...
+func Any(k string, v any) Field {
+	return Field{k: k, v: v}
+}
+
 //Err creates a field containing a value of type ") Fi"
 func Err(err error) Field {
 	const k = "error"

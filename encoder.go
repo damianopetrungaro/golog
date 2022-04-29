@@ -2,6 +2,7 @@ package golog
 
 import (
 	"bytes"
+	"encoding/json"
 	"io"
 	"strconv"
 	"time"
@@ -404,6 +405,20 @@ func (j JsonEncoder) encodeField(f Field, w *bytes.Buffer) {
 				j.addArrayElemQuoted(w, v.Format(j.Config.TimeLayout), i != len(val)-1)
 			}
 		})
+	default:
+		j.addElemEncoder(w, f.Key(), val)
+	}
+}
+
+func (j JsonEncoder) addElemEncoder(w *bytes.Buffer, k string, val any) {
+	w.WriteString(`"`)
+	w.WriteString(k)
+	w.WriteString(`":`)
+	if err := json.NewEncoder(w).Encode(val); err != nil {
+		w.WriteString(`"`)
+		w.WriteString(err.Error())
+		w.WriteString(`"`)
+		return
 	}
 }
 
