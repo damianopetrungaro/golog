@@ -1,0 +1,30 @@
+---
+name: Becnhmarks
+description: "Run benchmarks"
+
+inputs:
+  GITHUB_TOKEN:
+    description: "secret used for publish pages"
+    required: true
+    default: ""
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.18.x
+
+    - name: Run benchmarks and publish
+      uses: bobheadxi/gobenchdata@v1
+      with:
+        SUBDIRECTORY: ./benchmarks/logger
+        PRUNE_COUNT: 50
+        PUBLISH: true
+        PUBLISH_BRANCH: gh-pages
+      env:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}

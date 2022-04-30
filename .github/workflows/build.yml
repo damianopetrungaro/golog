@@ -27,3 +27,15 @@ jobs:
 
       - name: Run unit tests
         uses: ./.github/actions/unit-test
+
+  benchmark:
+    name: Benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run benchmark
+        uses: ./.github/actions/bench-diff
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
