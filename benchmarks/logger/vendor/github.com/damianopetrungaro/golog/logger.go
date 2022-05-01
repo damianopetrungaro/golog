@@ -1,0 +1,50 @@
+package golog
+
+import (
+	"context"
+)
+
+// Logger is a logger able to write custom log Message with Fields
+type Logger interface {
+	Debug(context.Context, Message)
+	Info(context.Context, Message)
+	Warning(context.Context, Message)
+	Error(context.Context, Message)
+	Fatal(context.Context, Message)
+	With(Fields) Logger
+}
+
+// CheckLogger is a logger able to check if a message should be written
+type CheckLogger interface {
+	CheckDebug(context.Context, Message) (CheckedLogger, bool)
+	CheckInfo(context.Context, Message) (CheckedLogger, bool)
+	CheckWarning(context.Context, Message) (CheckedLogger, bool)
+	CheckError(context.Context, Message) (CheckedLogger, bool)
+	CheckFatal(context.Context, Message) (CheckedLogger, bool)
+}
+
+// CheckedLogger logs an already checked log
+type CheckedLogger interface {
+	Log(Fields)
+}
+
+// NoopCheckedLogger is a nil-like CheckedLogger
+type NoopCheckedLogger struct{}
+
+// Log does nothing
+func (n NoopCheckedLogger) Log(_ Fields) {}
+
+// StdCheckedLogger is a CheckedLogger which will write when called
+type StdCheckedLogger struct {
+	Writer Writer
+	Entry  Entry
+}
+
+// Log writes a log with the given Fields
+// Log panics with the message if the Level is FATAL
+func (l StdCheckedLogger) Log(flds Fields) {
+	l.Writer.WriteEntry(l.Entry.With(flds))
+	if l.Entry.Level() == FATAL {
+		panic(l.Entry.Message())
+	}
+}
