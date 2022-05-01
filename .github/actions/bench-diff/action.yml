@@ -19,13 +19,19 @@ runs:
       with:
         go-version: 1.18.x
 
-    - name: Run benchmarks and publish
-      uses: bobheadxi/gobenchdata@v1
+    - name: Run benchmark
+      run: |
+        cd benchmarks/logger/
+        go test -bench . -benchmem
+        go test -bench . -benchmem | tee ../../output.txt
+      shell: bash
+
+    - name: Store benchmark result
+      uses: benchmark-action/github-action-benchmark@v1
       with:
-        SUBDIRECTORY: ./benchmarks/logger
-        PRUNE_COUNT: 50
-        PUBLISH: true
-        PUBLISH_BRANCH: gh-pages
-        BENCHMARKS_OUT: ./../../benchmarks.json
-      env:
-        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        name: Log benchmarks
+        tool: 'go'
+        output-file-path: output.txt
+        github-token: ${{ inputs.GITHUB_TOKEN }}
+        auto-push: true
+        benchmark-data-dir-path: ""

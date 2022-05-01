@@ -6,8 +6,11 @@ on:
     branches:
       - main
 
-jobs:
+permissions:
+  deployments: write
+  contents: write
 
+jobs:
   benchmark:
     name: Benchmark
     runs-on: ubuntu-latest
