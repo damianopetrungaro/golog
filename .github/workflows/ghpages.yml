@@ -1,0 +1,21 @@
+---
+name: Publish Benchmarks
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  benchmark:
+    name: Benchmark
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run benchmark
+        uses: ./.github/actions/bench-diff
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

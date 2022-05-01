@@ -26,5 +26,6 @@ runs:
         PRUNE_COUNT: 50
         PUBLISH: true
         PUBLISH_BRANCH: gh-pages
+        BENCHMARKS_OUT: ./../../benchmarks.json
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
