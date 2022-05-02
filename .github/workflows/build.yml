@@ -46,7 +46,7 @@ jobs:
       - conventional-commit
       - unit-test
       - lint
-    if: success() && github.ref == 'refs/heads/master'
+    if: success() && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
