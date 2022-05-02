@@ -8,7 +8,7 @@ import (
 type Logger interface {
 	Debug(context.Context, Message)
 	Info(context.Context, Message)
-	Warning(context.Context, Message)
+	Warn(context.Context, Message)
 	Error(context.Context, Message)
 	Fatal(context.Context, Message)
 	With(...Field) Logger
@@ -18,7 +18,7 @@ type Logger interface {
 type CheckLogger interface {
 	CheckDebug(context.Context, Message) (CheckedLogger, bool)
 	CheckInfo(context.Context, Message) (CheckedLogger, bool)
-	CheckWarning(context.Context, Message) (CheckedLogger, bool)
+	CheckWarn(context.Context, Message) (CheckedLogger, bool)
 	CheckError(context.Context, Message) (CheckedLogger, bool)
 	CheckFatal(context.Context, Message) (CheckedLogger, bool)
 }
