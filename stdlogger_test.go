@@ -24,7 +24,7 @@ func TestStdLogger(t *testing.T) {
 			wantEntry: infoEntry,
 		},
 		"debug logger must write an warn entry": {
-			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warn(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"debug logger must write an error entry": {
@@ -44,7 +44,7 @@ func TestStdLogger(t *testing.T) {
 			wantEntry: infoEntry,
 		},
 		"info logger must write an warn entry": {
-			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warn(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"info logger must write an error entry": {
@@ -64,7 +64,7 @@ func TestStdLogger(t *testing.T) {
 			wantEntry: infoEntry,
 		},
 		"warn logger must write an warn entry": {
-			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warn(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"warn logger must write an error entry": {
@@ -84,7 +84,7 @@ func TestStdLogger(t *testing.T) {
 			wantEntry: infoEntry,
 		},
 		"error logger must write an warn entry": {
-			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warn(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"error logger must write an error entry": {
@@ -104,7 +104,7 @@ func TestStdLogger(t *testing.T) {
 			wantEntry: infoEntry,
 		},
 		"fatal logger must write an warn entry": {
-			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warning(ctx, msg) },
+			log:       func(l StdLogger, ctx context.Context, msg Message) { l.Warn(ctx, msg) },
 			wantEntry: warnEntry,
 		},
 		"fatal logger must write an error entry": {

@@ -68,13 +68,13 @@ func (l StdLogger) CheckInfo(ctx context.Context, msg Message) (CheckedLogger, b
 }
 
 // Warning writes a log with the WARN Level
-func (l StdLogger) Warning(ctx context.Context, msg Message) {
+func (l StdLogger) Warn(ctx context.Context, msg Message) {
 	l.log(ctx, WARN, msg)
 }
 
 // CheckWarning returns a CheckedLogger and a guard
 // When the guard is true and the CheckWarning is called a log with the WARN Level is written
-func (l StdLogger) CheckWarning(ctx context.Context, msg Message) (CheckedLogger, bool) {
+func (l StdLogger) CheckWarn(ctx context.Context, msg Message) (CheckedLogger, bool) {
 	return l.check(ctx, WARN, msg)
 }
 

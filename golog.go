@@ -98,12 +98,12 @@ func CheckInfo(ctx context.Context, msg string) (CheckedLogger, bool) {
 
 // Warning calls the base Logger's Warning method
 func Warning(ctx context.Context, msg string) {
-	logger.Warning(ctx, msg)
+	logger.Warn(ctx, msg)
 }
 
 // CheckWarning calls the base Logger's CheckWarning method
 func CheckWarning(ctx context.Context, msg string) (CheckedLogger, bool) {
-	return checkLogger.CheckWarning(ctx, msg)
+	return checkLogger.CheckWarn(ctx, msg)
 }
 
 // Error calls the base Logger's Error method

@@ -33,7 +33,7 @@ func ExampleLogger() {
 	logger.Error(ctx, "another error message")
 	loggerWithErr := logger.With(golog.Err(fmt.Errorf("error: ops!")))
 	logger.Info(ctx, "an info message")
-	loggerWithErr.Warning(ctx, "a warning message")
+	loggerWithErr.Warn(ctx, "a warning message")
 
 	// Output:
 	// {"level":"ERROR","message":"an error message","hello":"world"}
