@@ -196,6 +196,10 @@ And its usage would look like this
 golog.With(NewUserFields(u)).Error("an error occurred")
 ```
 
+## Testing utilities
+
+The logger provide a mock generated using [gomock](https://github.com/golang/mock) for helping developers to test the logger.
+
 ## Performances
 
 Golog is a really fast logging solution, 

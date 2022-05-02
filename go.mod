@@ -3,6 +3,7 @@ module github.com/damianopetrungaro/golog
 go 1.18
 
 require (
+	github.com/golang/mock v1.6.0
 	go.opencensus.io v0.23.0
 	go.opentelemetry.io/otel v1.6.3
 	go.opentelemetry.io/otel/trace v1.6.3
