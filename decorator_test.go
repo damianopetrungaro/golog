@@ -21,7 +21,7 @@ func TestStackTraceDecorator_Decorate(t *testing.T) {
 
 	ctx := context.Background()
 
-	logger.With(Fields{String("hello", "world")}).Info(ctx, "An info message")
+	logger.With(String("hello", "world")).Info(ctx, "An info message")
 	for _, f := range w.Entry.Fields() {
 		if f.Key() != fieldName {
 			continue

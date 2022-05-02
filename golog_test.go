@@ -29,7 +29,7 @@ func TestCheckDebug(t *testing.T) {
 	msg := "Hello"
 	w := setCheckLoggerHelper(t)
 	if c, ok := CheckDebug(context.Background(), msg); ok {
-		c.Log(nil)
+		c.Log()
 	}
 	if w.Entry.Message() != msg {
 		t.Error("could not match error message")
@@ -49,7 +49,7 @@ func TestCheckInfo(t *testing.T) {
 	msg := "Hello"
 	w := setCheckLoggerHelper(t)
 	if c, ok := CheckInfo(context.Background(), msg); ok {
-		c.Log(nil)
+		c.Log()
 	}
 	if w.Entry.Message() != msg {
 		t.Error("could not match error message")
@@ -69,7 +69,7 @@ func TestCheckWarning(t *testing.T) {
 	msg := "Hello"
 	w := setCheckLoggerHelper(t)
 	if c, ok := CheckWarning(context.Background(), msg); ok {
-		c.Log(nil)
+		c.Log()
 	}
 	if w.Entry.Message() != msg {
 		t.Error("could not match error message")
@@ -89,7 +89,7 @@ func TestCheckError(t *testing.T) {
 	msg := "Hello"
 	w := setCheckLoggerHelper(t)
 	if c, ok := CheckError(context.Background(), msg); ok {
-		c.Log(nil)
+		c.Log()
 	}
 	if w.Entry.Message() != msg {
 		t.Error("could not match error message")
@@ -124,13 +124,13 @@ func TestCheckFatal(t *testing.T) {
 		}
 	}()
 	if c, ok := CheckFatal(context.Background(), msg); ok {
-		c.Log(nil)
+		c.Log()
 	}
 }
 
 func TestWith(t *testing.T) {
 	l := New(&FakeWriter{})
-	l2 := l.With(Fields{Bool("k", true)}).(StdLogger)
+	l2 := l.With(Bool("k", true)).(StdLogger)
 	if len(l2.Fields) == len(l.Fields) {
 		t.Error("could match fields length")
 	}

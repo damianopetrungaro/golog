@@ -40,7 +40,7 @@ func TestStdEntry(t *testing.T) {
 	FieldMatcher(t, flds, e.Fields())
 
 	otherFlds := Fields{Int("four", 4), Int("five", 5)}
-	e = e.With(otherFlds)
+	e = e.With(otherFlds...)
 	FieldMatcher(t, append(flds, otherFlds...), e.Fields())
 }
 

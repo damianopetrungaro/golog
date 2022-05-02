@@ -104,7 +104,7 @@ func (l StdLogger) CheckFatal(ctx context.Context, msg Message) (CheckedLogger, 
 }
 
 // With returns a new Logger appending the given extra Fields
-func (l StdLogger) With(fields Fields) Logger {
+func (l StdLogger) With(fields ...Field) Logger {
 	return StdLogger{
 		Writer:     l.Writer,
 		Fields:     append(l.Fields, fields...),

@@ -28,10 +28,10 @@ func ExampleLogger() {
 
 	ctx := context.Background()
 
-	logger = golog.With(golog.Fields{golog.String("hello", "world")})
+	logger = golog.With(golog.String("hello", "world"))
 	logger.Error(ctx, "an error message")
 	logger.Error(ctx, "another error message")
-	loggerWithErr := logger.With(golog.Fields{golog.Err(fmt.Errorf("error: ops!"))})
+	loggerWithErr := logger.With(golog.Err(fmt.Errorf("error: ops!")))
 	logger.Info(ctx, "an info message")
 	loggerWithErr.Warning(ctx, "a warning message")
 

@@ -127,6 +127,6 @@ func CheckFatal(ctx context.Context, msg string) (CheckedLogger, bool) {
 }
 
 // With calls the base Logger's With method
-func With(fields Fields) Logger {
-	return logger.With(fields)
+func With(fields ...Field) Logger {
+	return logger.With(fields...)
 }

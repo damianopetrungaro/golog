@@ -10,7 +10,7 @@ type Entry interface {
 	Message() Message
 	Fields() Fields
 	Context() context.Context
-	With(Fields) Entry
+	With(...Field) Entry
 }
 
 // StdEntry is a representation of the standard log Entry
@@ -58,7 +58,7 @@ func (e StdEntry) Fields() Fields {
 }
 
 // With returns a new StdEntry appending the given extra Fields
-func (e StdEntry) With(flds Fields) Entry {
+func (e StdEntry) With(flds ...Field) Entry {
 	return StdEntry{
 		Lvl:  e.Lvl,
 		Msg:  e.Msg,
