@@ -1,3 +1,13 @@
+# [1.1.0](https://github.com/damianopetrungaro/golog/compare/v1.0.0...v1.1.0) (2022-05-02)
+
+
+### Features
+
+* **http:** add package and reword the README ([48a8109](https://github.com/damianopetrungaro/golog/commit/48a8109f36b45309d30dfb2458d90429cb9bbc78))
+* **test:** add  utility package ([f08355b](https://github.com/damianopetrungaro/golog/commit/f08355b115ca34d7de9c74b6e75b7b47615f7116))
+
+
+
 # [1.0.0](https://github.com/damianopetrungaro/golog/compare/v0.6.0...v1.0.0) (2022-05-02)
 
 
@@ -39,15 +49,6 @@
 ### Features
 
 * add mux writer ([9ee1149](https://github.com/damianopetrungaro/golog/commit/9ee1149137568c4d9c20719b6792aa29c6dc6b13))
-
-
-
-## [0.2.2](https://github.com/damianopetrungaro/golog/compare/v0.2.1...v0.2.2) (2022-04-27)
-
-
-### Features
-
-* add support for text encoder ([b80b99c](https://github.com/damianopetrungaro/golog/commit/b80b99c265d399b2def4eae27ec54e92c7b5e59c))
 
 
 
