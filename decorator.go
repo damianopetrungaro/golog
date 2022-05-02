@@ -42,7 +42,7 @@ func NewTimestampDecoratorOption(name, layout string) Option {
 
 // Decorate adds the timestamp to the entry
 func (td TimestampDecorator) Decorate(e Entry) Entry {
-	return e.With(Fields{String(td.TimestampFieldName, time.Now().Format(td.TimestampLayout))})
+	return e.With(String(td.TimestampFieldName, time.Now().Format(td.TimestampLayout)))
 }
 
 // StackTraceDecorator is a Decorator which add the log stacktrace
@@ -82,7 +82,7 @@ func (sd StackTraceDecorator) Decorate(e Entry) Entry {
 	pc := make([]uintptr, sd.Depth)
 	if n := runtime.Callers(skip, pc[:]); n != 0 {
 		field := framesToField(runtime.CallersFrames(pc[:]))
-		return e.With(Fields{field})
+		return e.With(field)
 	}
 
 	return e

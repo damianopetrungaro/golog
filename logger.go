@@ -11,7 +11,7 @@ type Logger interface {
 	Warning(context.Context, Message)
 	Error(context.Context, Message)
 	Fatal(context.Context, Message)
-	With(Fields) Logger
+	With(...Field) Logger
 }
 
 // CheckLogger is a logger able to check if a message should be written
@@ -25,14 +25,14 @@ type CheckLogger interface {
 
 // CheckedLogger logs an already checked log
 type CheckedLogger interface {
-	Log(Fields)
+	Log(...Field)
 }
 
 // NoopCheckedLogger is a nil-like CheckedLogger
 type NoopCheckedLogger struct{}
 
 // Log does nothing
-func (n NoopCheckedLogger) Log(_ Fields) {}
+func (n NoopCheckedLogger) Log(_ ...Field) {}
 
 // StdCheckedLogger is a CheckedLogger which will write when called
 type StdCheckedLogger struct {
@@ -42,8 +42,8 @@ type StdCheckedLogger struct {
 
 // Log writes a log with the given Fields
 // Log panics with the message if the Level is FATAL
-func (l StdCheckedLogger) Log(flds Fields) {
-	l.Writer.WriteEntry(l.Entry.With(flds))
+func (l StdCheckedLogger) Log(flds ...Field) {
+	l.Writer.WriteEntry(l.Entry.With(flds...))
 	if l.Entry.Level() == FATAL {
 		panic(l.Entry.Message())
 	}

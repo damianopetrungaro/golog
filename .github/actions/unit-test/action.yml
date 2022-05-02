@@ -20,7 +20,7 @@ runs:
       shell: bash
 
     - name: Run tests
-      run: gotestsum --format testname ./... --coverprofile=cover.out
+      run: gotestsum  --format testname ./... --coverprofile=cover.out -race
       shell: bash
 
     - name: Upload coverage to Codecov

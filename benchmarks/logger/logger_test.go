@@ -70,7 +70,7 @@ func BenchmarkLogger(b *testing.B) {
 		b.ResetTimer()
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
-				golog.With(golog.Fields{
+				golog.With(
 					golog.Int("int", 10),
 					golog.Ints("ints", []int{1, 2, 3, 4, 5, 6, 7}),
 					golog.String("string", "a string"),
@@ -84,7 +84,7 @@ func BenchmarkLogger(b *testing.B) {
 					golog.String("string_3", "a string"),
 					golog.Strings("strings_3", []string{"one", "one", "one", "one", "one", "one"}),
 					golog.Err(fmt.Errorf("an error occurred")),
-				}).Debug(ctx, "This is a message")
+				).Debug(ctx, "This is a message")
 			}
 		})
 	})
@@ -138,7 +138,7 @@ func BenchmarkLogger(b *testing.B) {
 		b.RunParallel(func(pb *testing.PB) {
 			for pb.Next() {
 				if checked, ok := logger.CheckDebug(ctx, "This is a message"); ok {
-					checked.Log(golog.Fields{
+					checked.Log(
 						golog.Int("int", 10),
 						golog.Ints("ints", []int{1, 2, 3, 4, 5, 6, 7}),
 						golog.String("string", "a string"),
@@ -152,7 +152,7 @@ func BenchmarkLogger(b *testing.B) {
 						golog.String("string_3", "a string"),
 						golog.Strings("strings_3", []string{"one", "one", "one", "one", "one", "one"}),
 						golog.Err(fmt.Errorf("an error occurred")),
-					})
+					)
 				}
 			}
 		})

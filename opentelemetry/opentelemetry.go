@@ -9,10 +9,10 @@ import (
 var decorator golog.DecoratorFunc = func(e golog.Entry) golog.Entry {
 	span := trace.SpanFromContext(e.Context()).SpanContext()
 
-	return e.With(golog.Fields{
+	return e.With(
 		TraceID(span),
 		SpanID(span),
-	})
+	)
 }
 
 func TraceDecoratorOption() golog.Option {

@@ -142,14 +142,14 @@ func TestStdLogger_With(t *testing.T) {
 	}))
 
 	flds := Fields{String("a", "A"), String("b", "B")}
-	l = l.With(flds)
+	l = l.With(flds...)
 	if len(l.(StdLogger).Decorators) != 1 {
 		t.Fatal("could not match decorators")
 	}
 	FieldMatcher(t, flds, l.(StdLogger).Fields)
 
 	otherFlds := Fields{String("c", "C"), String("d", "D")}
-	l = l.With(otherFlds)
+	l = l.With(otherFlds...)
 	if len(l.(StdLogger).Decorators) != 1 {
 		t.Fatal("could not match decorators")
 	}
