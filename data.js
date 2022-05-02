@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1651489127745,
+  "lastUpdate": 1651489333651,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -446,6 +446,48 @@ window.BENCHMARK_DATA = {
             "value": 1974,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "528145 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "8fe602c3a853dac6ab6a7ae45346910018c02455",
+          "message": "feat: add support to more field types",
+          "timestamp": "2022-05-02T13:01:38+02:00",
+          "tree_id": "d2480fb059930dd0cfb9ac2a0d1c8a0a9d46060c",
+          "url": "https://github.com/damianopetrungaro/golog/commit/8fe602c3a853dac6ab6a7ae45346910018c02455"
+        },
+        "date": 1651489332987,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 7779,
+            "unit": "ns/op\t    6124 B/op\t      69 allocs/op",
+            "extra": "145194 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2031,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "516492 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2183,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "499977 times\n2 procs"
           }
         ]
       }
