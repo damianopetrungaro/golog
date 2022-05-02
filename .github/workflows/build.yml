@@ -56,8 +56,8 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          fallback-version: v0.3.0
-          skip-version-file: true
+          fallback-version: v0.4.0
+          version-file: ./.github/release/release.json
 
       - name: Create Release
         uses: actions/create-release@v1
