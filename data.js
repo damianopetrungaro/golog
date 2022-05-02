@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1651488400050,
+  "lastUpdate": 1651488853917,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -362,6 +362,48 @@ window.BENCHMARK_DATA = {
             "value": 2132,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "478280 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "db4156bdb769aef59a4b13ac9dd16598be1d8717",
+          "message": "ci: fix releaser",
+          "timestamp": "2022-05-02T12:53:36+02:00",
+          "tree_id": "d5a56c3ce144fac7a36e2d5e4c565a7b2d6f3b2d",
+          "url": "https://github.com/damianopetrungaro/golog/commit/db4156bdb769aef59a4b13ac9dd16598be1d8717"
+        },
+        "date": 1651488852501,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 9606,
+            "unit": "ns/op\t    6124 B/op\t      69 allocs/op",
+            "extra": "116481 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2347,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "508422 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2501,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "485646 times\n2 procs"
           }
         ]
       }
