@@ -1,3 +1,15 @@
+# [1.0.0](https://github.com/damianopetrungaro/golog/compare/v0.6.0...v1.0.0) (2022-05-02)
+
+
+* feat(logger)!: reduce API verbosity ([5f49220](https://github.com/damianopetrungaro/golog/commit/5f4922010d8722583bf80bbb6dd29af2a4593278))
+
+
+### BREAKING CHANGES
+
+* With method accepts multiple Field not a single Fields
+
+
+
 # [0.6.0](https://github.com/damianopetrungaro/golog/compare/v0.5.0...v0.6.0) (2022-05-02)
 
 
@@ -36,15 +48,6 @@
 ### Features
 
 * add support for text encoder ([b80b99c](https://github.com/damianopetrungaro/golog/commit/b80b99c265d399b2def4eae27ec54e92c7b5e59c))
-
-
-
-## [0.2.1](https://github.com/damianopetrungaro/golog/compare/v0.2.0...v0.2.1) (2022-04-27)
-
-
-### Features
-
-* support stack trace decorator ([6ab7781](https://github.com/damianopetrungaro/golog/commit/6ab7781c629ced8cfb8a28789abd2567bb6f8d1e))
 
 
 
