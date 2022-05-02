@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"testing"
+	"time"
 
 	. "github.com/damianopetrungaro/golog"
 )
@@ -31,6 +32,10 @@ func (fe *FakeEncoder) Encode(e Entry) (io.WriterTo, error) {
 
 func TestJsonEncoder_Encode(t *testing.T) {
 	cfg := DefaultJsonConfig()
+	date, err := time.Parse("2006-01-02", "2000-12-25")
+	if err != nil {
+		t.Fatalf("could not create time.Time: %s", err)
+	}
 
 	tests := map[string]struct {
 		entry   Entry
@@ -44,9 +49,21 @@ func TestJsonEncoder_Encode(t *testing.T) {
 			entry:   NewStdEntry(context.Background(), INFO, "string message", Fields{String("name", "golog")}),
 			wantLog: fmt.Sprintln(`{"level":"INFO","message":"string message","name":"golog"}`),
 		},
-		"entry with int": {
-			entry:   NewStdEntry(context.Background(), WARN, "int message", Fields{Int("number", 101)}),
-			wantLog: fmt.Sprintln(`{"level":"WARN","message":"int message","number":101}`),
+		"entry with int, int8, int16, int32, int64": {
+			entry:   NewStdEntry(context.Background(), WARN, "int, int8, int16, int32, int64 message", Fields{Int("int", 100), Int8("int8", 101), Int16("int16", 102), Int32("int32", 103), Int64("int64", 104)}),
+			wantLog: fmt.Sprintln(`{"level":"WARN","message":"int, int8, int16, int32, int64 message","int":100,"int8":101,"int16":102,"int32":103,"int64":104}`),
+		},
+		"entry with uint, uint8, uint16, uint32, uint64": {
+			entry:   NewStdEntry(context.Background(), WARN, "uint, uint8, uint16, uint32, uint64 message", Fields{Uint("uint", 100), Uint8("uint8", 101), Uint16("uint16", 102), Uint32("uint32", 103), Uint64("uint64", 104)}),
+			wantLog: fmt.Sprintln(`{"level":"WARN","message":"uint, uint8, uint16, uint32, uint64 message","uint":100,"uint8":101,"uint16":102,"uint32":103,"uint64":104}`),
+		},
+		"entry with arrays of int, int8, int16, int32, int64": {
+			entry:   NewStdEntry(context.Background(), WARN, "arrays of int, int8, int16, int32, int64 message", Fields{Ints("ints", []int{100, 110}), Int8s("int8s", []int8{101, 111}), Int16s("int16s", []int16{102, 112}), Int32s("int32s", []int32{103, 113}), Int64s("int64s", []int64{104, 114})}),
+			wantLog: fmt.Sprintln(`{"level":"WARN","message":"arrays of int, int8, int16, int32, int64 message","ints":[100,110],"int8s":[101,111],"int16s":[102,112],"int32s":[103,113],"int64s":[104,114]}`),
+		},
+		"entry with arrays of uint, uint8, uint16, uint32, uint64": {
+			entry:   NewStdEntry(context.Background(), WARN, "arrays of uint, uint8, uint16, uint32, uint64 message", Fields{Uints("uints", []uint{100, 110}), Uint8s("uint8s", []uint8{101, 111}), Uint16s("uint16s", []uint16{102, 112}), Uint32s("uint32s", []uint32{103, 113}), Uint64s("uint64s", []uint64{104, 114})}),
+			wantLog: fmt.Sprintln(`{"level":"WARN","message":"arrays of uint, uint8, uint16, uint32, uint64 message","uints":[100,110],"uint8s":[101,111],"uint16s":[102,112],"uint32s":[103,113],"uint64s":[104,114]}`),
 		},
 		"entry with string and int": {
 			entry:   NewStdEntry(context.Background(), ERROR, "string and int message", Fields{String("name", "golog"), Int("number", 101)}),
@@ -68,10 +85,6 @@ func TestJsonEncoder_Encode(t *testing.T) {
 			entry:   NewStdEntry(context.Background(), DEBUG, "array of errors and uint", Fields{Errs([]error{fmt.Errorf("ops 1"), nil, fmt.Errorf("ops 2")}), Uint("uint", 12)}),
 			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"array of errors and uint","errors":["ops 1","<nil>","ops 2"],"uint":12}`),
 		},
-		"entry with array of int and array of uint": {
-			entry:   NewStdEntry(context.Background(), DEBUG, "array of int and array of uint", Fields{Ints("ints", []int{-10, 5, 10}), Uints("uints", []uint{0, 10, 20})}),
-			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"array of int and array of uint","ints":[-10,5,10],"uints":[0,10,20]}`),
-		},
 		"entry with float64 and float32": {
 			entry:   NewStdEntry(context.Background(), DEBUG, "float64 and float32", Fields{Float64("float64", 12.19), Float32("float32", 21.0101)}),
 			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"float64 and float32","float64":12.1900000000,"float32":21.0100994110}`),
@@ -79,6 +92,10 @@ func TestJsonEncoder_Encode(t *testing.T) {
 		"entry with array of float32": {
 			entry:   NewStdEntry(context.Background(), DEBUG, "array of float32", Fields{Float32s("float32s", []float32{1.1, 2.2, 3.3})}),
 			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"array of float32","float32s":[1.1000000238,2.2000000477,3.2999999523]}`),
+		},
+		"entry with time array of time": {
+			entry:   NewStdEntry(context.Background(), DEBUG, "time and an array of time", Fields{Time("25 Dec", date), Times("26/27 Dec", []time.Time{date.AddDate(0, 0, 1), date.AddDate(0, 0, 2)})}),
+			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"time and an array of time","25 Dec":"2000-12-25T00:00:00Z","26/27 Dec":["2000-12-26T00:00:00Z","2000-12-27T00:00:00Z"]}`),
 		},
 	}
 
@@ -108,6 +125,10 @@ func TestJsonEncoder_Encode(t *testing.T) {
 
 func TestTextEncoder_Encode(t *testing.T) {
 	cfg := DefaultTextConfig()
+	date, err := time.Parse("2006-01-02", "2000-12-25")
+	if err != nil {
+		t.Fatalf("could not create time.Time: %s", err)
+	}
 
 	tests := map[string]struct {
 		entry   Entry
@@ -121,9 +142,21 @@ func TestTextEncoder_Encode(t *testing.T) {
 			entry:   NewStdEntry(context.Background(), INFO, "string message", Fields{String("name", "golog")}),
 			wantLog: fmt.Sprintln(`level="INFO" message="string message" name="golog"`),
 		},
-		"entry with int": {
-			entry:   NewStdEntry(context.Background(), WARN, "int message", Fields{Int("number", 101)}),
-			wantLog: fmt.Sprintln(`level="WARN" message="int message" number=101`),
+		"entry with int, int8, int16, int32, int64": {
+			entry:   NewStdEntry(context.Background(), WARN, "int, int8, int16, int32, int64 message", Fields{Int("int", 100), Int8("int8", 101), Int16("int16", 102), Int32("int32", 103), Int64("int64", 104)}),
+			wantLog: fmt.Sprintln(`level="WARN" message="int, int8, int16, int32, int64 message" int=100 int8=101 int16=102 int32=103 int64=104`),
+		},
+		"entry with uint, uint8, uint16, uint32, uint64": {
+			entry:   NewStdEntry(context.Background(), WARN, "uint, uint8, uint16, uint32, uint64 message", Fields{Uint("uint", 100), Uint8("uint8", 101), Uint16("uint16", 102), Uint32("uint32", 103), Uint64("uint64", 104)}),
+			wantLog: fmt.Sprintln(`level="WARN" message="uint, uint8, uint16, uint32, uint64 message" uint=100 uint8=101 uint16=102 uint32=103 uint64=104`),
+		},
+		"entry with arrays of int, int8, int16, int32, int64": {
+			entry:   NewStdEntry(context.Background(), WARN, "arrays of int, int8, int16, int32, int64 message", Fields{Ints("ints", []int{100, 110}), Int8s("int8s", []int8{101, 111}), Int16s("int16s", []int16{102, 112}), Int32s("int32s", []int32{103, 113}), Int64s("int64s", []int64{104, 114})}),
+			wantLog: fmt.Sprintln(`level="WARN" message="arrays of int, int8, int16, int32, int64 message" ints=[100,110] int8s=[101,111] int16s=[102,112] int32s=[103,113] int64s=[104,114]`),
+		},
+		"entry with arrays of uint, uint8, uint16, uint32, uint64": {
+			entry:   NewStdEntry(context.Background(), WARN, "arrays of uint, uint8, uint16, uint32, uint64 message", Fields{Uints("uints", []uint{100, 110}), Uint8s("uint8s", []uint8{101, 111}), Uint16s("uint16s", []uint16{102, 112}), Uint32s("uint32s", []uint32{103, 113}), Uint64s("uint64s", []uint64{104, 114})}),
+			wantLog: fmt.Sprintln(`level="WARN" message="arrays of uint, uint8, uint16, uint32, uint64 message" uints=[100,110] uint8s=[101,111] uint16s=[102,112] uint32s=[103,113] uint64s=[104,114]`),
 		},
 		"entry with string and int": {
 			entry:   NewStdEntry(context.Background(), ERROR, "string and int message", Fields{String("name", "golog"), Int("number", 101)}),
@@ -145,10 +178,6 @@ func TestTextEncoder_Encode(t *testing.T) {
 			entry:   NewStdEntry(context.Background(), DEBUG, "array of errors and uint", Fields{Errs([]error{fmt.Errorf("ops 1"), nil, fmt.Errorf("ops 2")}), Uint("uint", 12)}),
 			wantLog: fmt.Sprintln(`level="DEBUG" message="array of errors and uint" errors=["ops 1","<nil>","ops 2"] uint=12`),
 		},
-		"entry with array of int and array of uint": {
-			entry:   NewStdEntry(context.Background(), DEBUG, "array of int and array of uint", Fields{Ints("ints", []int{-10, 5, 10}), Uints("uints", []uint{0, 10, 20})}),
-			wantLog: fmt.Sprintln(`level="DEBUG" message="array of int and array of uint" ints=[-10,5,10] uints=[0,10,20]`),
-		},
 		"entry with float64 and float32": {
 			entry:   NewStdEntry(context.Background(), DEBUG, "float64 and float32", Fields{Float64("float64", 12.19), Float32("float32", 21.0101)}),
 			wantLog: fmt.Sprintln(`level="DEBUG" message="float64 and float32" float64=12.1900000000 float32=21.0100994110`),
@@ -156,6 +185,10 @@ func TestTextEncoder_Encode(t *testing.T) {
 		"entry with array of float32": {
 			entry:   NewStdEntry(context.Background(), DEBUG, "array of float32", Fields{Float32s("float32s", []float32{1.1, 2.2, 3.3})}),
 			wantLog: fmt.Sprintln(`level="DEBUG" message="array of float32" float32s=[1.1000000238,2.2000000477,3.2999999523]`),
+		},
+		"entry with time array of time": {
+			entry:   NewStdEntry(context.Background(), DEBUG, "time and an array of time", Fields{Time("25 Dec", date), Times("26/27 Dec", []time.Time{date.AddDate(0, 0, 1), date.AddDate(0, 0, 2)})}),
+			wantLog: fmt.Sprintln(`level="DEBUG" message="time and an array of time" 25 Dec="2000-12-25T00:00:00Z" 26/27 Dec=["2000-12-26T00:00:00Z","2000-12-27T00:00:00Z"]`),
 		},
 	}
 
