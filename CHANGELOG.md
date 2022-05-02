@@ -1,3 +1,12 @@
+# [0.6.0](https://github.com/damianopetrungaro/golog/compare/v0.5.0...v0.6.0) (2022-05-02)
+
+
+### Features
+
+* add support to more field types ([8fe602c](https://github.com/damianopetrungaro/golog/commit/8fe602c3a853dac6ab6a7ae45346910018c02455))
+
+
+
 # [0.5.0](https://github.com/damianopetrungaro/golog/compare/v0.3.0...v0.5.0) (2022-05-02)
 
 
@@ -36,15 +45,6 @@
 ### Features
 
 * support stack trace decorator ([6ab7781](https://github.com/damianopetrungaro/golog/commit/6ab7781c629ced8cfb8a28789abd2567bb6f8d1e))
-
-
-
-# [0.2.0](https://github.com/damianopetrungaro/golog/compare/v0.1.0...v0.2.0) (2022-04-26)
-
-
-### Bug Fixes
-
-* add new line after each entry ([ac049e0](https://github.com/damianopetrungaro/golog/commit/ac049e079cdfa26a5164e450c7eb4f0ded46f3e7))
 
 
 
