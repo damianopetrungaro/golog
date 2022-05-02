@@ -4,16 +4,19 @@ import (
 	"bytes"
 	"io"
 	"strconv"
+	"time"
 )
 
 var (
 	defaultJsonConfig = JsonConfig{
 		LevelKeyName:   "level",
 		MessageKeyName: "message",
+		TimeLayout:     time.RFC3339Nano,
 	}
 	defaultTextConfig = TextConfig{
 		LevelKeyName:   "level",
 		MessageKeyName: "message",
+		TimeLayout:     time.RFC3339Nano,
 	}
 )
 
@@ -26,6 +29,7 @@ type Encoder interface {
 type TextConfig struct {
 	LevelKeyName   string
 	MessageKeyName string
+	TimeLayout     string
 }
 
 // TextEncoder is an encoder for text
@@ -88,9 +92,49 @@ func (t TextEncoder) encodeField(f Field, w *bytes.Buffer) {
 		})
 	case uint:
 		t.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case uint8:
+		t.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case uint16:
+		t.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case uint32:
+		t.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case uint64:
+		t.addElem(w, f.Key(), strconv.Itoa(int(val)))
 	case int:
 		t.addElem(w, f.Key(), strconv.Itoa(val))
+	case int8:
+		t.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case int16:
+		t.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case int32:
+		t.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case int64:
+		t.addElem(w, f.Key(), strconv.Itoa(int(val)))
 	case []uint:
+		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				t.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []uint8:
+		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				t.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []uint16:
+		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				t.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []uint32:
+		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				t.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []uint64:
 		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
 			for i, v := range val {
 				t.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
@@ -100,6 +144,30 @@ func (t TextEncoder) encodeField(f Field, w *bytes.Buffer) {
 		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
 			for i, v := range val {
 				t.addArrayElem(w, strconv.Itoa(v), i != len(val)-1)
+			}
+		})
+	case []int8:
+		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				t.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []int16:
+		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				t.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []int32:
+		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				t.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []int64:
+		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				t.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
 			}
 		})
 	case float64:
@@ -116,6 +184,14 @@ func (t TextEncoder) encodeField(f Field, w *bytes.Buffer) {
 		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
 			for i, v := range val {
 				t.addArrayElem(w, strconv.FormatFloat(float64(v), 'f', 10, 32), i != len(val)-1)
+			}
+		})
+	case time.Time:
+		t.addElemQuoted(w, f.Key(), val.Format(t.Config.TimeLayout))
+	case []time.Time:
+		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				t.addArrayElemQuoted(w, v.Format(t.Config.TimeLayout), i != len(val)-1)
 			}
 		})
 	}
@@ -161,6 +237,7 @@ func (t TextEncoder) addElements(w *bytes.Buffer, k string, fn func(w *bytes.Buf
 type JsonConfig struct {
 	LevelKeyName   string
 	MessageKeyName string
+	TimeLayout     string
 }
 
 // JsonEncoder is an encoder for json
@@ -225,9 +302,49 @@ func (j JsonEncoder) encodeField(f Field, w *bytes.Buffer) {
 		})
 	case uint:
 		j.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case uint8:
+		j.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case uint16:
+		j.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case uint32:
+		j.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case uint64:
+		j.addElem(w, f.Key(), strconv.Itoa(int(val)))
 	case int:
 		j.addElem(w, f.Key(), strconv.Itoa(val))
+	case int8:
+		j.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case int16:
+		j.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case int32:
+		j.addElem(w, f.Key(), strconv.Itoa(int(val)))
+	case int64:
+		j.addElem(w, f.Key(), strconv.Itoa(int(val)))
 	case []uint:
+		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				j.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []uint8:
+		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				j.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []uint16:
+		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				j.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []uint32:
+		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				j.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []uint64:
 		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
 			for i, v := range val {
 				j.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
@@ -237,6 +354,30 @@ func (j JsonEncoder) encodeField(f Field, w *bytes.Buffer) {
 		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
 			for i, v := range val {
 				j.addArrayElem(w, strconv.Itoa(v), i != len(val)-1)
+			}
+		})
+	case []int8:
+		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				j.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []int16:
+		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				j.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []int32:
+		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				j.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
+			}
+		})
+	case []int64:
+		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				j.addArrayElem(w, strconv.Itoa(int(v)), i != len(val)-1)
 			}
 		})
 	case float64:
@@ -253,6 +394,14 @@ func (j JsonEncoder) encodeField(f Field, w *bytes.Buffer) {
 		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
 			for i, v := range val {
 				j.addArrayElem(w, strconv.FormatFloat(float64(v), 'f', 10, 32), i != len(val)-1)
+			}
+		})
+	case time.Time:
+		j.addElemQuoted(w, f.Key(), val.Format(j.Config.TimeLayout))
+	case []time.Time:
+		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, v := range val {
+				j.addArrayElemQuoted(w, v.Format(j.Config.TimeLayout), i != len(val)-1)
 			}
 		})
 	}

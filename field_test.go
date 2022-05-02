@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
+	"time"
 
 	. "github.com/damianopetrungaro/golog"
 )
@@ -89,6 +90,20 @@ func Test_Float32s(t *testing.T) {
 	k := "key name"
 	v := []float32{1.12, 21.12, 3.419}
 	f := Float32s(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Time(t *testing.T) {
+	k := "key name"
+	v := time.Now()
+	f := Time(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Times(t *testing.T) {
+	k := "key name"
+	v := []time.Time{time.Now(), time.Now(), time.Now()}
+	f := Times(k, v)
 	testFieldHelper(t, k, v, f)
 }
 

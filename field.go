@@ -1,5 +1,9 @@
 package golog
 
+import (
+	"time"
+)
+
 //Fields is a slice of Field
 type Fields []Field
 
@@ -49,6 +53,46 @@ func Uints(k string, v []uint) Field {
 	return Field{k: k, v: v}
 }
 
+//Uint8 creates a field containing a value of type "uint8"
+func Uint8(k string, v uint8) Field {
+	return Field{k: k, v: v}
+}
+
+//Uint8s creates a field containing a value of type "[]uint8"
+func Uint8s(k string, v []uint8) Field {
+	return Field{k: k, v: v}
+}
+
+//Uint16 creates a field containing a value of type "uint16"
+func Uint16(k string, v uint16) Field {
+	return Field{k: k, v: v}
+}
+
+//Uint16s creates a field containing a value of type "[]uint16"
+func Uint16s(k string, v []uint16) Field {
+	return Field{k: k, v: v}
+}
+
+//Uint32 creates a field containing a value of type "uint32"
+func Uint32(k string, v uint32) Field {
+	return Field{k: k, v: v}
+}
+
+//Uint32s creates a field containing a value of type "[]uint32"
+func Uint32s(k string, v []uint32) Field {
+	return Field{k: k, v: v}
+}
+
+//Uint64 creates a field containing a value of type "uint64"
+func Uint64(k string, v uint64) Field {
+	return Field{k: k, v: v}
+}
+
+//Uint64s creates a field containing a value of type "[]uint64"
+func Uint64s(k string, v []uint64) Field {
+	return Field{k: k, v: v}
+}
+
 //Int creates a field containing a value of type "int"
 func Int(k string, v int) Field {
 	return Field{k: k, v: v}
@@ -56,6 +100,46 @@ func Int(k string, v int) Field {
 
 //Ints creates a field containing a value of type "[]int"
 func Ints(k string, v []int) Field {
+	return Field{k: k, v: v}
+}
+
+//Int8 creates a field containing a value of type "int8"
+func Int8(k string, v int8) Field {
+	return Field{k: k, v: v}
+}
+
+//Int8s creates a field containing a value of type "[]int8"
+func Int8s(k string, v []int8) Field {
+	return Field{k: k, v: v}
+}
+
+//Int16 creates a field containing a value of type "int16"
+func Int16(k string, v int16) Field {
+	return Field{k: k, v: v}
+}
+
+//Int16s creates a field containing a value of type "[]int16"
+func Int16s(k string, v []int16) Field {
+	return Field{k: k, v: v}
+}
+
+//Int32 creates a field containing a value of type "int32"
+func Int32(k string, v int32) Field {
+	return Field{k: k, v: v}
+}
+
+//Int32s creates a field containing a value of type "[]int32"
+func Int32s(k string, v []int32) Field {
+	return Field{k: k, v: v}
+}
+
+//Int64 creates a field containing a value of type "int64"
+func Int64(k string, v int64) Field {
+	return Field{k: k, v: v}
+}
+
+//Int64s creates a field containing a value of type "[]int64"
+func Int64s(k string, v []int64) Field {
 	return Field{k: k, v: v}
 }
 
@@ -76,6 +160,16 @@ func Float32(k string, v float32) Field {
 
 //Float32s creates a field containing a value of type "[]float32"
 func Float32s(k string, v []float32) Field {
+	return Field{k: k, v: v}
+}
+
+//Time creates a field containing a value of type "time.Time"
+func Time(k string, v time.Time) Field {
+	return Field{k: k, v: v}
+}
+
+//Times creates a field containing a value of type "[]time.Time"
+func Times(k string, v []time.Time) Field {
 	return Field{k: k, v: v}
 }
 
