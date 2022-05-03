@@ -37,6 +37,20 @@ func Test_Strings(t *testing.T) {
 	testFieldHelper(t, k, v, f)
 }
 
+func Test_Byte(t *testing.T) {
+	k := "key name"
+	v := byte('a')
+	f := Byte(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Bytes(t *testing.T) {
+	k := "key name"
+	v := []byte{'a', 'b', 'c'}
+	f := Bytes(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
 func Test_Uint(t *testing.T) {
 	k := "key name"
 	v := uint(101)
@@ -51,6 +65,62 @@ func Test_Uints(t *testing.T) {
 	testFieldHelper(t, k, v, f)
 }
 
+func Test_Uint8(t *testing.T) {
+	k := "key name"
+	v := uint8(101)
+	f := Uint8(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Uint8s(t *testing.T) {
+	k := "key name"
+	v := []uint8{10, 0, 202}
+	f := Uint8s(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Uint16(t *testing.T) {
+	k := "key name"
+	v := uint16(101)
+	f := Uint16(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Uint16s(t *testing.T) {
+	k := "key name"
+	v := []uint16{10, 0, 202}
+	f := Uint16s(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Uint32(t *testing.T) {
+	k := "key name"
+	v := uint32(101)
+	f := Uint32(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Uint32s(t *testing.T) {
+	k := "key name"
+	v := []uint32{10, 0, 202}
+	f := Uint32s(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Uint64(t *testing.T) {
+	k := "key name"
+	v := uint64(101)
+	f := Uint64(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Uint64s(t *testing.T) {
+	k := "key name"
+	v := []uint64{10, 0, 202}
+	f := Uint64s(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
 func Test_Int(t *testing.T) {
 	k := "key name"
 	v := 12
@@ -62,6 +132,62 @@ func Test_Ints(t *testing.T) {
 	k := "key name"
 	v := []int{1, 2, 3, 4, 5}
 	f := Ints(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Int8(t *testing.T) {
+	k := "key name"
+	v := int8(12)
+	f := Int8(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Int8s(t *testing.T) {
+	k := "key name"
+	v := []int8{1, 2, 3, 4, 5}
+	f := Int8s(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Int16(t *testing.T) {
+	k := "key name"
+	v := int16(12)
+	f := Int16(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Int16s(t *testing.T) {
+	k := "key name"
+	v := []int16{1, 2, 3, 4, 5}
+	f := Int16s(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Int32(t *testing.T) {
+	k := "key name"
+	v := int32(12)
+	f := Int32(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Int32s(t *testing.T) {
+	k := "key name"
+	v := []int32{1, 2, 3, 4, 5}
+	f := Int32s(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Int64(t *testing.T) {
+	k := "key name"
+	v := int64(12)
+	f := Int64(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
+func Test_Int64s(t *testing.T) {
+	k := "key name"
+	v := []int64{1, 2, 3, 4, 5}
+	f := Int64s(k, v)
 	testFieldHelper(t, k, v, f)
 }
 
