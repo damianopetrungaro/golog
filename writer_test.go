@@ -185,7 +185,7 @@ func TestBufWriter_Write(t *testing.T) {
 	}
 }
 
-func TestMuxWriter(t *testing.T) {
+func TestLeveledWriter(t *testing.T) {
 	msg := []byte("A default message")
 
 	defaultWriter := &FakeWriter{}
@@ -195,13 +195,13 @@ func TestMuxWriter(t *testing.T) {
 	errorWriter := &FakeWriter{}
 	fatalWriter := &FakeWriter{}
 
-	w := NewMuxWriter(
+	w := NewLeveledWriter(
 		defaultWriter,
-		DefaultMuxWriterOptionFunc(DEBUG, debugWriter),
-		DefaultMuxWriterOptionFunc(INFO, infoWriter),
-		DefaultMuxWriterOptionFunc(WARN, warnWriter),
-		DefaultMuxWriterOptionFunc(ERROR, errorWriter),
-		DefaultMuxWriterOptionFunc(FATAL, fatalWriter),
+		DefaultLeveledWriterOptionFunc(DEBUG, debugWriter),
+		DefaultLeveledWriterOptionFunc(INFO, infoWriter),
+		DefaultLeveledWriterOptionFunc(WARN, warnWriter),
+		DefaultLeveledWriterOptionFunc(ERROR, errorWriter),
+		DefaultLeveledWriterOptionFunc(FATAL, fatalWriter),
 	)
 
 	w.WriteEntry(debugEntry)
@@ -235,6 +235,35 @@ func TestMuxWriter(t *testing.T) {
 
 	if defaultWriter.Message != Message(msg) {
 		t.Errorf("could not match message in the default writer, got: %s", defaultWriter.Entry.Level())
+	}
+}
+
+func TestMultiWriter(t *testing.T) {
+
+	w1 := &FakeWriter{}
+	w2 := &FakeWriter{}
+	w := NewMultiWriter(w1, w2)
+
+	w.WriteEntry(debugEntry)
+
+	if w1.Entry.Message() != debugEntry.Message() {
+		t.Errorf("could not match message first writer, got: %s", w1.Entry.Message())
+	}
+
+	if w2.Entry.Message() != debugEntry.Message() {
+		t.Errorf("could not match message second writer, got: %s", w2.Entry.Message())
+	}
+
+	msg2 := []byte("Another default message")
+	if _, err := w.Write(msg2); err != nil {
+		t.Errorf("could not write: %s", err)
+	}
+	if w1.Message != Message(msg2) {
+		t.Errorf("could not match message first writer, got: %s", w1.Entry.Message())
+	}
+
+	if w2.Message != Message(msg2) {
+		t.Errorf("could not match message second writer, got: %s", w2.Entry.Message())
 	}
 }
 

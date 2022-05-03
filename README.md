@@ -215,6 +215,54 @@ And its usage would look like this
 golog.With(NewUserFields(u)).Error("an error occurred")
 ```
 
+## Writers
+
+Based on your need you may want to use different entry writers.
+
+Golog provide you those implementations:
+
+#### BufWriter
+
+It is the standard implementation, and it can be created in this way:
+
+```go
+w := golog.NewBufWriter(
+    golog.NewJsonEncoder(golog.DefaultJsonConfig()),
+    bufio.NewWriter(os.Stdout),
+    golog.DefaultErrorHandler(),
+    golog.INFO,
+)
+```
+
+#### LeveledWriter
+
+This implementation provides you a way to use a different writer based on the log level, 
+with a default writer used in case there is not an override defined for a log level
+
+```go
+var stdOutWriter golog.Writer 
+var stdErrWriter golog.Writer 
+
+w := NewLeveledWriter(
+    stdOutWriter,
+    golog.DefaultMuxWriterOptionFunc(golog.ERROR, stdErrWriter),
+    golog.DefaultMuxWriterOptionFunc(golog.FATAL, stdErrWriter),
+)
+```
+
+
+#### MultiWriter
+
+This implementation simply writes an across multiple writers concurrently
+
+```go
+var w1 golog.Writer
+var w2 golog.Writer
+var w3 golog.Writer
+w := golog.NewMultiWriter(w1, w2, w3)
+```
+
+
 ## Testing utilities
 
 The `golog/test` package provide a mock generated using [gomock](https://github.com/golang/mock) for helping developers

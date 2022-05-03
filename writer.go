@@ -89,30 +89,30 @@ func (w *BufWriter) Flush() error {
 	return nil
 }
 
-// MuxWriterOptionFunc is a handy function which implements attach a Writer for a given Level in a MuxWriter
-type MuxWriterOptionFunc func(*MuxWriter)
+// LeveledWriterOptionFunc is a handy function which implements attach a Writer for a given Level in a LeveledWriter
+type LeveledWriterOptionFunc func(*LeveledWriter)
 
-// DefaultMuxWriterOptionFunc implements MuxWriterOptionFunc
-func DefaultMuxWriterOptionFunc(lvl Level, w Writer) MuxWriterOptionFunc {
-	return func(mux *MuxWriter) {
+// DefaultLeveledWriterOptionFunc implements LeveledWriterOptionFunc
+func DefaultLeveledWriterOptionFunc(lvl Level, w Writer) LeveledWriterOptionFunc {
+	return func(mux *LeveledWriter) {
 		mux.LevelWriter[lvl] = w
 	}
 }
 
-// MuxWriter is a Writer which based on the log level will write to a writer
+// LeveledWriter is a Writer which based on the log level will write to a writer
 // It also uses a Default one for the Write method
 // as well as supporting the case when the Writer is not found in the Level map
-type MuxWriter struct {
+type LeveledWriter struct {
 	Default     Writer
 	LevelWriter map[Level]Writer
 }
 
-// NewMuxWriter returns a MuxWriter
-func NewMuxWriter(
+// NewLeveledWriter returns a LeveledWriter
+func NewLeveledWriter(
 	defaultWriter Writer,
-	fns ...MuxWriterOptionFunc,
-) *MuxWriter {
-	w := &MuxWriter{Default: defaultWriter, LevelWriter: map[Level]Writer{}}
+	fns ...LeveledWriterOptionFunc,
+) *LeveledWriter {
+	w := &LeveledWriter{Default: defaultWriter, LevelWriter: map[Level]Writer{}}
 	for _, fn := range fns {
 		fn(w)
 	}
@@ -122,7 +122,7 @@ func NewMuxWriter(
 
 // WriteEntry writes an Entry to the related Writer
 // If not found, then fallback on the Default
-func (m *MuxWriter) WriteEntry(e Entry) {
+func (m *LeveledWriter) WriteEntry(e Entry) {
 	w, ok := m.LevelWriter[e.Level()]
 	if !ok {
 		m.Default.WriteEntry(e)
@@ -133,8 +133,57 @@ func (m *MuxWriter) WriteEntry(e Entry) {
 }
 
 // Write calls the Default Write method
-func (m *MuxWriter) Write(msg []byte) (int, error) {
+func (m *LeveledWriter) Write(msg []byte) (int, error) {
 	return m.Default.Write(msg)
+}
+
+// MultiWriter is a Writer which based on the log level will write to a writer
+// It also uses a Default one for the Write method
+// as well as supporting the case when the Writer is not found in the Level map
+type MultiWriter struct {
+	Writers []Writer
+}
+
+// NewMultiWriter returns a MultiWriter
+func NewMultiWriter(
+	ws ...Writer,
+) *MultiWriter {
+	return &MultiWriter{Writers: ws}
+}
+
+// WriteEntry writes an Entry to the related Writer
+// If not found, then fallback on the Default
+func (m *MultiWriter) WriteEntry(e Entry) {
+	wg := &sync.WaitGroup{}
+	wg.Add(len(m.Writers))
+	for _, w := range m.Writers {
+		go func(w Writer) {
+			w.WriteEntry(e)
+			wg.Done()
+		}(w)
+	}
+
+	wg.Wait()
+}
+
+// Write calls the Default Write method
+func (m *MultiWriter) Write(msg []byte) (int, error) {
+	wg := &sync.WaitGroup{}
+	wg.Add(len(m.Writers))
+
+	var err error
+	for _, w := range m.Writers {
+		go func(w Writer) {
+			if _, werr := w.Write(msg); werr != nil {
+				err = werr
+			}
+
+			wg.Done()
+		}(w)
+	}
+
+	wg.Wait()
+	return len(msg), err
 }
 
 // TickFlusher is a Flusher triggered by a time.Ticker
