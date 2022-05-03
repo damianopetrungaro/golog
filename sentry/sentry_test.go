@@ -77,7 +77,7 @@ func TestWriter(t *testing.T) {
 		}
 	})
 
-	t.Run("capture message", func(t *testing.T) {
+	t.Run("capture exception", func(t *testing.T) {
 		data := []byte(`This is the data written`)
 		writerTo := bytes.NewBuffer(data)
 		transport := &fakeTransport{}
