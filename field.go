@@ -43,6 +43,16 @@ func Strings(k string, v []string) Field {
 	return Field{k: k, v: v}
 }
 
+//Byte creates a field containing a value of type "byte"
+func Byte(k string, v byte) Field {
+	return Field{k: k, v: v}
+}
+
+//Bytes creates a field containing a value of type "[]byte"
+func Bytes(k string, v []byte) Field {
+	return Field{k: k, v: v}
+}
+
 //Uint creates a field containing a value of type "uint"
 func Uint(k string, v uint) Field {
 	return Field{k: k, v: v}
