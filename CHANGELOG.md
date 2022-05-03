@@ -1,3 +1,12 @@
+# [1.4.0](https://github.com/damianopetrungaro/golog/compare/v1.3.0...v1.4.0) (2022-05-03)
+
+
+### Features
+
+* add byte field ([18c8ec6](https://github.com/damianopetrungaro/golog/commit/18c8ec62719278a2d6a2efd49114c5f19a8939bb))
+
+
+
 # [1.3.0](https://github.com/damianopetrungaro/golog/compare/v1.2.0...v1.3.0) (2022-05-03)
 
 
@@ -35,15 +44,6 @@
 ### BREAKING CHANGES
 
 * With method accepts multiple Field not a single Fields
-
-
-
-# [0.6.0](https://github.com/damianopetrungaro/golog/compare/v0.5.0...v0.6.0) (2022-05-02)
-
-
-### Features
-
-* add support to more field types ([8fe602c](https://github.com/damianopetrungaro/golog/commit/8fe602c3a853dac6ab6a7ae45346910018c02455))
 
 
 
