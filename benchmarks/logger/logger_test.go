@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"testing"
+	"time"
 
 	"github.com/sirupsen/logrus"
 	"go.uber.org/zap"
@@ -19,46 +20,22 @@ goos: darwin
 goarch: amd64
 pkg: github.com/damianopetrungaro/golog/benchmarks/logger
 cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
-BenchmarkLogger/golog-12                 1266547               929.9 ns/op          2826 B/op         26 allocs/op
-BenchmarkLogger/zap-12                   1000000              1066 ns/op            2836 B/op         20 allocs/op
-BenchmarkLogger/logrus-12                 344604              3395 ns/op            6168 B/op         69 allocs/op
-BenchmarkLogger/golog.Check-12          56982846                20.10 ns/op           64 B/op          1 allocs/op
-BenchmarkLogger/zap.Check-12            1000000000               0.9662 ns/op          0 B/op          0 allocs/op
+BenchmarkLogger/golog-12                   73681             16878 ns/op           17361 B/op        128 allocs/op
+BenchmarkLogger/zap-12                     58617             20173 ns/op           28346 B/op        125 allocs/op
+BenchmarkLogger/logrus-12                  66474             18344 ns/op           13882 B/op        172 allocs/op
+BenchmarkLogger/golog.Check-12          53974438                22.63 ns/op           64 B/op          1 allocs/op
+BenchmarkLogger/zap.Check-12            1000000000               0.8838 ns/op          0 B/op          0 allocs/op
 PASS
-ok      github.com/damianopetrungaro/golog/benchmarks/logger    6.781s
+ok      github.com/damianopetrungaro/golog/benchmarks/logger    6.494s
 */
 func BenchmarkLogger(b *testing.B) {
 
-	b.Run("logrus", func(b *testing.B) {
-		logrus.SetFormatter(&logrus.JSONFormatter{})
-		logrus.SetOutput(io.Discard)
-		logrus.SetLevel(logrus.DebugLevel)
-		b.ResetTimer()
-		b.RunParallel(func(pb *testing.PB) {
-			for pb.Next() {
-				logrus.WithFields(logrus.Fields{
-					"int":       10,
-					"ints":      []int{1, 2, 3, 4, 5, 6, 7},
-					"string":    "a string",
-					"strings":   []string{"one", "one", "one", "one", "one", "one"},
-					"int_2":     10,
-					"ints_2":    []int{1, 2, 3, 4, 5, 6, 7},
-					"string_2":  "a string",
-					"strings_2": []string{"one", "one", "one", "one", "one", "one"},
-					"int_3":     10,
-					"ints_3":    []int{1, 2, 3, 4, 5, 6, 7},
-					"string_3":  "a string",
-					"strings_3": []string{"one", "one", "one", "one", "one", "one"},
-					"error":     fmt.Errorf("an error occurred"),
-				}).Debug("This is a message")
-			}
-		})
-	})
+	users := helperUsers()
 
 	b.Run("golog", func(b *testing.B) {
 		ctx := context.Background()
 		writer := golog.NewBufWriter(
-			golog.NewTextEncoder(golog.DefaultTextConfig()),
+			golog.NewJsonEncoder(golog.DefaultJsonConfig()),
 			bufio.NewWriter(io.Discard),
 			golog.DefaultErrorHandler(),
 			golog.DEBUG,
@@ -84,6 +61,7 @@ func BenchmarkLogger(b *testing.B) {
 					golog.String("string_3", "a string"),
 					golog.Strings("strings_3", []string{"one", "one", "one", "one", "one", "one"}),
 					golog.Err(fmt.Errorf("an error occurred")),
+					golog.Any("users", users),
 				).Debug(ctx, "This is a message")
 			}
 		})
@@ -118,7 +96,35 @@ func BenchmarkLogger(b *testing.B) {
 					zap.String("string_3", "a string"),
 					zap.Strings("strings_3", []string{"one", "one", "one", "one", "one", "one"}),
 					zap.Error(fmt.Errorf("an error occurred")),
+					zap.Any("users", users),
 				).Debug("This is a message")
+			}
+		})
+	})
+
+	b.Run("logrus", func(b *testing.B) {
+		logrus.SetFormatter(&logrus.JSONFormatter{})
+		logrus.SetOutput(io.Discard)
+		logrus.SetLevel(logrus.DebugLevel)
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				logrus.WithFields(logrus.Fields{
+					"int":       10,
+					"ints":      []int{1, 2, 3, 4, 5, 6, 7},
+					"string":    "a string",
+					"strings":   []string{"one", "one", "one", "one", "one", "one"},
+					"int_2":     10,
+					"ints_2":    []int{1, 2, 3, 4, 5, 6, 7},
+					"string_2":  "a string",
+					"strings_2": []string{"one", "one", "one", "one", "one", "one"},
+					"int_3":     10,
+					"ints_3":    []int{1, 2, 3, 4, 5, 6, 7},
+					"string_3":  "a string",
+					"strings_3": []string{"one", "one", "one", "one", "one", "one"},
+					"error":     fmt.Errorf("an error occurred"),
+					"users":     users,
+				}).Debug("This is a message")
 			}
 		})
 	})
@@ -152,6 +158,7 @@ func BenchmarkLogger(b *testing.B) {
 						golog.String("string_3", "a string"),
 						golog.Strings("strings_3", []string{"one", "one", "one", "one", "one", "one"}),
 						golog.Err(fmt.Errorf("an error occurred")),
+						golog.Any("users", users),
 					)
 				}
 			}
@@ -188,9 +195,32 @@ func BenchmarkLogger(b *testing.B) {
 						zap.String("string_3", "a string"),
 						zap.Strings("strings_3", []string{"one", "one", "one", "one", "one", "one"}),
 						zap.Error(fmt.Errorf("an error occurred")),
+						zap.Any("users", users),
 					)
 				}
 			}
 		})
 	})
+}
+
+func helperUser() any {
+	return struct {
+		ID        string
+		Name      string
+		Age       int
+		BirthDate time.Time
+	}{
+		ID:        "123",
+		Name:      "John",
+		Age:       123,
+		BirthDate: time.Now(),
+	}
+}
+
+func helperUsers() any {
+	us := make([]any, 100)
+	for i := 0; i < 100; i++ {
+		us[i] = helperUser()
+	}
+	return us
 }
