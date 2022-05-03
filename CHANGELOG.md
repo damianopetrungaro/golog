@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/damianopetrungaro/golog/compare/v1.1.0...v1.2.0) (2022-05-03)
+
+
+### Features
+
+* add multi writer ([a6b0720](https://github.com/damianopetrungaro/golog/commit/a6b0720e6c9dfbc94411e5486af70233902cf3de))
+
+
+
 # [1.1.0](https://github.com/damianopetrungaro/golog/compare/v1.0.0...v1.1.0) (2022-05-02)
 
 
@@ -35,20 +44,6 @@
 ### Features
 
 * publish on gh-pages ([03efa58](https://github.com/damianopetrungaro/golog/commit/03efa5874a5a92f8d86781f37ae65e9c5a90517e))
-
-
-
-# [0.3.0](https://github.com/damianopetrungaro/golog/compare/v0.2.2...v0.3.0) (2022-04-28)
-
-
-### Bug Fixes
-
-* encoders handle errors as strings ([1f2417c](https://github.com/damianopetrungaro/golog/commit/1f2417cc9c6740c5e9749265a730ff7474858378))
-
-
-### Features
-
-* add mux writer ([9ee1149](https://github.com/damianopetrungaro/golog/commit/9ee1149137568c4d9c20719b6792aa29c6dc6b13))
 
 
 
