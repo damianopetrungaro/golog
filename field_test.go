@@ -258,6 +258,13 @@ func Test_Errs(t *testing.T) {
 	testFieldHelper(t, k, errMsgs, f)
 }
 
+func Test_Mapper(t *testing.T) {
+	k := "key name"
+	v := user{ID: "ID", Reference: 123, Birthdate: time.Now()}
+	f := Mapper(k, v)
+	testFieldHelper(t, k, v, f)
+}
+
 // tests Key and Value methods as well implicitly
 func testFieldHelper(t *testing.T, k string, v any, f Field) {
 	t.Helper()
@@ -287,5 +294,19 @@ func FieldMatcher(t *testing.T, xs, ys Fields) {
 			t.Errorf("x: %v", x)
 			t.Errorf("y: %v", ys[i])
 		}
+	}
+}
+
+type user struct {
+	ID        string
+	Reference int
+	Birthdate time.Time
+}
+
+func (u user) ToFields() Fields {
+	return Fields{
+		String("id", u.ID),
+		Int("ref", u.Reference),
+		Time("birthdate", u.Birthdate),
 	}
 }

@@ -14,11 +14,11 @@ Golog is designed to address mainly two issues:
 Golog exposes APIs which does not allow to simply introduce a struct or a map as part of the log fields.
 
 This design pushes the consumers of this library to care about PII data and
-pushes to reduce as much as possible the amount of data which can be logged.
+aim to reduce as much as possible the amount of data which can be logged.
 
 It is possible to extend the logger behavior
 for handling complex data type
-by writing custom field factory functions as shown in the customization section.
+by implementing an interface as shown in the "Custom field type" section.
 
 #### Add tracing and other extra data into the logging behavior
 
@@ -186,7 +186,7 @@ var logger golog.Logger = golog.New(
 ### Custom field type
 
 Logging complex data structure is not intentionally supported out of the box,
-Golog expects you to create a Fields factory function.
+Golog expects you to implement a FieldMapper interface.
 
 An example may be something like this:
 
@@ -199,13 +199,18 @@ type User struct {
 	ReferenceCode   string
 }
 
-// The factory function to create fields out of the complex data structure
-func NewUserFields(u User) golog.Fields {
+// The FieldMapper interface method to create fields out of the complex data structure
+func (u User) ToFields() golog.Fields {
     return golog.Fields{
         golog.String("user_id", u.ID),
         golog.String("reference_code", u.ReferenceCode),
     }
 }
+
+//...
+
+var u User{...} 
+golog.With(golog.Mapper("user", u)).Debug(ctx, "...")
 ```
 
 And its usage would look like this

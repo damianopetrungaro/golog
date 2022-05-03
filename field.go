@@ -4,6 +4,11 @@ import (
 	"time"
 )
 
+//FieldMapper an interface which returns Fields to add to an Entry
+type FieldMapper interface {
+	ToFields() Fields
+}
+
 //Fields is a slice of Field
 type Fields []Field
 
@@ -180,6 +185,11 @@ func Time(k string, v time.Time) Field {
 
 //Times creates a field containing a value of type "[]time.Time"
 func Times(k string, v []time.Time) Field {
+	return Field{k: k, v: v}
+}
+
+//Mapper creates a field containing a value of type "Fields"
+func Mapper(k string, v FieldMapper) Field {
 	return Field{k: k, v: v}
 }
 

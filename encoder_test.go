@@ -97,6 +97,10 @@ func TestJsonEncoder_Encode(t *testing.T) {
 			entry:   NewStdEntry(context.Background(), DEBUG, "time and an array of time", Fields{Time("25 Dec", date), Times("26/27 Dec", []time.Time{date.AddDate(0, 0, 1), date.AddDate(0, 0, 2)})}),
 			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"time and an array of time","25 Dec":"2000-12-25T00:00:00Z","26/27 Dec":["2000-12-26T00:00:00Z","2000-12-27T00:00:00Z"]}`),
 		},
+		"entry with time mapper": {
+			entry:   NewStdEntry(context.Background(), DEBUG, "mapper", Fields{Mapper("user", user{ID: "1", Reference: 321, Birthdate: date})}),
+			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"mapper","user":{"id":"1","ref":321,"birthdate":"2000-12-25T00:00:00Z"}}`),
+		},
 	}
 
 	for name, test := range tests {
@@ -189,6 +193,10 @@ func TestTextEncoder_Encode(t *testing.T) {
 		"entry with time array of time": {
 			entry:   NewStdEntry(context.Background(), DEBUG, "time and an array of time", Fields{Time("25 Dec", date), Times("26/27 Dec", []time.Time{date.AddDate(0, 0, 1), date.AddDate(0, 0, 2)})}),
 			wantLog: fmt.Sprintln(`level="DEBUG" message="time and an array of time" 25 Dec="2000-12-25T00:00:00Z" 26/27 Dec=["2000-12-26T00:00:00Z","2000-12-27T00:00:00Z"]`),
+		},
+		"entry with time mapper": {
+			entry:   NewStdEntry(context.Background(), DEBUG, "mapper", Fields{Mapper("user", user{ID: "1", Reference: 321, Birthdate: date})}),
+			wantLog: fmt.Sprintln(`level="DEBUG" message="mapper" user=[id="1" ref=321 birthdate="2000-12-25T00:00:00Z"]`),
 		},
 	}
 
