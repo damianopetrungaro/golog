@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/damianopetrungaro/golog/compare/v1.2.0...v1.3.0) (2022-05-03)
+
+
+### Features
+
+* **sentry:** add writer ([3432cdf](https://github.com/damianopetrungaro/golog/commit/3432cdfa28d22eeed34e48794b52aefcebb3b9fb))
+
+
+
 # [1.2.0](https://github.com/damianopetrungaro/golog/compare/v1.1.0...v1.2.0) (2022-05-03)
 
 
@@ -35,15 +44,6 @@
 ### Features
 
 * add support to more field types ([8fe602c](https://github.com/damianopetrungaro/golog/commit/8fe602c3a853dac6ab6a7ae45346910018c02455))
-
-
-
-# [0.5.0](https://github.com/damianopetrungaro/golog/compare/v0.3.0...v0.5.0) (2022-05-02)
-
-
-### Features
-
-* publish on gh-pages ([03efa58](https://github.com/damianopetrungaro/golog/commit/03efa5874a5a92f8d86781f37ae65e9c5a90517e))
 
 
 
