@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1651617517154,
+  "lastUpdate": 1651702328634,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -656,6 +656,48 @@ window.BENCHMARK_DATA = {
             "value": 2109,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "544425 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "e56b60d59a22ebffc7d4d80759d4adc01e8c096c",
+          "message": "feat: add FieldMapper for complex types",
+          "timestamp": "2022-05-05T00:11:26+02:00",
+          "tree_id": "4981af3b2b49d2e1ef256b1fa34f726f19710986",
+          "url": "https://github.com/damianopetrungaro/golog/commit/e56b60d59a22ebffc7d4d80759d4adc01e8c096c"
+        },
+        "date": 1651702328019,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 9225,
+            "unit": "ns/op\t    6125 B/op\t      69 allocs/op",
+            "extra": "124623 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2598,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "470031 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2586,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "461720 times\n2 procs"
           }
         ]
       }
