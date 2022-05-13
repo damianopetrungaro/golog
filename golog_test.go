@@ -105,6 +105,7 @@ func TestFatal(t *testing.T) {
 		}
 	}()
 	defer func() {
+		// nolint:staticcheck
 		if r := recover(); r != nil {
 		}
 	}()
@@ -120,6 +121,7 @@ func TestCheckFatal(t *testing.T) {
 		}
 	}()
 	defer func() {
+		// nolint:staticcheck
 		if r := recover(); r != nil {
 		}
 	}()

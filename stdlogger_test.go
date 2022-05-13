@@ -127,6 +127,7 @@ func TestStdLogger(t *testing.T) {
 				EntryMatcher(t, test.wantEntry, w.Entry)
 			}()
 			defer func() {
+				// nolint:staticcheck
 				if r := recover(); r != nil {
 				}
 			}()

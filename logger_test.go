@@ -20,6 +20,7 @@ func TestStdCheckedLogger_Log(t *testing.T) {
 			EntryMatcher(t, w.Entry, e.With(flds...))
 		}()
 		defer func() {
+			// nolint:staticcheck
 			if r := recover(); r != nil {
 			}
 		}()
