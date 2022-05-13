@@ -1,3 +1,12 @@
+## [1.5.1](https://github.com/damianopetrungaro/golog/compare/v1.5.0...v1.5.1) (2022-05-13)
+
+
+### Bug Fixes
+
+* minor improvement ([f0a80a9](https://github.com/damianopetrungaro/golog/commit/f0a80a9560881cfef266dc901bdc917f13cb4423))
+
+
+
 # [1.5.0](https://github.com/damianopetrungaro/golog/compare/v1.4.0...v1.5.0) (2022-05-04)
 
 
@@ -31,16 +40,6 @@
 ### Features
 
 * add multi writer ([a6b0720](https://github.com/damianopetrungaro/golog/commit/a6b0720e6c9dfbc94411e5486af70233902cf3de))
-
-
-
-# [1.1.0](https://github.com/damianopetrungaro/golog/compare/v1.0.0...v1.1.0) (2022-05-02)
-
-
-### Features
-
-* **http:** add package and reword the README ([48a8109](https://github.com/damianopetrungaro/golog/commit/48a8109f36b45309d30dfb2458d90429cb9bbc78))
-* **test:** add  utility package ([f08355b](https://github.com/damianopetrungaro/golog/commit/f08355b115ca34d7de9c74b6e75b7b47615f7116))
 
 
 
