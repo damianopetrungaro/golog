@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1651702328634,
+  "lastUpdate": 1652445894974,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -698,6 +698,48 @@ window.BENCHMARK_DATA = {
             "value": 2586,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "461720 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "9fbadb7afaee44e37b9ca24b43e1ef2905c297d3",
+          "message": "chore: ignore linting issues on tests",
+          "timestamp": "2022-05-13T14:44:21+02:00",
+          "tree_id": "be57668cece068be4eb30485c43da06371a3adf7",
+          "url": "https://github.com/damianopetrungaro/golog/commit/9fbadb7afaee44e37b9ca24b43e1ef2905c297d3"
+        },
+        "date": 1652445894212,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 9333,
+            "unit": "ns/op\t    6124 B/op\t      69 allocs/op",
+            "extra": "127604 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2374,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "485654 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2506,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "457824 times\n2 procs"
           }
         ]
       }
