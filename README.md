@@ -38,10 +38,10 @@ It allows you to write log messages.
 An example of its usage may look like this:
 
  ```go
-golog.With(golog.Fields{
+golog.With(
 	golog.Bool("key name", true),
 	golog.Strings("another key name", []string{"one", "two"}),
-}).Error(ctx, "log message here")
+).Error(ctx, "log message here")
  ```
 
 To override the default logger you can use the `SetLogger` API as shown here:
@@ -72,10 +72,10 @@ as shown in this example, there will be no extra data allocation as well as havi
 
 ```go
 if checked, ok := golog.CheckDebug(ctx, "This is a message"); ok {
-    checked.Log(golog.Fields{
+    checked.Log(
         golog.Bool("key name", true),
         golog.Strings("another key name", []string{"one", "two"}),
-    })
+    )
 }
 ```
 
@@ -129,10 +129,10 @@ An example may be adding a trace and span ids to the log:
 var customTraceDecorator golog.DecoratorFunc = func(e golog.Entry) golog.Entry {
     span := trace.FromContext(e.Context()).SpanContext()
 
-    return e.With(golog.Fields{
+    return e.With(
         golog.String("span_id", span.SpanID.String()),
         golog.String("trace_id", span.TraceID.String()),
-    })
+    )
 }
 
 var logger golog.Logger = golog.New(
@@ -329,10 +329,10 @@ Golog doesn't hande key deduplication.
 Meaning that
 
 ```go
-golog.With(golog.Fields{
+golog.With(
     golog.String("hello", "world"),
     golog.String("hello", "another world"),
-}).Info(ctx, "no deduplication")
+).Info(ctx, "no deduplication")
 ```
 
 will print
