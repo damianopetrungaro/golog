@@ -34,7 +34,7 @@ var (
 	)
 
 	errorHandler = func(err error) {
-		fmt.Println(fmt.Sprintf("golog: could not write: %s\n", err))
+		fmt.Printf("golog: could not write: %s\n", err)
 	}
 
 	levelChecker        = NewLevelCheckerOption(INFO)

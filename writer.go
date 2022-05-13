@@ -202,18 +202,13 @@ func NewTickFlusher(f Flusher, d time.Duration) *TickFlusher {
 
 // Flush forces the data in the inner Flusher to be written
 func (f *TickFlusher) Flush() error {
-	for {
-		select {
-		case _, ok := <-f.Ticker.C:
-			if !ok {
-				return nil
-			}
-
-			if err := f.Flusher.Flush(); err != nil {
-				return fmt.Errorf("%w: tick flusher on flush: %s", ErrEntriesNotFlushed, err)
-			}
+	for range f.Ticker.C {
+		if err := f.Flusher.Flush(); err != nil {
+			return fmt.Errorf("%w: tick flusher on flush: %s", ErrEntriesNotFlushed, err)
 		}
 	}
+
+	return nil
 }
 
 // Close stops the time.Ticker and flushes the data
