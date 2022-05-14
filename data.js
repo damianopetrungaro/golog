@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1652445894974,
+  "lastUpdate": 1652488241051,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -740,6 +740,48 @@ window.BENCHMARK_DATA = {
             "value": 2506,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "457824 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "0fb47c6a332c5e9c8e472669a5fc09afac427cef",
+          "message": "feat: add support from go1.16",
+          "timestamp": "2022-05-14T02:30:02+02:00",
+          "tree_id": "14a49ed7837a095a7e9c4f5e23913b624dd1a5d3",
+          "url": "https://github.com/damianopetrungaro/golog/commit/0fb47c6a332c5e9c8e472669a5fc09afac427cef"
+        },
+        "date": 1652488240552,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 9865,
+            "unit": "ns/op\t    6124 B/op\t      69 allocs/op",
+            "extra": "116131 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2634,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "471369 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2689,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "432912 times\n2 procs"
           }
         ]
       }
