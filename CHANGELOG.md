@@ -1,3 +1,12 @@
+# [1.6.0](https://github.com/damianopetrungaro/golog/compare/v1.5.1...v1.6.0) (2022-05-14)
+
+
+### Features
+
+* add support from go1.16 ([0fb47c6](https://github.com/damianopetrungaro/golog/commit/0fb47c6a332c5e9c8e472669a5fc09afac427cef))
+
+
+
 ## [1.5.1](https://github.com/damianopetrungaro/golog/compare/v1.5.0...v1.5.1) (2022-05-13)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **sentry:** add writer ([3432cdf](https://github.com/damianopetrungaro/golog/commit/3432cdfa28d22eeed34e48794b52aefcebb3b9fb))
-
-
-
-# [1.2.0](https://github.com/damianopetrungaro/golog/compare/v1.1.0...v1.2.0) (2022-05-03)
-
-
-### Features
-
-* add multi writer ([a6b0720](https://github.com/damianopetrungaro/golog/commit/a6b0720e6c9dfbc94411e5486af70233902cf3de))
 
 
 
