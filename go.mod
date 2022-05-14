@@ -1,6 +1,6 @@
 module github.com/damianopetrungaro/golog
 
-go 1.18
+go 1.16
 
 require (
 	github.com/getsentry/sentry-go v0.13.0
@@ -8,11 +8,4 @@ require (
 	go.opencensus.io v0.23.0
 	go.opentelemetry.io/otel v1.6.3
 	go.opentelemetry.io/otel/trace v1.6.3
-)
-
-require (
-	github.com/go-logr/logr v1.2.3 // indirect
-	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
-	golang.org/x/sys v0.0.0-20211007075335-d3039528d8ac // indirect
 )

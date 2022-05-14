@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+type any = interface{}
+
 var (
 	logger Logger = New(
 		NewBufWriter(
