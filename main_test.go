@@ -6,6 +6,8 @@ import (
 	. "github.com/damianopetrungaro/golog"
 )
 
+type any = interface{}
+
 var (
 	msg        = "This is a log message"
 	debugEntry = NewStdEntry(context.Background(), DEBUG, msg, nil)
