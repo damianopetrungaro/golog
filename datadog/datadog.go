@@ -31,8 +31,8 @@ func DefaultJsonConfig() golog.JsonConfig {
 }
 
 // NewJsonEncoder returns a JsonEncoder
-func NewJsonEncoder(cfg golog.JsonConfig) golog.JsonEncoder {
-	return golog.JsonEncoder{Config: cfg}
+func NewJsonEncoder() golog.JsonEncoder {
+	return golog.JsonEncoder{Config: DefaultJsonConfig()}
 }
 
 // DefaultTextConfig returns a default TextConfig
@@ -41,6 +41,6 @@ func DefaultTextConfig() golog.TextConfig {
 }
 
 // NewTextEncoder returns a TextEncoder
-func NewTextEncoder(cfg golog.TextConfig) golog.TextEncoder {
-	return golog.TextEncoder{Config: cfg}
+func NewTextEncoder() golog.TextEncoder {
+	return golog.TextEncoder{Config: DefaultTextConfig()}
 }
