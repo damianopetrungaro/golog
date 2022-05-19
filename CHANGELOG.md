@@ -1,3 +1,12 @@
+# [1.7.0](https://github.com/damianopetrungaro/golog/compare/v1.6.0...v1.7.0) (2022-05-19)
+
+
+### Features
+
+* **datadog:** add configuration and encoder ([9f7ad8b](https://github.com/damianopetrungaro/golog/commit/9f7ad8b956be17fc775ab5dbdf5c245cd5579017))
+
+
+
 # [1.6.0](https://github.com/damianopetrungaro/golog/compare/v1.5.1...v1.6.0) (2022-05-14)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add byte field ([18c8ec6](https://github.com/damianopetrungaro/golog/commit/18c8ec62719278a2d6a2efd49114c5f19a8939bb))
-
-
-
-# [1.3.0](https://github.com/damianopetrungaro/golog/compare/v1.2.0...v1.3.0) (2022-05-03)
-
-
-### Features
-
-* **sentry:** add writer ([3432cdf](https://github.com/damianopetrungaro/golog/commit/3432cdfa28d22eeed34e48794b52aefcebb3b9fb))
 
 
 
