@@ -315,7 +315,6 @@ logger := golog.New(
     ),
     golog.NewLevelCheckerOption(golog.WARN),
     // any other option you may want to pass
-    )	
 )
 
 ```
