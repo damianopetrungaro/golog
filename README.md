@@ -51,8 +51,9 @@ To override the default logger you can use the `SetLogger` API as shown here:
 logger := golog.New(
     golog.NewBufWriter(
         golog.NewJsonEncoder(golog.DefaultJsonConfig()),
-        bufio.NewWriter(os.StdErr),
+        bufio.NewWriter(os.Stdout),
         golog.DefaultErrorHandler(),
+        golog.DEBUG,
     ),
     golog.NewLevelCheckerOption(golog.WARN), 
 	// any other option you may want to pass
@@ -88,6 +89,7 @@ logger := golog.New(
         golog.NewJsonEncoder(golog.DefaultJsonConfig()),
         bufio.NewWriter(os.StdErr),
         golog.DefaultErrorHandler(),
+        golog.DEBUG,
     ),
     golog.NewLevelCheckerOption(golog.WARN), 
 	// any other option you may want to pass
@@ -291,6 +293,31 @@ import (
 var h http.Handler // the handler you want to decorate
 var logger golog.Logger // your logger
 httplog.NewHandler(h, logger, httplog.DefaultLogHandle()) // returns your decorated handler
+```
+
+## Presets
+
+Golog provides configurations and encoders utilities for several log consumers 
+
+### Datadog (DD)
+
+```go
+import (
+    "github.com/damianopetrungaro/golog/datadog"
+)
+
+logger := golog.New(
+    golog.NewBufWriter(
+        datadog.NewJsonEncoder(),
+        bufio.NewWriter(os.Stdout),
+        golog.DefaultErrorHandler(),
+        golog.DEBUG,
+    ),
+    golog.NewLevelCheckerOption(golog.WARN),
+    // any other option you may want to pass
+    )	
+)
+
 ```
 
 ## Performances

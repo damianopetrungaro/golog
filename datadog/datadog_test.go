@@ -43,7 +43,7 @@ func TestDefaultJsonConfig(t *testing.T) {
 
 func TestNewJsonEncoder(t *testing.T) {
 	cfg := DefaultJsonConfig()
-	enc := NewJsonEncoder(cfg)
+	enc := NewJsonEncoder()
 	if enc.Config != cfg {
 		t.Error("could not match config")
 		t.Errorf("got: %v", enc.Config)
@@ -72,7 +72,7 @@ func TestDefaultTextConfig(t *testing.T) {
 
 func TestNewTextEncoder(t *testing.T) {
 	cfg := DefaultTextConfig()
-	enc := NewTextEncoder(cfg)
+	enc := NewTextEncoder()
 	if enc.Config != cfg {
 		t.Error("could not match config")
 		t.Errorf("got: %v", enc.Config)
