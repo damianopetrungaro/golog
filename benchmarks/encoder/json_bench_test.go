@@ -9,19 +9,16 @@ import (
 )
 
 /**
-OUTCOME:
-
-goos: darwin
 goarch: amd64
 pkg: json_encoder_benchmarks
 cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
-BenchmarkJsonEncoder/encoding/json-12             526494              2233 ns/op            4998 B/op         70 allocs/op
-BenchmarkJsonEncoder/gojson-12                    783475              1624 ns/op            3427 B/op         27 allocs/op
-BenchmarkJsonEncoder/jsoniter-12                  783744              1667 ns/op            3428 B/op         27 allocs/op
-BenchmarkJsonEncoder/golog-12                    2231253               528.3 ns/op          1311 B/op          6 allocs/op
+BenchmarkJsonEncoder/encoding/json-12             545086              2307 ns/op            4994 B/op         72 allocs/op
+BenchmarkJsonEncoder/gojson-12                    803994              1795 ns/op            3425 B/op         27 allocs/op
+BenchmarkJsonEncoder/jsoniter-12                  669554              1691 ns/op            3426 B/op         27 allocs/op
+BenchmarkJsonEncoder/golog-12                    2084641               548.0 ns/op          1311 B/op          6 allocs/op
+BenchmarkJsonEncoder/golog.map-12                1924228               654.6 ns/op          1248 B/op          6 allocs/op
 PASS
-ok      json_encoder_benchmarks 6.689s
-
+ok      json_encoder_benchmarks 7.650s
 */
 
 var entry = golog.NewStdEntry(context.Background(), golog.INFO, "This is a log message", golog.Fields{
