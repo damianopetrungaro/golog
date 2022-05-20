@@ -1,3 +1,12 @@
+# [1.8.0](https://github.com/damianopetrungaro/golog/compare/v1.7.2...v1.8.0) (2022-05-20)
+
+
+### Features
+
+* add deduplicator writer ([9186b8f](https://github.com/damianopetrungaro/golog/commit/9186b8f0cd572cef38a005a5d441bfda0e023745))
+
+
+
 ## [1.7.2](https://github.com/damianopetrungaro/golog/compare/v1.7.1...v1.7.2) (2022-05-20)
 
 
@@ -32,15 +41,6 @@
 ### Features
 
 * add support from go1.16 ([0fb47c6](https://github.com/damianopetrungaro/golog/commit/0fb47c6a332c5e9c8e472669a5fc09afac427cef))
-
-
-
-## [1.5.1](https://github.com/damianopetrungaro/golog/compare/v1.5.0...v1.5.1) (2022-05-13)
-
-
-### Bug Fixes
-
-* minor improvement ([f0a80a9](https://github.com/damianopetrungaro/golog/commit/f0a80a9560881cfef266dc901bdc917f13cb4423))
 
 
 
