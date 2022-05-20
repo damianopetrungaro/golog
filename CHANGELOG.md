@@ -1,3 +1,12 @@
+## [1.7.2](https://github.com/damianopetrungaro/golog/compare/v1.7.1...v1.7.2) (2022-05-20)
+
+
+### Bug Fixes
+
+* json encode escapes new lines, tabs and other special chars ([bdc17b6](https://github.com/damianopetrungaro/golog/commit/bdc17b6df75649883e8b8139bfc9c95c03fb1d00))
+
+
+
 ## [1.7.1](https://github.com/damianopetrungaro/golog/compare/v1.7.0...v1.7.1) (2022-05-20)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * minor improvement ([f0a80a9](https://github.com/damianopetrungaro/golog/commit/f0a80a9560881cfef266dc901bdc917f13cb4423))
-
-
-
-# [1.5.0](https://github.com/damianopetrungaro/golog/compare/v1.4.0...v1.5.0) (2022-05-04)
-
-
-### Features
-
-* add FieldMapper for complex types ([e56b60d](https://github.com/damianopetrungaro/golog/commit/e56b60d59a22ebffc7d4d80759d4adc01e8c096c))
 
 
 
