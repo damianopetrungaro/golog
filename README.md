@@ -166,8 +166,11 @@ var logger golog.Logger = golog.New(
 )
 ```
 
-Out of the box are provided some checkers
-for skipping log with level lower than an expected one.
+Out of the box are provided some checkers:
+
+### Min level checker
+
+This checker will skip logging all the entry with level lower than an expected one.
 
 Example usage:
 
@@ -178,7 +181,7 @@ var logger golog.Logger = golog.New(
 )
 ```
 
-### Custom field type
+## Custom field type
 
 Logging complex data structure is not intentionally supported out of the box,
 Golog expects you to implement a FieldMapper interface.
@@ -206,13 +209,6 @@ func (u User) ToFields() golog.Fields {
 
 var u User{...} 
 golog.With(golog.Mapper("user", u)).Debug(ctx, "...")
-```
-
-And its usage would look like this
-
-```go
-// Example API usage
-golog.With(NewUserFields(u)).Error("an error occurred")
 ```
 
 ## Writers
