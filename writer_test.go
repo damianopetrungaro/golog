@@ -238,6 +238,40 @@ func TestLeveledWriter(t *testing.T) {
 	}
 }
 
+func TestDeduplicatorWriter(t *testing.T) {
+	msg := []byte("A default message")
+
+	defaultWriter := &FakeWriter{}
+
+	w := NewDeduplicatorWriter(defaultWriter)
+
+	entry := debugEntry.With(
+		String("duplicate", "value_0"),
+		String("duplicate", "value_1"),
+		String("duplicate", "value_2"),
+	)
+
+	w.WriteEntry(entry)
+	if _, err := w.Write(msg); err != nil {
+		t.Errorf("could not write: %s", err)
+	}
+
+	if defaultWriter.Entry.Level() != DEBUG {
+		t.Errorf("could not match level in the debug writer, got: %s", defaultWriter.Entry.Level())
+	}
+
+	wantEntry := debugEntry.With(
+		String("duplicate", "value_0"),
+		String("duplicate_1", "value_1"),
+		String("duplicate_2", "value_2"),
+	)
+	EntryMatcher(t, defaultWriter.Entry, wantEntry)
+
+	if defaultWriter.Message != Message(msg) {
+		t.Errorf("could not match message in the default writer, got: %s", defaultWriter.Entry.Level())
+	}
+}
+
 func TestMultiWriter(t *testing.T) {
 
 	w1 := &FakeWriter{}

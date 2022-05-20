@@ -19,13 +19,14 @@ goos: darwin
 goarch: amd64
 pkg: github.com/damianopetrungaro/golog/benchmarks/logger
 cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
-BenchmarkLogger/logrus-12                 345278              3366 ns/op            6168 B/op         71 allocs/op
-BenchmarkLogger/golog-12                 1317799               952.4 ns/op          2841 B/op         27 allocs/op
-BenchmarkLogger/zap-12                   1000000              1187 ns/op            2836 B/op         20 allocs/op
-BenchmarkLogger/golog.Check-12          55734993                22.66 ns/op           64 B/op          1 allocs/op
-BenchmarkLogger/zap.Check-12            1000000000               1.000 ns/op           0 B/op          0 allocs/op
+BenchmarkLogger/logrus-12				322524			3544 ns/op		6162 B/op	70 allocs/op
+BenchmarkLogger/golog-12				1314696			878.1 ns/op		2841 B/op	27 allocs/op
+BenchmarkLogger/golog.deduplicator-12	811656			1318 ns/op		4370 B/op	34 allocs/op
+BenchmarkLogger/zap-12					1292510			1093 ns/op		2836 B/op	20 allocs/op
+BenchmarkLogger/golog.Check-12			69898831		18.23 ns/op		64 B/op 	1 allocs/op
+BenchmarkLogger/zap.Check-12			1000000000		0.8543 ns/op	0 B/op 		0 allocs/op
 PASS
-ok      github.com/damianopetrungaro/golog/benchmarks/logger    8.074s
+ok      github.com/damianopetrungaro/golog/benchmarks/logger    9.179s
 */
 func BenchmarkLogger(b *testing.B) {
 
@@ -65,6 +66,40 @@ func BenchmarkLogger(b *testing.B) {
 		)
 
 		logger := golog.New(writer, golog.NewLevelCheckerOption(golog.DEBUG))
+
+		golog.SetLogger(logger)
+		b.ResetTimer()
+		b.RunParallel(func(pb *testing.PB) {
+			for pb.Next() {
+				golog.With(
+					golog.Int("int", 10),
+					golog.Ints("ints", []int{1, 2, 3, 4, 5, 6, 7}),
+					golog.String("string", "a string"),
+					golog.Strings("strings", []string{"one", "one", "one", "one", "one", "one"}),
+					golog.Int("int_2", 10),
+					golog.Ints("ints_2", []int{1, 2, 3, 4, 5, 6, 7}),
+					golog.String("string_2", "a string"),
+					golog.Strings("strings_2", []string{"one", "one", "one", "one", "one", "one"}),
+					golog.Int("int_3", 10),
+					golog.Ints("ints_3", []int{1, 2, 3, 4, 5, 6, 7}),
+					golog.String("string_3", "a string"),
+					golog.Strings("strings_3", []string{"one", "one", "one", "one", "one", "one"}),
+					golog.Err(fmt.Errorf("an error occurred")),
+				).Debug(ctx, "This is a message")
+			}
+		})
+	})
+
+	b.Run("golog.deduplicator", func(b *testing.B) {
+		ctx := context.Background()
+		writer := golog.NewBufWriter(
+			golog.NewTextEncoder(golog.DefaultTextConfig()),
+			bufio.NewWriter(io.Discard),
+			golog.DefaultErrorHandler(),
+			golog.DEBUG,
+		)
+
+		logger := golog.New(golog.NewDeduplicatorWriter(writer), golog.NewLevelCheckerOption(golog.DEBUG))
 
 		golog.SetLogger(logger)
 		b.ResetTimer()
