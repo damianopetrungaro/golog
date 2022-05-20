@@ -137,6 +137,51 @@ func (m *LeveledWriter) Write(msg []byte) (int, error) {
 	return m.Default.Write(msg)
 }
 
+// DeduplicatorWriter is a Writer which deduplicate fields with the same name
+type DeduplicatorWriter struct {
+	Default Writer
+}
+
+// NewDeduplicatorWriter returns a DeduplicatorWriter
+func NewDeduplicatorWriter(
+	defaultWriter Writer,
+) *DeduplicatorWriter {
+	w := &DeduplicatorWriter{Default: defaultWriter}
+
+	return w
+}
+
+// WriteEntry writes an Entry to the related Writer
+// If not found, then fallback on the Default
+func (m *DeduplicatorWriter) WriteEntry(e Entry) {
+	var flds Fields
+	counter := map[string]int{}
+
+	for _, f := range e.Fields() {
+		k := f.Key()
+		c, exists := counter[k]
+		if exists {
+			c++
+			k = fmt.Sprintf("%s_%d", k, c)
+		}
+
+		flds = append(flds, Field{k: k, v: f.Value()})
+		counter[f.Key()] = c
+	}
+
+	m.Default.WriteEntry(StdEntry{
+		Ctx:  e.Context(),
+		Lvl:  e.Level(),
+		Msg:  e.Message(),
+		Flds: flds,
+	})
+}
+
+// Write calls the Default Write method
+func (m *DeduplicatorWriter) Write(msg []byte) (int, error) {
+	return m.Default.Write(msg)
+}
+
 // MultiWriter is a Writer which based on the log level will write to a writer
 // It also uses a Default one for the Write method
 // as well as supporting the case when the Writer is not found in the Level map

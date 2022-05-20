@@ -57,7 +57,7 @@ golog.With(
 
 which will print
 ```json
-  {"level":"ERROR","message":"log message here","key name":true,"another key name":["one","two"],"timestamp":"2022-05-20T16:16:29+02:00"}
+{"level":"ERROR","message":"log message here","key name":true,"another key name":["one","two"],"timestamp":"2022-05-20T16:16:29+02:00"}
 ```
 
 ### CheckLogger
@@ -89,7 +89,7 @@ if checked, ok := golog.CheckDebug(ctx, "This is a message"); ok {
 ```
 
 ```json
-  {"level":"DEBUG","message":"This is a message","timestamp":"2022-05-20T16:28:15+02:00","key name":true,"another key name":["one","two"]}
+{"level":"DEBUG","message":"This is a message","timestamp":"2022-05-20T16:28:15+02:00","key name":true,"another key name":["one","two"]}
 ```
 
 ### Standard Library support
@@ -259,6 +259,33 @@ w := golog.NewMultiWriter(w1, w2, w3)
 ```
 
 
+#### DeduplicatorWriter
+
+This implementation will deduplicate keys with the same values.
+
+The logger is slower when using this writer, so make sure you actually need it. 
+
+```go
+w := golog.NewBufWriter(
+    golog.NewJsonEncoder(golog.DefaultJsonConfig()),
+    bufio.NewWriter(os.Stdout),
+    golog.DefaultErrorHandler(),
+    golog.DEBUG,
+)
+defer w.Flush()
+
+w = golog.NewDeduplicatorWriter(w)
+golog.SetLogger(golog.New(w, golog.NewLevelCheckerOption(golog.DEBUG)))
+
+golog.With(golog.String("hello", "world"), golog.String("hello", "another world")).Error(ctx, "an error message")
+```
+
+This will print
+```json
+{"level":"ERROR","message":"an error message","hello":"world","hello_1":"another world"}
+```
+
+
 ## Testing utilities
 
 The `golog/test` package provide a mock generated using [gomock](https://github.com/golang/mock) for helping developers
@@ -320,13 +347,14 @@ goos: darwin
 goarch: amd64
 pkg: github.com/damianopetrungaro/golog/benchmarks/logger
 cpu: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
-BenchmarkLogger/logrus-12                 345278              3366 ns/op            6168 B/op         71 allocs/op
-BenchmarkLogger/golog-12                 1317799               952.4 ns/op          2841 B/op         27 allocs/op
-BenchmarkLogger/zap-12                   1000000              1187 ns/op            2836 B/op         20 allocs/op
-BenchmarkLogger/golog.Check-12          55734993                22.66 ns/op           64 B/op          1 allocs/op
-BenchmarkLogger/zap.Check-12            1000000000               1.000 ns/op           0 B/op          0 allocs/op
+BenchmarkLogger/logrus-12				322524			3544 ns/op		6162 B/op	70 allocs/op
+BenchmarkLogger/golog-12				1314696			878.1 ns/op		2841 B/op	27 allocs/op
+BenchmarkLogger/golog.deduplicator-12	811656			1318 ns/op		4370 B/op	34 allocs/op
+BenchmarkLogger/zap-12					1292510			1093 ns/op		2836 B/op	20 allocs/op
+BenchmarkLogger/golog.Check-12			69898831		18.23 ns/op		64 B/op 	1 allocs/op
+BenchmarkLogger/zap.Check-12			1000000000		0.8543 ns/op	0 B/op 		0 allocs/op
 PASS
-ok      github.com/damianopetrungaro/golog/benchmarks/logger    8.074s
+ok      github.com/damianopetrungaro/golog/benchmarks/logger    9.179s
 ```
 
 Considering the nature of the logger and the design it has, the performances are really high.
@@ -339,7 +367,7 @@ purpose.
 
 # Note
 
-Golog doesn't hande key deduplication.
+Golog doesn't hande key deduplication by default.
 
 Meaning that
 
@@ -353,5 +381,7 @@ golog.With(
 will print
 
 ```json
-  {"level": "INFO","message":"no deduplication","hello":"world","hello":"another world"}
+{"level": "INFO","message":"no deduplication","hello":"world","hello":"another world"}
 ```
+
+If you need deduplicated keys, please check the DeduplicatorWriter section.
