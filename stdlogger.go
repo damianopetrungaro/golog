@@ -137,5 +137,9 @@ func (l StdLogger) check(ctx context.Context, lvl Level, msg Message) (CheckedLo
 		}
 	}
 
+	for _, d := range l.Decorators {
+		e = d.Decorate(e)
+	}
+
 	return StdCheckedLogger{Writer: l.Writer, Entry: e}, true
 }
