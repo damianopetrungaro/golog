@@ -429,19 +429,19 @@ func (j JsonEncoder) addElem(w *bytes.Buffer, k string, val string) {
 	w.WriteString(`"`)
 	w.WriteString(k)
 	w.WriteString(`":`)
-	w.WriteString(val)
+	j.escapeVal(w, val)
 }
 
 func (j JsonEncoder) addElemQuoted(w *bytes.Buffer, k string, val string) {
 	w.WriteString(`"`)
 	w.WriteString(k)
 	w.WriteString(`":"`)
-	w.WriteString(val)
+	j.escapeVal(w, val)
 	w.WriteString(`"`)
 }
 
 func (j JsonEncoder) addArrayElem(w *bytes.Buffer, val string, hasNext bool) {
-	w.WriteString(val)
+	j.escapeVal(w, val)
 	if hasNext {
 		w.WriteString(`,`)
 	}
@@ -449,7 +449,7 @@ func (j JsonEncoder) addArrayElem(w *bytes.Buffer, val string, hasNext bool) {
 
 func (j JsonEncoder) addArrayElemQuoted(w *bytes.Buffer, val string, hasNext bool) {
 	w.WriteString(`"`)
-	w.WriteString(val)
+	j.escapeVal(w, val)
 	w.WriteString(`"`)
 	if hasNext {
 		w.WriteString(`,`)
@@ -470,4 +470,23 @@ func (j JsonEncoder) addObject(w *bytes.Buffer, k string, fn func(w *bytes.Buffe
 	w.WriteString(`":{`)
 	fn(w)
 	w.WriteString(`}`)
+}
+
+func (j JsonEncoder) escapeVal(w *bytes.Buffer, s string) {
+	for i := range s {
+		b := s[i]
+		switch b {
+		case '\\', '"':
+			w.WriteByte('\\')
+			w.WriteByte(b)
+		case '\n':
+			w.WriteString("\\n")
+		case '\r':
+			w.WriteString("\\r")
+		case '\t':
+			w.WriteString("\\t")
+		default:
+			w.WriteByte(b)
+		}
+	}
 }

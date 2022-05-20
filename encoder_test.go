@@ -49,6 +49,11 @@ func TestJsonEncoder_Encode(t *testing.T) {
 			entry:   NewStdEntry(context.Background(), INFO, "string message", Fields{String("name", "golog")}),
 			wantLog: fmt.Sprintln(`{"level":"INFO","message":"string message","name":"golog"}`),
 		},
+		"entry with string with special chars": {
+			entry: NewStdEntry(context.Background(), INFO, "string message", Fields{String("name", `golog
+is	 working!"\`)}),
+			wantLog: fmt.Sprintln(`{"level":"INFO","message":"string message","name":"golog\nis\t working!\"\\"}`),
+		},
 		"entry with int, int8, int16, int32, int64": {
 			entry:   NewStdEntry(context.Background(), WARN, "int, int8, int16, int32, int64 message", Fields{Int("int", 100), Int8("int8", 101), Int16("int16", 102), Int32("int32", 103), Int64("int64", 104)}),
 			wantLog: fmt.Sprintln(`{"level":"WARN","message":"int, int8, int16, int32, int64 message","int":100,"int8":101,"int16":102,"int32":103,"int64":104}`),
