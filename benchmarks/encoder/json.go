@@ -12,6 +12,8 @@ import (
 	jsoniter "github.com/json-iterator/go"
 )
 
+type any = interface{}
+
 type JsonEncoder struct{}
 
 func (j *JsonEncoder) StdLinEncode(e golog.Entry) (io.WriterTo, error) {

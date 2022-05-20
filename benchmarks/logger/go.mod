@@ -1,6 +1,6 @@
 module github.com/damianopetrungaro/golog/benchmarks/logger
 
-go 1.18
+go 1.16
 
 require (
 	github.com/damianopetrungaro/golog v0.0.0
@@ -11,7 +11,6 @@ require (
 require (
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	golang.org/x/sys v0.0.0-20211007075335-d3039528d8ac // indirect
 )
 
 replace github.com/damianopetrungaro/golog v0.0.0 => ./../../
