@@ -12,27 +12,24 @@ type any = interface{}
 
 var (
 	logger Logger = New(
-		NewBufWriter(
-			NewJsonEncoder(DefaultJsonConfig()),
-			bufio.NewWriter(os.Stdout),
-			DefaultErrorHandler(),
-			INFO,
-		),
+		writer,
 		levelChecker,
 		timestampDecorator,
 		stackTraceDecorator,
 	)
 
 	checkLogger CheckLogger = New(
-		NewBufWriter(
-			NewJsonEncoder(DefaultJsonConfig()),
-			bufio.NewWriter(os.Stdout),
-			DefaultErrorHandler(),
-			INFO,
-		),
+		writer,
 		levelChecker,
 		timestampDecorator,
 		stackTraceDecorator,
+	)
+
+	writer Writer = NewBufWriter(
+		NewJsonEncoder(DefaultJsonConfig()),
+		bufio.NewWriter(os.Stdout),
+		DefaultErrorHandler(),
+		INFO,
 	)
 
 	errorHandler = func(err error) {

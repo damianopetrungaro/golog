@@ -38,30 +38,27 @@ It allows you to write log messages.
 An example of its usage may look like this:
 
  ```go
+w := golog.NewBufWriter(
+    golog.NewJsonEncoder(golog.DefaultJsonConfig()),
+    bufio.NewWriter(os.Stdout),
+    golog.DefaultErrorHandler(),
+    golog.INFO,
+)
+defer w.Flush()
+
+logger := golog.New(w, golog.NewTimestampDecoratorOption("timestamp", time.RFC3339))
+golog.SetLogger(logger)
+
 golog.With(
 	golog.Bool("key name", true),
 	golog.Strings("another key name", []string{"one", "two"}),
 ).Error(ctx, "log message here")
  ```
 
-To override the default logger you can use the `SetLogger` API as shown here:
-
- ```go
-// create a new custom logger
-logger := golog.New(
-    golog.NewBufWriter(
-        golog.NewJsonEncoder(golog.DefaultJsonConfig()),
-        bufio.NewWriter(os.Stdout),
-        golog.DefaultErrorHandler(),
-        golog.DEBUG,
-    ),
-    golog.NewLevelCheckerOption(golog.WARN), 
-	// any other option you may want to pass
-)
-
-// set the custom logger as the global one 
-golog.SetLogger(logger)
- ```
+which will print
+```json
+  {"level":"ERROR","message":"log message here","key name":true,"another key name":["one","two"],"timestamp":"2022-05-20T16:16:29+02:00"}
+```
 
 ### CheckLogger
 
@@ -72,6 +69,17 @@ For example if the min log level set is higher than the one which will be logged
 as shown in this example, there will be no extra data allocation as well as having a huge performance improvement::
 
 ```go
+w := golog.NewBufWriter(
+    golog.NewJsonEncoder(golog.DefaultJsonConfig()),
+    bufio.NewWriter(os.Stdout),
+    golog.DefaultErrorHandler(),
+    golog.INFO,
+)
+defer w.Flush()
+
+logger := golog.New(w, golog.NewTimestampDecoratorOption("timestamp", time.RFC3339))
+golog.SetCheckLogger(logger)
+
 if checked, ok := golog.CheckDebug(ctx, "This is a message"); ok {
     checked.Log(
         golog.Bool("key name", true),
@@ -80,24 +88,9 @@ if checked, ok := golog.CheckDebug(ctx, "This is a message"); ok {
 }
 ```
 
-To override the default check logger you can use the `SetCheckLogger` API as shown here:
-
- ```go
-// create a new custom logger
-logger := golog.New(
-    golog.NewBufWriter(
-        golog.NewJsonEncoder(golog.DefaultJsonConfig()),
-        bufio.NewWriter(os.StdErr),
-        golog.DefaultErrorHandler(),
-        golog.DEBUG,
-    ),
-    golog.NewLevelCheckerOption(golog.WARN), 
-	// any other option you may want to pass
-)
-
-// set the custom check logger as the global one 
-golog.SetCheckLogger(logger)
- ```
+```json
+  {"level":"DEBUG","message":"This is a message","timestamp":"2022-05-20T16:28:15+02:00","key name":true,"another key name":["one","two"]}
+```
 
 ### Standard Library support
 
@@ -364,10 +357,5 @@ golog.With(
 will print
 
 ```json
-{
-  "level": "INFO",
-  "message": "no deduplication",
-  "hello": "world",
-  "hello": "another world"
-}
+  {"level": "INFO","message":"no deduplication","hello":"world","hello":"another world"}
 ```
