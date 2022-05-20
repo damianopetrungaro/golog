@@ -1,3 +1,13 @@
+## [1.7.1](https://github.com/damianopetrungaro/golog/compare/v1.7.0...v1.7.1) (2022-05-20)
+
+
+### Bug Fixes
+
+* decorate entry for checked logger ([a2da154](https://github.com/damianopetrungaro/golog/commit/a2da154900d1ce750bb571b19835f45a1c4ff883))
+* use single writer for both default logger and checked logger ([eebbbd1](https://github.com/damianopetrungaro/golog/commit/eebbbd1e8f81769f8bc613e8736493031eef1aa8))
+
+
+
 # [1.7.0](https://github.com/damianopetrungaro/golog/compare/v1.6.0...v1.7.0) (2022-05-19)
 
 
@@ -31,15 +41,6 @@
 ### Features
 
 * add FieldMapper for complex types ([e56b60d](https://github.com/damianopetrungaro/golog/commit/e56b60d59a22ebffc7d4d80759d4adc01e8c096c))
-
-
-
-# [1.4.0](https://github.com/damianopetrungaro/golog/compare/v1.3.0...v1.4.0) (2022-05-03)
-
-
-### Features
-
-* add byte field ([18c8ec6](https://github.com/damianopetrungaro/golog/commit/18c8ec62719278a2d6a2efd49114c5f19a8939bb))
 
 
 
