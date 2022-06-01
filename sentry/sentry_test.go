@@ -105,6 +105,38 @@ func TestWriter(t *testing.T) {
 			t.Errorf("got: %v", transport.Exception)
 		}
 	})
+
+	t.Run("use hub from entry's context", func(t *testing.T) {
+		data := []byte(`This is the data written`)
+		writerTo := bytes.NewBuffer(data)
+		transport := &fakeTransport{}
+
+		enc := &FakeEncoder{ShouldWriterTo: writerTo}
+
+		hub := getHubHelper(t, transport)
+		ctx := sentry.SetHubOnContext(context.Background(), hub)
+		entryWithHub := golog.NewStdEntry(ctx, golog.DEBUG, msg, nil)
+
+		w := &Writer{
+			Encoder:                   enc,
+			ErrHandler:                golog.DefaultErrorHandler(),
+			DefaultCaptureException:   false,
+			CaptureExceptionFromLevel: golog.WARN,
+			Hub:                       sentry.CurrentHub(), // this hub won't write data to the fake transport if used
+		}
+
+		w.WriteEntry(entryWithHub)
+		if transport.Message != string(data) {
+			t.Error("could not match message")
+			t.Errorf("got: %s", transport.Message)
+			t.Errorf("want: %s", data)
+		}
+
+		if len(transport.Exception) > 0 {
+			t.Error("could not match exception")
+			t.Errorf("got: %v", transport.Exception)
+		}
+	})
 }
 
 func getHubHelper(t *testing.T, transport sentry.Transport) *sentry.Hub {
