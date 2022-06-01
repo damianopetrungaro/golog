@@ -14,7 +14,7 @@ type Writer struct {
 	Encoder                   golog.Encoder
 	Hub                       *sentry.Hub
 	ErrHandler                golog.ErrorHandler
-	DefaultLevel              golog.Level
+	DefaultCaptureException bool
 	CaptureExceptionFromLevel golog.Level
 }
 
@@ -41,7 +41,7 @@ func (w *Writer) WriteEntry(e golog.Entry) {
 }
 
 func (w *Writer) Write(msg []byte) (int, error) {
-	if w.DefaultLevel >= w.CaptureExceptionFromLevel {
+	if w.DefaultCaptureException {
 		w.Hub.CaptureException(errors.New(string(msg)))
 		return len(msg), nil
 	}

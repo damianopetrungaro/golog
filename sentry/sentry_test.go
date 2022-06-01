@@ -60,7 +60,7 @@ func TestWriter(t *testing.T) {
 			Encoder:                   enc,
 			Hub:                       hub,
 			ErrHandler:                golog.DefaultErrorHandler(),
-			DefaultLevel:              golog.INFO,
+			DefaultCaptureException:   false,
 			CaptureExceptionFromLevel: golog.WARN,
 		}
 
@@ -89,7 +89,7 @@ func TestWriter(t *testing.T) {
 			Encoder:                   enc,
 			Hub:                       hub,
 			ErrHandler:                golog.DefaultErrorHandler(),
-			DefaultLevel:              golog.INFO,
+			DefaultCaptureException:   false,
 			CaptureExceptionFromLevel: golog.WARN,
 		}
 
