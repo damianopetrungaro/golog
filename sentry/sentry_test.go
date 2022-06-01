@@ -21,14 +21,14 @@ var (
 
 type fakeTransport struct {
 	Message   string
-	Excpetion []sentry.Exception
+	Exception []sentry.Exception
 }
 
 func (t *fakeTransport) Configure(sentry.ClientOptions) {}
 
 func (t *fakeTransport) SendEvent(ev *sentry.Event) {
 	t.Message = ev.Message
-	t.Excpetion = ev.Exception
+	t.Exception = ev.Exception
 }
 
 func (t *fakeTransport) Flush(time.Duration) bool {
@@ -71,9 +71,9 @@ func TestWriter(t *testing.T) {
 			t.Errorf("want: %s", data)
 		}
 
-		if len(transport.Excpetion) > 0 {
+		if len(transport.Exception) > 0 {
 			t.Error("could not match exception")
-			t.Errorf("got: %v", transport.Excpetion)
+			t.Errorf("got: %v", transport.Exception)
 		}
 	})
 
@@ -94,7 +94,7 @@ func TestWriter(t *testing.T) {
 		}
 
 		w.WriteEntry(errorEntry)
-		if transport.Excpetion[0].Value != string(data) {
+		if transport.Exception[0].Value != string(data) {
 			t.Error("could not match exception")
 			t.Errorf("got: %s", transport.Message)
 			t.Errorf("want: %s", data)
@@ -102,7 +102,7 @@ func TestWriter(t *testing.T) {
 
 		if transport.Message != "" {
 			t.Error("could not match message")
-			t.Errorf("got: %v", transport.Excpetion)
+			t.Errorf("got: %v", transport.Exception)
 		}
 	})
 }
