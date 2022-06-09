@@ -288,8 +288,11 @@ This will print
 
 ## Testing utilities
 
-The `golog/test` package provide a mock generated using [gomock](https://github.com/golang/mock) for helping developers
+The `golog/test` package provides a mock generated using [gomock](https://github.com/golang/mock) for helping developers
 to test the logger.
+
+The `golog/test` package provides a null logger as well, 
+useful when the logger need to be passed as dependency but there the test don't care about the logging logic.
 
 ## HTTP utilities
 
