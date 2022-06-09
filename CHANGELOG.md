@@ -1,3 +1,12 @@
+# [1.9.0](https://github.com/damianopetrungaro/golog/compare/v1.8.0...v1.9.0) (2022-06-09)
+
+
+### Features
+
+* **test:** add null logger ([5dd34da](https://github.com/damianopetrungaro/golog/commit/5dd34da1955007323f75f0197a70bf99f8113f3a))
+
+
+
 # [1.8.0](https://github.com/damianopetrungaro/golog/compare/v1.7.2...v1.8.0) (2022-05-20)
 
 
@@ -32,15 +41,6 @@
 ### Features
 
 * **datadog:** add configuration and encoder ([9f7ad8b](https://github.com/damianopetrungaro/golog/commit/9f7ad8b956be17fc775ab5dbdf5c245cd5579017))
-
-
-
-# [1.6.0](https://github.com/damianopetrungaro/golog/compare/v1.5.1...v1.6.0) (2022-05-14)
-
-
-### Features
-
-* add support from go1.16 ([0fb47c6](https://github.com/damianopetrungaro/golog/commit/0fb47c6a332c5e9c8e472669a5fc09afac427cef))
 
 
 
