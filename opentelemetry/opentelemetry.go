@@ -1,4 +1,4 @@
-package opencensus
+package opentelemetry
 
 import (
 	"go.opentelemetry.io/otel/trace"

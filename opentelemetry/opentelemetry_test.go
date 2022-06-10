@@ -1,4 +1,4 @@
-package opencensus_test
+package opentelemetry_test
 
 import (
 	"context"
