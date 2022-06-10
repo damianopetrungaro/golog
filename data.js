@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1654804230220,
+  "lastUpdate": 1654824273376,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -1034,6 +1034,48 @@ window.BENCHMARK_DATA = {
             "value": 2238,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "492318 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "c8adc6f78fe65682ae5b1a5d81e879895564b607",
+          "message": "fix(opentelemtery): change package name",
+          "timestamp": "2022-06-10T03:23:54+02:00",
+          "tree_id": "6380a44222302dd8ad4273ac33afa422d210e9b8",
+          "url": "https://github.com/damianopetrungaro/golog/commit/c8adc6f78fe65682ae5b1a5d81e879895564b607"
+        },
+        "date": 1654824272869,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 8904,
+            "unit": "ns/op\t    6124 B/op\t      69 allocs/op",
+            "extra": "125725 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2261,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "456349 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2387,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "493905 times\n2 procs"
           }
         ]
       }
