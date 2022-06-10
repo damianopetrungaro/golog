@@ -1,3 +1,12 @@
+## [1.9.1](https://github.com/damianopetrungaro/golog/compare/v1.9.0...v1.9.1) (2022-06-10)
+
+
+### Bug Fixes
+
+* **opentelemtery:** change package name ([c8adc6f](https://github.com/damianopetrungaro/golog/commit/c8adc6f78fe65682ae5b1a5d81e879895564b607))
+
+
+
 # [1.9.0](https://github.com/damianopetrungaro/golog/compare/v1.8.0...v1.9.0) (2022-06-09)
 
 
@@ -32,15 +41,6 @@
 
 * decorate entry for checked logger ([a2da154](https://github.com/damianopetrungaro/golog/commit/a2da154900d1ce750bb571b19835f45a1c4ff883))
 * use single writer for both default logger and checked logger ([eebbbd1](https://github.com/damianopetrungaro/golog/commit/eebbbd1e8f81769f8bc613e8736493031eef1aa8))
-
-
-
-# [1.7.0](https://github.com/damianopetrungaro/golog/compare/v1.6.0...v1.7.0) (2022-05-19)
-
-
-### Features
-
-* **datadog:** add configuration and encoder ([9f7ad8b](https://github.com/damianopetrungaro/golog/commit/9f7ad8b956be17fc775ab5dbdf5c245cd5579017))
 
 
 
