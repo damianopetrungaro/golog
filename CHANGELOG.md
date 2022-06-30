@@ -1,3 +1,12 @@
+## [1.9.2](https://github.com/damianopetrungaro/golog/compare/v1.9.1...v1.9.2) (2022-06-30)
+
+
+### Bug Fixes
+
+* **sentry:** writer concurrent safe ([1519590](https://github.com/damianopetrungaro/golog/commit/15195909b0374476f1fa9075389492cb861b7c1f))
+
+
+
 ## [1.9.1](https://github.com/damianopetrungaro/golog/compare/v1.9.0...v1.9.1) (2022-06-10)
 
 
@@ -31,16 +40,6 @@
 ### Bug Fixes
 
 * json encode escapes new lines, tabs and other special chars ([bdc17b6](https://github.com/damianopetrungaro/golog/commit/bdc17b6df75649883e8b8139bfc9c95c03fb1d00))
-
-
-
-## [1.7.1](https://github.com/damianopetrungaro/golog/compare/v1.7.0...v1.7.1) (2022-05-20)
-
-
-### Bug Fixes
-
-* decorate entry for checked logger ([a2da154](https://github.com/damianopetrungaro/golog/commit/a2da154900d1ce750bb571b19835f45a1c4ff883))
-* use single writer for both default logger and checked logger ([eebbbd1](https://github.com/damianopetrungaro/golog/commit/eebbbd1e8f81769f8bc613e8736493031eef1aa8))
 
 
 
