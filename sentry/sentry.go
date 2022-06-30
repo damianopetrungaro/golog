@@ -31,21 +31,23 @@ func (w *Writer) WriteEntry(e golog.Entry) {
 		return
 	}
 
+	hub := w.Hub.Clone()
 	if e.Level() >= w.CaptureExceptionFromLevel {
-		w.Hub.CaptureException(errors.New(buf.String()))
+		hub.CaptureException(errors.New(buf.String()))
 		return
 	}
 
-	w.Hub.CaptureMessage(buf.String())
+	hub.CaptureMessage(buf.String())
 
 }
 
 func (w *Writer) Write(msg []byte) (int, error) {
+	hub := w.Hub.Clone()
 	if w.DefaultLevel >= w.CaptureExceptionFromLevel {
-		w.Hub.CaptureException(errors.New(string(msg)))
+		hub.CaptureException(errors.New(string(msg)))
 		return len(msg), nil
 	}
 
-	w.Hub.CaptureMessage(string(msg))
+	hub.CaptureMessage(string(msg))
 	return len(msg), nil
 }
