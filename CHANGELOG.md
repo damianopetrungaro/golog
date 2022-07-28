@@ -1,3 +1,12 @@
+## [1.9.3](https://github.com/damianopetrungaro/golog/compare/v1.9.2...v1.9.3) (2022-07-28)
+
+
+### Bug Fixes
+
+* **http:** use underscore instead of white space in the default fields ([be87e7f](https://github.com/damianopetrungaro/golog/commit/be87e7fde3315a25f33bdddea9c55c1bac641b44))
+
+
+
 ## [1.9.2](https://github.com/damianopetrungaro/golog/compare/v1.9.1...v1.9.2) (2022-06-30)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * add deduplicator writer ([9186b8f](https://github.com/damianopetrungaro/golog/commit/9186b8f0cd572cef38a005a5d441bfda0e023745))
-
-
-
-## [1.7.2](https://github.com/damianopetrungaro/golog/compare/v1.7.1...v1.7.2) (2022-05-20)
-
-
-### Bug Fixes
-
-* json encode escapes new lines, tabs and other special chars ([bdc17b6](https://github.com/damianopetrungaro/golog/commit/bdc17b6df75649883e8b8139bfc9c95c03fb1d00))
 
 
 
