@@ -10,10 +10,10 @@ import (
 
 var defaultLogHandle LogHandle = func(rec *RecorderResponseWriter, r *http.Request, logger golog.Logger) {
 	logger.With(
-		golog.String("request method", r.Method),
-		golog.String("request uri", r.RequestURI),
-		golog.Int("response size", rec.Size),
-		golog.Int("response status", rec.Status),
+		golog.String("request_method", r.Method),
+		golog.String("request_uri", r.RequestURI),
+		golog.Int("response_size", rec.Size),
+		golog.Int("response_status", rec.Status),
 		golog.Int64("latency", time.Since(rec.StartAt).Nanoseconds()),
 	).Info(r.Context(), "request handled")
 }
