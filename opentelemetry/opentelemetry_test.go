@@ -6,7 +6,6 @@ import (
 
 	. "github.com/damianopetrungaro/golog"
 	. "github.com/damianopetrungaro/golog/opentelemetry"
-
 	"go.opentelemetry.io/otel"
 )
 
@@ -54,4 +53,35 @@ func TestTraceDecorator(t *testing.T) {
 			t.Error("could not match span value")
 		}
 	})
+}
+
+func TestCustomTraceDecoratorOption(t *testing.T) {
+	var e Entry = NewStdEntry(context.Background(), DEBUG, "", nil)
+	d := CustomTraceDecorator(
+		"test.trace_id",
+		func(traceID string) string {
+			return "trace_id"
+		},
+		"test.span_id",
+		func(spanID string) string {
+			return "span_id"
+		},
+	)
+	flds := d.Decorate(e).(StdEntry).Fields()
+
+	if len(flds) != 2 {
+		t.Fatal("could not match fields")
+	}
+	if flds[0].Key() != "test.trace_id" {
+		t.Error("could not match trace key")
+	}
+	if flds[1].Key() != "test.span_id" {
+		t.Error("could not match span key")
+	}
+	if flds[0].Value() != "trace_id" {
+		t.Error("could not match trace value")
+	}
+	if flds[1].Value() != "span_id" {
+		t.Error("could not match span value")
+	}
 }
