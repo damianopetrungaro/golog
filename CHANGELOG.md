@@ -1,3 +1,12 @@
+# [1.10.0](https://github.com/damianopetrungaro/golog/compare/v1.9.3...v1.10.0) (2022-08-04)
+
+
+### Features
+
+* **datadog:** add dd tracing decorator ([3101db1](https://github.com/damianopetrungaro/golog/commit/3101db1689596c59b5649141b5d7e44b353fe998))
+
+
+
 ## [1.9.3](https://github.com/damianopetrungaro/golog/compare/v1.9.2...v1.9.3) (2022-07-28)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * **test:** add null logger ([5dd34da](https://github.com/damianopetrungaro/golog/commit/5dd34da1955007323f75f0197a70bf99f8113f3a))
-
-
-
-# [1.8.0](https://github.com/damianopetrungaro/golog/compare/v1.7.2...v1.8.0) (2022-05-20)
-
-
-### Features
-
-* add deduplicator writer ([9186b8f](https://github.com/damianopetrungaro/golog/commit/9186b8f0cd572cef38a005a5d441bfda0e023745))
 
 
 
