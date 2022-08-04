@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1659021255680,
+  "lastUpdate": 1659601645926,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -1160,6 +1160,48 @@ window.BENCHMARK_DATA = {
             "value": 2505,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "524470 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "rafal@pento.io",
+            "name": "Rafał Kostrzewski",
+            "username": "rkostrzewski"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "3101db1689596c59b5649141b5d7e44b353fe998",
+          "message": "feat(datadog): add dd tracing decorator",
+          "timestamp": "2022-08-04T10:26:48+02:00",
+          "tree_id": "22c6c3683572122477a0f761bbb262bf02b0b752",
+          "url": "https://github.com/damianopetrungaro/golog/commit/3101db1689596c59b5649141b5d7e44b353fe998"
+        },
+        "date": 1659601645430,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 7793,
+            "unit": "ns/op\t    6124 B/op\t      69 allocs/op",
+            "extra": "149851 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2031,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "560924 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2113,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "493598 times\n2 procs"
           }
         ]
       }
