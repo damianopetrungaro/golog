@@ -66,3 +66,28 @@ func TestLevel_String(t *testing.T) {
 		})
 	}
 }
+
+func TestLevel_ColouredString(t *testing.T) {
+	tests := map[string]struct {
+		given Level
+		want  string
+	}{
+		"a DEBUG level must return a coloured DEBUG":  {given: DEBUG, want: "\033[32mDEBUG\033[0m"},
+		"a INFO level must return a coloured INFO":    {given: INFO, want: "\033[34mINFO\033[0m"},
+		"a WARN level must return a coloured WARN":    {given: WARN, want: "\033[33mWARN\033[0m"},
+		"a ERROR level must return a coloured ERROR":  {given: ERROR, want: "\033[31mERROR\033[0m"},
+		"a FATAL level must return a coloured FATAL":  {given: FATAL, want: "\033[41mFATAL\033[0m"},
+		"a UNKNOWN level must return an empty string": {given: 0, want: ""},
+	}
+
+	for name, test := range tests {
+		test := test
+		t.Run(name, func(t *testing.T) {
+			if got := test.given.ColouredString(); got != test.want {
+				t.Error("could not match coloured string level")
+				t.Errorf("got: %s", got)
+				t.Errorf("want: %s", test.want)
+			}
+		})
+	}
+}
