@@ -14,6 +14,16 @@ const (
 	FATAL
 )
 
+const (
+	COLOUR_RESET  = "\033[0m"
+	COLOUR_RED    = "\033[31m"
+	COLOUR_REDBG  = "\033[41m"
+	COLOUR_GREEN  = "\033[32m"
+	COLOUR_YELLOW = "\033[33m"
+	COLOUR_BLUE   = "\033[34m"
+	COLOUR_WHITE  = "\033[97m"
+)
+
 // ErrLevelNotParsed is an error returned when a given string can't be parsed as a log Level
 var ErrLevelNotParsed = errors.New("golog: could not parse level")
 
@@ -38,6 +48,14 @@ func ParseLevel(s string) (Level, error) {
 	return 0, ErrLevelNotParsed
 }
 
+func (l Level) Formatted(withColour bool) string {
+	if withColour {
+		return l.ColouredString()
+	}
+
+	return l.String()
+}
+
 // String returns a string format of a log Level
 func (l Level) String() string {
 	switch l {
@@ -54,4 +72,26 @@ func (l Level) String() string {
 	default:
 		return ""
 	}
+}
+
+// ColouredString returns a coloured string format of a log level
+func (l Level) ColouredString() string {
+	colour := COLOUR_WHITE
+
+	switch l {
+	case DEBUG:
+		colour = COLOUR_GREEN
+	case INFO:
+		colour = COLOUR_BLUE
+	case WARN:
+		colour = COLOUR_YELLOW
+	case ERROR:
+		colour = COLOUR_RED
+	case FATAL:
+		colour = COLOUR_REDBG
+	default:
+		return l.String()
+	}
+
+	return colour + l.String() + COLOUR_RESET
 }
