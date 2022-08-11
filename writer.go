@@ -32,7 +32,6 @@ type BufWriter struct {
 	Writer          *bufio.Writer
 	ErrHandler      ErrorHandler
 	DefaultLogLevel Level
-	UseColours      bool
 	mu              sync.Mutex
 }
 
@@ -48,7 +47,6 @@ func NewBufWriter(
 		Writer:          w,
 		ErrHandler:      errHandler,
 		DefaultLogLevel: defaultLogLevel,
-		UseColours:      true,
 	}
 }
 
