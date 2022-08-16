@@ -48,14 +48,6 @@ func ParseLevel(s string) (Level, error) {
 	return 0, ErrLevelNotParsed
 }
 
-func (l Level) Formatted(withColour bool) string {
-	if withColour {
-		return l.ColouredString()
-	}
-
-	return l.String()
-}
-
 // String returns a string format of a log Level
 func (l Level) String() string {
 	switch l {
@@ -72,26 +64,4 @@ func (l Level) String() string {
 	default:
 		return ""
 	}
-}
-
-// ColouredString returns a coloured string format of a log level
-func (l Level) ColouredString() string {
-	colour := COLOUR_WHITE
-
-	switch l {
-	case DEBUG:
-		colour = COLOUR_GREEN
-	case INFO:
-		colour = COLOUR_BLUE
-	case WARN:
-		colour = COLOUR_YELLOW
-	case ERROR:
-		colour = COLOUR_RED
-	case FATAL:
-		colour = COLOUR_REDBG
-	default:
-		return l.String()
-	}
-
-	return colour + l.String() + COLOUR_RESET
 }
