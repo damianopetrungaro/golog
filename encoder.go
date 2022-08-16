@@ -17,9 +17,13 @@ var (
 		LevelKeyName:   "level",
 		MessageKeyName: "message",
 		TimeLayout:     time.RFC3339Nano,
-		ColouredLevel:  false,
+		LevelFormatter: func(level Level) string {
+			return level.String()
+		},
 	}
 )
+
+type LevelFormatter func(Level) string
 
 // Encoder transforms an entry into io.WriterTo which holds the encoded content
 type Encoder interface {
@@ -31,7 +35,7 @@ type TextConfig struct {
 	LevelKeyName   string
 	MessageKeyName string
 	TimeLayout     string
-	ColouredLevel  bool
+	LevelFormatter LevelFormatter
 }
 
 // TextEncoder is an encoder for text
@@ -52,7 +56,12 @@ func NewTextEncoder(cfg TextConfig) TextEncoder {
 // Encode encodes an entry into a text content holds into an io.WriterTo
 func (t TextEncoder) Encode(e Entry) (io.WriterTo, error) {
 	w := &bytes.Buffer{}
-	t.addElemQuoted(w, t.Config.LevelKeyName, e.Level().Formatted(t.Config.ColouredLevel))
+	switch t.Config.LevelFormatter {
+	case nil:
+		t.addElemQuoted(w, t.Config.LevelKeyName, e.Level().String())
+	default:
+		t.addElemQuoted(w, t.Config.LevelKeyName, t.Config.LevelFormatter(e.Level()))
+	}
 	w.WriteString(` `)
 	t.addElemQuoted(w, t.Config.MessageKeyName, e.Message())
 	t.encodeFields(e.Fields(), w)

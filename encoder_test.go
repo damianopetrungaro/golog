@@ -228,3 +228,82 @@ func TestTextEncoder_Encode(t *testing.T) {
 		})
 	}
 }
+
+func TestTextEncoder_EncodeWithCustomLevelFormatter(t *testing.T) {
+	cfg := DefaultTextConfig()
+	cfg.LevelFormatter = func(l Level) string {
+		var colour string
+
+		switch l {
+		case DEBUG:
+			colour = COLOUR_GREEN
+		case INFO:
+			colour = COLOUR_BLUE
+		case WARN:
+			colour = COLOUR_YELLOW
+		case ERROR:
+			colour = COLOUR_RED
+		case FATAL:
+			colour = COLOUR_REDBG
+		default:
+			return l.String()
+		}
+
+		return colour + l.String() + COLOUR_RESET
+	}
+
+	unknownLevel, _ := ParseLevel("unknown")
+
+	tests := map[string]struct {
+		entry   Entry
+		wantLog string
+	}{
+		"debug entry": {
+			entry:   NewStdEntry(context.Background(), DEBUG, "message", nil),
+			wantLog: fmt.Sprintf(`level="%sDEBUG%s" message="message"%s`, COLOUR_GREEN, COLOUR_RESET, "\n"),
+		},
+		"info entry": {
+			entry:   NewStdEntry(context.Background(), INFO, "message", nil),
+			wantLog: fmt.Sprintf(`level="%sINFO%s" message="message"%s`, COLOUR_BLUE, COLOUR_RESET, "\n"),
+		},
+		"warn entry": {
+			entry:   NewStdEntry(context.Background(), WARN, "message", nil),
+			wantLog: fmt.Sprintf(`level="%sWARN%s" message="message"%s`, COLOUR_YELLOW, COLOUR_RESET, "\n"),
+		},
+		"error entry": {
+			entry:   NewStdEntry(context.Background(), ERROR, "message", nil),
+			wantLog: fmt.Sprintf(`level="%sERROR%s" message="message"%s`, COLOUR_RED, COLOUR_RESET, "\n"),
+		},
+		"fatal entry": {
+			entry:   NewStdEntry(context.Background(), FATAL, "message", nil),
+			wantLog: fmt.Sprintf(`level="%sFATAL%s" message="message"%s`, COLOUR_REDBG, COLOUR_RESET, "\n"),
+		},
+		"default entry": {
+			entry:   NewStdEntry(context.Background(), unknownLevel, "message", nil),
+			wantLog: fmt.Sprintf(`level="" message="message"%s`, "\n"),
+		},
+	}
+
+	for name, test := range tests {
+		test := test
+		t.Run(name, func(t *testing.T) {
+			t.Parallel()
+			enc := NewTextEncoder(cfg)
+			w, err := enc.Encode(test.entry)
+			if err != nil {
+				t.Errorf("could not encode: %s", err)
+			}
+
+			buf := &bytes.Buffer{}
+			if _, err := w.WriteTo(buf); err != nil {
+				t.Errorf("could not write: %s", err)
+			}
+
+			if got := buf.String(); got != test.wantLog {
+				t.Error("could not match log")
+				t.Errorf("want: %s", test.wantLog)
+				t.Errorf("got: %s", got)
+			}
+		})
+	}
+}

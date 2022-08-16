@@ -73,7 +73,9 @@ func TestDefaultTextConfig(t *testing.T) {
 func TestNewTextEncoder(t *testing.T) {
 	cfg := DefaultTextConfig()
 	enc := NewTextEncoder()
-	if enc.Config != cfg {
+	if enc.Config.MessageKeyName != cfg.MessageKeyName &&
+		enc.Config.LevelKeyName != cfg.LevelKeyName &&
+		enc.Config.TimeLayout != cfg.TimeLayout {
 		t.Error("could not match config")
 		t.Errorf("got: %v", enc.Config)
 		t.Errorf("want: %v", cfg)
