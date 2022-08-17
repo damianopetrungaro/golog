@@ -30,6 +30,8 @@ in all the places where the logger is used.
 
 ## Examples
 
+You can find some production-ready logger configuration in the `./example` directory 
+
 ### Logger
 
 The `Logger` interface is implemented by the `StdLogger` type.
