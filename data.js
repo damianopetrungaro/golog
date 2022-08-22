@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1660755205323,
+  "lastUpdate": 1661170904978,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -1244,6 +1244,48 @@ window.BENCHMARK_DATA = {
             "value": 1967,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "567782 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "oscar.clemente@gmail.com",
+            "name": "OscarClemente",
+            "username": "OscarClemente"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "f6630206224bcd205d281185bb217be67f1eba3b",
+          "message": "feat(encoder): Add LevelFormatter to TextEncoder config",
+          "timestamp": "2022-08-22T14:21:01+02:00",
+          "tree_id": "e74877eb353ad8660a12d00f65d682c5627defdf",
+          "url": "https://github.com/damianopetrungaro/golog/commit/f6630206224bcd205d281185bb217be67f1eba3b"
+        },
+        "date": 1661170904516,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 8080,
+            "unit": "ns/op\t    6124 B/op\t      69 allocs/op",
+            "extra": "144856 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2267,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "531878 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2228,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "538369 times\n2 procs"
           }
         ]
       }
