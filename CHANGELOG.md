@@ -1,3 +1,13 @@
+# [1.11.0](https://github.com/damianopetrungaro/golog/compare/v1.10.0...v1.11.0) (2022-08-22)
+
+
+### Features
+
+* **encoder:** Add coloured level option to text encoder ([9ae33c2](https://github.com/damianopetrungaro/golog/commit/9ae33c2c8ebc38d9a269adb86c267c7ded63af3f))
+* **encoder:** Add LevelFormatter to TextEncoder config ([f663020](https://github.com/damianopetrungaro/golog/commit/f6630206224bcd205d281185bb217be67f1eba3b))
+
+
+
 # [1.10.0](https://github.com/damianopetrungaro/golog/compare/v1.9.3...v1.10.0) (2022-08-04)
 
 
@@ -31,15 +41,6 @@
 ### Bug Fixes
 
 * **opentelemtery:** change package name ([c8adc6f](https://github.com/damianopetrungaro/golog/commit/c8adc6f78fe65682ae5b1a5d81e879895564b607))
-
-
-
-# [1.9.0](https://github.com/damianopetrungaro/golog/compare/v1.8.0...v1.9.0) (2022-06-09)
-
-
-### Features
-
-* **test:** add null logger ([5dd34da](https://github.com/damianopetrungaro/golog/commit/5dd34da1955007323f75f0197a70bf99f8113f3a))
 
 
 
