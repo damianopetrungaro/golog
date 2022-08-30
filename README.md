@@ -30,7 +30,60 @@ in all the places where the logger is used.
 
 ## Examples
 
-You can find some production-ready logger configuration in the `./example` directory 
+Based on your needs, you can find some presets available.
+
+The ones highly recommended are the one that adds tracing metadata in your logs.
+
+If you use opentelemetry, the code snippet will look like this:
+```go
+package main
+
+import (
+	"context"
+
+	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/opentelemetry"
+)
+
+func main() {
+	logger, flusher := NewLogger(golog.DEBUG) // min level
+	defer flusher.Flush()
+	// ....
+	logger.Info(context.Background(), "Hello world")
+}
+
+func NewLogger(lvl golog.Level) (golog.StdLogger, golog.Flusher) {
+	return opentelemetry.NewProductionLogger(lvl)
+}
+
+```
+
+If you use opencensus, the code snippet will look like this:
+```go
+package main
+
+import (
+	"context"
+
+	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/opencensus"
+)
+
+func main() {
+	logger, flusher := NewLogger(golog.DEBUG) // min level
+	defer flusher.Flush()
+	// ....
+	logger.Info(context.Background(), "Hello world")
+}
+
+func NewLogger(lvl golog.Level) (golog.StdLogger, golog.Flusher) {
+	return opencensus.NewProductionLogger(lvl)
+}
+```
+
+There is also a method for development purposes, wo use that use the factory function `NewDevelopemntLogger`. 
+
+For more extensive and customized implementations, plesse continue reading the documentation!  
 
 ### Logger
 
