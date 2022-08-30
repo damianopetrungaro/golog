@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/damianopetrungaro/golog/compare/v1.11.0...v2.0.0) (2022-09-10)
+
+
+### Features
+
+* add presets ([5f5dc45](https://github.com/damianopetrungaro/golog/commit/5f5dc45d07d698591a47e5e50c28bf83228853ee))
+
+
+### BREAKING CHANGES
+
+* The API for the text encoder now adds a default text encoder which adds colors
+
+
+
 # [1.11.0](https://github.com/damianopetrungaro/golog/compare/v1.10.0...v1.11.0) (2022-08-22)
 
 
@@ -32,15 +46,6 @@
 ### Bug Fixes
 
 * **sentry:** writer concurrent safe ([1519590](https://github.com/damianopetrungaro/golog/commit/15195909b0374476f1fa9075389492cb861b7c1f))
-
-
-
-## [1.9.1](https://github.com/damianopetrungaro/golog/compare/v1.9.0...v1.9.1) (2022-06-10)
-
-
-### Bug Fixes
-
-* **opentelemtery:** change package name ([c8adc6f](https://github.com/damianopetrungaro/golog/commit/c8adc6f78fe65682ae5b1a5d81e879895564b607))
 
 
 
