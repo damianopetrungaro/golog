@@ -26,6 +26,12 @@ type Flusher interface {
 	Flush() error
 }
 
+// WriteFlusher is a Writer and Flusher
+type WriteFlusher interface {
+	Writer
+	Flusher
+}
+
 // BufWriter is a Writer which holds a buffer behind the scene to reduce sys calls
 type BufWriter struct {
 	Encoder         Encoder

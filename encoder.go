@@ -17,9 +17,32 @@ var (
 		LevelKeyName:   "level",
 		MessageKeyName: "message",
 		TimeLayout:     time.RFC3339Nano,
-		LevelFormatter: func(level Level) string {
-			return level.String()
-		},
+		LevelFormatter: defaultLevelFormatter,
+	}
+
+	defaultLevelFormatter = func(l Level) string {
+		return l.String()
+	}
+
+	coloredLevelFormatter = func(l Level) string {
+		var colour string
+
+		switch l {
+		case DEBUG:
+			colour = COLOUR_GREEN
+		case INFO:
+			colour = COLOUR_BLUE
+		case WARN:
+			colour = COLOUR_YELLOW
+		case ERROR:
+			colour = COLOUR_RED
+		case FATAL:
+			colour = COLOUR_REDBG
+		default:
+			return l.String()
+		}
+
+		return colour + l.String() + COLOUR_RESET
 	}
 )
 
@@ -48,6 +71,16 @@ func DefaultTextConfig() TextConfig {
 	return defaultTextConfig
 }
 
+// DefaultLevelFormatter returns a default LevelFormatter
+func DefaultLevelFormatter() LevelFormatter {
+	return defaultLevelFormatter
+}
+
+// ColoredLevelFormatter returns a colored LevelFormatter
+func ColoredLevelFormatter() LevelFormatter {
+	return coloredLevelFormatter
+}
+
 // NewTextEncoder returns a TextEncoder
 func NewTextEncoder(cfg TextConfig) TextEncoder {
 	return TextEncoder{Config: cfg}
@@ -56,12 +89,7 @@ func NewTextEncoder(cfg TextConfig) TextEncoder {
 // Encode encodes an entry into a text content holds into an io.WriterTo
 func (t TextEncoder) Encode(e Entry) (io.WriterTo, error) {
 	w := &bytes.Buffer{}
-	switch t.Config.LevelFormatter {
-	case nil:
-		t.addElemQuoted(w, t.Config.LevelKeyName, e.Level().String())
-	default:
-		t.addElemQuoted(w, t.Config.LevelKeyName, t.Config.LevelFormatter(e.Level()))
-	}
+	t.addElemQuoted(w, t.Config.LevelKeyName, t.Config.LevelFormatter(e.Level()))
 	w.WriteString(` `)
 	t.addElemQuoted(w, t.Config.MessageKeyName, e.Message())
 	t.encodeFields(e.Fields(), w)

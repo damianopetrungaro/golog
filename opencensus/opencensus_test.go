@@ -6,16 +6,16 @@ import (
 
 	"go.opencensus.io/trace"
 
-	. "github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog"
 	. "github.com/damianopetrungaro/golog/opencensus"
 )
 
 func TestTraceDecorator(t *testing.T) {
 	t.Run("context with tracing", func(t *testing.T) {
 		ctx, span := trace.StartSpan(context.Background(), "-")
-		var e Entry = NewStdEntry(ctx, DEBUG, "", nil)
+		var e golog.Entry = golog.NewStdEntry(ctx, golog.DEBUG, "", nil)
 
-		flds := TraceDecorator().Decorate(e).(StdEntry).Fields()
+		flds := TraceDecorator().Decorate(e).(golog.StdEntry).Fields()
 
 		if len(flds) != 2 {
 			t.Fatal("could not match fields")
@@ -35,8 +35,8 @@ func TestTraceDecorator(t *testing.T) {
 	})
 
 	t.Run("context with no tracing", func(t *testing.T) {
-		var e Entry = NewStdEntry(context.Background(), DEBUG, "", nil)
-		flds := TraceDecorator().Decorate(e).(StdEntry).Fields()
+		var e golog.Entry = golog.NewStdEntry(context.Background(), golog.DEBUG, "", nil)
+		flds := TraceDecorator().Decorate(e).(golog.StdEntry).Fields()
 
 		if len(flds) != 2 {
 			t.Fatal("could not match fields")

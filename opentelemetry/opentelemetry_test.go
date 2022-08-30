@@ -4,17 +4,18 @@ import (
 	"context"
 	"testing"
 
-	. "github.com/damianopetrungaro/golog"
-	. "github.com/damianopetrungaro/golog/opentelemetry"
 	"go.opentelemetry.io/otel"
+
+	"github.com/damianopetrungaro/golog"
+	. "github.com/damianopetrungaro/golog/opentelemetry"
 )
 
 func TestTraceDecorator(t *testing.T) {
 	t.Run("context with tracing", func(t *testing.T) {
 		ctx, span := otel.Tracer("-").Start(context.Background(), "-")
-		var e Entry = NewStdEntry(ctx, DEBUG, "", nil)
+		var e golog.Entry = golog.NewStdEntry(ctx, golog.DEBUG, "", nil)
 
-		flds := TraceDecorator().Decorate(e).(StdEntry).Fields()
+		flds := TraceDecorator().Decorate(e).(golog.StdEntry).Fields()
 
 		if len(flds) != 2 {
 			t.Fatal("could not match fields")
@@ -34,8 +35,8 @@ func TestTraceDecorator(t *testing.T) {
 	})
 
 	t.Run("context with no tracing", func(t *testing.T) {
-		var e Entry = NewStdEntry(context.Background(), DEBUG, "", nil)
-		flds := TraceDecorator().Decorate(e).(StdEntry).Fields()
+		var e golog.Entry = golog.NewStdEntry(context.Background(), golog.DEBUG, "", nil)
+		flds := TraceDecorator().Decorate(e).(golog.StdEntry).Fields()
 
 		if len(flds) != 2 {
 			t.Fatal("could not match fields")
@@ -56,7 +57,7 @@ func TestTraceDecorator(t *testing.T) {
 }
 
 func TestCustomTraceDecoratorOption(t *testing.T) {
-	var e Entry = NewStdEntry(context.Background(), DEBUG, "", nil)
+	var e golog.Entry = golog.NewStdEntry(context.Background(), golog.DEBUG, "", nil)
 	d := CustomTraceDecorator(
 		"test.trace_id",
 		func(traceID string) string {
@@ -67,7 +68,7 @@ func TestCustomTraceDecoratorOption(t *testing.T) {
 			return "span_id"
 		},
 	)
-	flds := d.Decorate(e).(StdEntry).Fields()
+	flds := d.Decorate(e).(golog.StdEntry).Fields()
 
 	if len(flds) != 2 {
 		t.Fatal("could not match fields")
