@@ -1,9 +1,7 @@
 package sentry
 
 import (
-	"bytes"
-	"errors"
-	"fmt"
+	"context"
 
 	"github.com/getsentry/sentry-go"
 
@@ -11,43 +9,42 @@ import (
 )
 
 type Writer struct {
-	Encoder                   golog.Encoder
-	Hub                       *sentry.Hub
-	ErrHandler                golog.ErrorHandler
-	DefaultLevel              golog.Level
-	CaptureExceptionFromLevel golog.Level
+	Hub          *sentry.Hub
+	DefaultLevel golog.Level
 }
 
 func (w *Writer) WriteEntry(e golog.Entry) {
-	wTo, err := w.Encoder.Encode(e)
-	if err != nil {
-		w.ErrHandler(fmt.Errorf("%w: sentry writer on encoding: %s", golog.ErrEntryNotWritten, err))
-		return
-	}
-
-	buf := &bytes.Buffer{}
-	if _, err := wTo.WriteTo(buf); err != nil {
-		w.ErrHandler(fmt.Errorf("%w: sentry writer on write to: %s", golog.ErrEntryNotWritten, err))
-		return
+	ev := sentry.NewEvent()
+	ev.Level = toSentryLevel(e.Level())
+	ev.Message = e.Message()
+	for _, f := range e.Fields() {
+		ev.Extra[f.Key()] = f.Value()
 	}
 
 	hub := w.Hub.Clone()
-	if e.Level() >= w.CaptureExceptionFromLevel {
-		hub.CaptureException(errors.New(buf.String()))
-		return
-	}
-
-	hub.CaptureMessage(buf.String())
-
+	hub.CaptureEvent(ev)
 }
 
 func (w *Writer) Write(msg []byte) (int, error) {
-	hub := w.Hub.Clone()
-	if w.DefaultLevel >= w.CaptureExceptionFromLevel {
-		hub.CaptureException(errors.New(string(msg)))
-		return len(msg), nil
+	e := golog.NewStdEntry(context.Background(), w.DefaultLevel, string(msg), golog.Fields{})
+	w.WriteEntry(e)
+
+	return len(msg), nil
+}
+
+func toSentryLevel(lvl golog.Level) sentry.Level {
+	switch lvl {
+	case golog.DEBUG:
+		return sentry.LevelDebug
+	case golog.INFO:
+		return sentry.LevelInfo
+	case golog.WARN:
+		return sentry.LevelWarning
+	case golog.ERROR:
+		return sentry.LevelError
+	case golog.FATAL:
+		return sentry.LevelFatal
 	}
 
-	hub.CaptureMessage(string(msg))
-	return len(msg), nil
+	return sentry.LevelError
 }
