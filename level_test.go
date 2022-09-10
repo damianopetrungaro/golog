@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	. "github.com/damianopetrungaro/golog"
+	. "github.com/damianopetrungaro/golog/v2"
 )
 
 func TestParseLevel(t *testing.T) {

@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/damianopetrungaro/golog"
+	. "github.com/damianopetrungaro/golog/v2"
 )
 
 var _ Encoder = &FakeEncoder{}

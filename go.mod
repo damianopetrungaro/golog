@@ -1,4 +1,4 @@
-module github.com/damianopetrungaro/golog
+module github.com/damianopetrungaro/golog/v2
 
 go 1.16
 

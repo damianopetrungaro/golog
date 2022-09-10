@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	. "github.com/damianopetrungaro/golog/http"
+	. "github.com/damianopetrungaro/golog/v2/http"
 )
 
 func TestRecorderResponseWriter(t *testing.T) {

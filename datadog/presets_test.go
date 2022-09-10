@@ -3,7 +3,7 @@ package datadog
 import (
 	"testing"
 
-	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/v2"
 )
 
 func Test_NewProductionLogger(t *testing.T) {

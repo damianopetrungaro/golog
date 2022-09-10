@@ -1,7 +1,7 @@
 package opencensus
 
 import (
-	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/v2"
 )
 
 // NewProductionLogger returns a pre-configured logger for production environment

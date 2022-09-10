@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/v2"
 )
 
 var defaultLogHandle LogHandle = func(rec *RecorderResponseWriter, r *http.Request, logger golog.Logger) {

@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/damianopetrungaro/golog/datadog"
+	. "github.com/damianopetrungaro/golog/v2/datadog"
 )
 
 func TestNewTimestampDecorator(t *testing.T) {

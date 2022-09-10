@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/v2"
 )
 
 // MatchEntry is a utility function to match two entries.

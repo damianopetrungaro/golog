@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/v2"
 )
 
 func TestNewProductionLogger(t *testing.T) {

@@ -3,7 +3,7 @@ package opencensus
 import (
 	"go.opencensus.io/trace"
 
-	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/v2"
 )
 
 var decorator golog.DecoratorFunc = func(e golog.Entry) golog.Entry {

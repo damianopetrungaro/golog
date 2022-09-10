@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	. "github.com/damianopetrungaro/golog"
+	. "github.com/damianopetrungaro/golog/v2"
 )
 
 func Test_Bool(t *testing.T) {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"sync"
 
-	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/v2"
 )
 
 // NewNullLogger returns a null logger

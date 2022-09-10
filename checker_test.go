@@ -3,7 +3,7 @@ package golog_test
 import (
 	"testing"
 
-	. "github.com/damianopetrungaro/golog"
+	. "github.com/damianopetrungaro/golog/v2"
 )
 
 func TestLevelChecker_Check(t *testing.T) {

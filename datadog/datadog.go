@@ -3,7 +3,7 @@ package datadog
 import (
 	"time"
 
-	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/v2"
 )
 
 var (

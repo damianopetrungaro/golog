@@ -3,7 +3,7 @@ package golog_test
 import (
 	"context"
 
-	. "github.com/damianopetrungaro/golog"
+	. "github.com/damianopetrungaro/golog/v2"
 )
 
 type any = interface{}

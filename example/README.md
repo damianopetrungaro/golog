@@ -4,8 +4,8 @@
 
 ```go
 import (
-    "github.com/damianopetrungaro/golog"
-    "github.com/damianopetrungaro/golog/opentelemetry"
+    "github.com/damianopetrungaro/golog/v2"
+    "github.com/damianopetrungaro/golog/v2/opentelemetry"
 )
 
 func NewLogger(lvl golog.Level) (golog.Logger, golog.Flusher) {
@@ -43,8 +43,8 @@ func NewLogger(lvl golog.Level) (golog.Logger, golog.Flusher) {
 
 ```go
 import (
-    "github.com/damianopetrungaro/golog"
-    "github.com/damianopetrungaro/golog/opencensus"
+    "github.com/damianopetrungaro/golog/v2"
+    "github.com/damianopetrungaro/golog/v2/opencensus"
 )
 
 func NewLogger(lvl golog.Level) (golog.Logger, golog.Flusher) {
@@ -81,9 +81,9 @@ func NewLogger(lvl golog.Level) (golog.Logger, golog.Flusher) {
 ## Production ready logger usage with datadog and opentelemetry support
 ```go
 import (
-    "github.com/damianopetrungaro/golog"
-    "github.com/damianopetrungaro/golog/datadog"
-    "github.com/damianopetrungaro/golog/opentelemetry"
+    "github.com/damianopetrungaro/golog/v2"
+    "github.com/damianopetrungaro/golog/v2/datadog"
+    "github.com/damianopetrungaro/golog/v2/opentelemetry"
 )
 
 func NewLogger(lvl golog.Level) (golog.Logger, golog.Flusher) {
@@ -127,8 +127,8 @@ func NewLogger(lvl golog.Level) (golog.Logger, golog.Flusher) {
 ## Production ready logger usage with sentry and stdout support
 ```go
 import (
-    "github.com/damianopetrungaro/golog"
-    "github.com/damianopetrungaro/golog/sentry"
+    "github.com/damianopetrungaro/golog/v2"
+    "github.com/damianopetrungaro/golog/v2/sentry"
     goSentry "github.com/getsentry/sentry-go"
 )
 

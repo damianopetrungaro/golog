@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	. "github.com/damianopetrungaro/golog"
+	. "github.com/damianopetrungaro/golog/v2"
 )
 
 // FakeErrorHandler used for internal testing purposes

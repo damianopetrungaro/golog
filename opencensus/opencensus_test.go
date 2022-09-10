@@ -6,8 +6,8 @@ import (
 
 	"go.opencensus.io/trace"
 
-	"github.com/damianopetrungaro/golog"
-	. "github.com/damianopetrungaro/golog/opencensus"
+	"github.com/damianopetrungaro/golog/v2"
+	. "github.com/damianopetrungaro/golog/v2/opencensus"
 )
 
 func TestTraceDecorator(t *testing.T) {

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/damianopetrungaro/golog"
+	. "github.com/damianopetrungaro/golog/v2"
 )
 
 func TestStackTraceDecorator_Decorate(t *testing.T) {

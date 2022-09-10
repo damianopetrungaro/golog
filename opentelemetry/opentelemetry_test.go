@@ -6,8 +6,8 @@ import (
 
 	"go.opentelemetry.io/otel"
 
-	"github.com/damianopetrungaro/golog"
-	. "github.com/damianopetrungaro/golog/opentelemetry"
+	"github.com/damianopetrungaro/golog/v2"
+	. "github.com/damianopetrungaro/golog/v2/opentelemetry"
 )
 
 func TestTraceDecorator(t *testing.T) {

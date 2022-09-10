@@ -41,8 +41,8 @@ package main
 import (
 	"context"
 
-	"github.com/damianopetrungaro/golog"
-	"github.com/damianopetrungaro/golog/opentelemetry"
+	"github.com/damianopetrungaro/golog/v2"
+	"github.com/damianopetrungaro/golog/v2/opentelemetry"
 )
 
 func main() {
@@ -65,8 +65,8 @@ package main
 import (
 	"context"
 
-	"github.com/damianopetrungaro/golog"
-	"github.com/damianopetrungaro/golog/opencensus"
+	"github.com/damianopetrungaro/golog/v2"
+	"github.com/damianopetrungaro/golog/v2/opencensus"
 )
 
 func main() {
@@ -359,8 +359,8 @@ server.
 import (
     "net/http"
     
-	"github.com/damianopetrungaro/golog"
-    httplog "github.com/damianopetrungaro/golog/http"
+	"github.com/damianopetrungaro/golog/v2"
+    httplog "github.com/damianopetrungaro/golog/v2/http"
 )
 
 // ...
@@ -377,7 +377,7 @@ Golog provides configurations and encoders utilities for several log consumers
 
 ```go
 import (
-    "github.com/damianopetrungaro/golog/datadog"
+    "github.com/damianopetrungaro/golog/v2/datadog"
 )
 
 logger := golog.New(

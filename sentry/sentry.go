@@ -5,7 +5,7 @@ import (
 
 	"github.com/getsentry/sentry-go"
 
-	"github.com/damianopetrungaro/golog"
+	"github.com/damianopetrungaro/golog/v2"
 )
 
 type Writer struct {

@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	golog "github.com/damianopetrungaro/golog"
+	golog "github.com/damianopetrungaro/golog/v2"
 	gomock "github.com/golang/mock/gomock"
 )
 

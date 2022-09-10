@@ -5,8 +5,8 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/damianopetrungaro/golog"
-	. "github.com/damianopetrungaro/golog/http"
+	"github.com/damianopetrungaro/golog/v2"
+	. "github.com/damianopetrungaro/golog/v2/http"
 )
 
 func TestHandler_ServeHTTP(t *testing.T) {
