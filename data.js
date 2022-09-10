@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1662832709662,
+  "lastUpdate": 1662843263752,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -1412,6 +1412,48 @@ window.BENCHMARK_DATA = {
             "value": 2770,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "414861 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "7a79c65e7a31e3a98069b505984a900e3e2c17f8",
+          "message": "fix(sentry): use log message when capturing the event\n\nto avoid grouping unrelated errors in Sentry, we must never create a new error\n\nBREAKING CHANGE: the sentry writer has been simplified and now needs less dependencies to fully operate",
+          "timestamp": "2022-09-10T22:53:45+02:00",
+          "tree_id": "ffcbe83ad46390bfa176d01044f85573e0bee464",
+          "url": "https://github.com/damianopetrungaro/golog/commit/7a79c65e7a31e3a98069b505984a900e3e2c17f8"
+        },
+        "date": 1662843262870,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 8005,
+            "unit": "ns/op\t    6124 B/op\t      69 allocs/op",
+            "extra": "139365 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 1991,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "578658 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2082,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "538657 times\n2 procs"
           }
         ]
       }
