@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1662846358210,
+  "lastUpdate": 1662846453586,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -1622,6 +1622,48 @@ window.BENCHMARK_DATA = {
             "value": 2121,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "539030 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "fce917d848ddd6be05599995efad41eb48fe2ba8",
+          "message": "fix(sentry): use log message when capturing the event\n\nto avoid grouping unrelated errors in Sentry, we must never create a new error\n\nBREAKING CHANGE: the sentry writer has been simplified and now needs less dependencies to fully operate",
+          "timestamp": "2022-09-10T23:46:54+02:00",
+          "tree_id": "8598f6b9806e0ee5a55b6007ab201b1a69649390",
+          "url": "https://github.com/damianopetrungaro/golog/commit/fce917d848ddd6be05599995efad41eb48fe2ba8"
+        },
+        "date": 1662846452750,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 7825,
+            "unit": "ns/op\t    6123 B/op\t      69 allocs/op",
+            "extra": "145459 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2038,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "559995 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2098,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "541219 times\n2 procs"
           }
         ]
       }
