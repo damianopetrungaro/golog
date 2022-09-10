@@ -29,7 +29,9 @@ runs:
       shell: bash
 
     - name: Run tests
-      run: gotestsum  --format testname ./... --coverprofile=cover.out -race
+      run: | 
+        gotestsum --format testname ./... --coverprofile=cover.out.tmp -race
+        cat cover.out.tmp | grep -v "mock.go" > cover.out
       shell: bash
 
     - name: Upload coverage to Codecov
