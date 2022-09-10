@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1662825695882,
+  "lastUpdate": 1662826055721,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -1328,6 +1328,48 @@ window.BENCHMARK_DATA = {
             "value": 2078,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "536628 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "5f5dc45d07d698591a47e5e50c28bf83228853ee",
+          "message": "feat: add presets\n\nBREAKING CHANGE: The API for the text encoder now adds a default text encoder which adds colors",
+          "timestamp": "2022-09-10T18:04:44+02:00",
+          "tree_id": "6d56d48225c37071cc594c6973b3f351b939f86d",
+          "url": "https://github.com/damianopetrungaro/golog/commit/5f5dc45d07d698591a47e5e50c28bf83228853ee"
+        },
+        "date": 1662826054659,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 8004,
+            "unit": "ns/op\t    6124 B/op\t      69 allocs/op",
+            "extra": "135616 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2063,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "552807 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2138,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "515102 times\n2 procs"
           }
         ]
       }
