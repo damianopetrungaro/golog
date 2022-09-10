@@ -1,3 +1,17 @@
+# [3.0.0](https://github.com/damianopetrungaro/golog/compare/v2.1.0...v3.0.0) (2022-09-10)
+
+
+### Bug Fixes
+
+* **sentry:** use log message when capturing the event ([7a79c65](https://github.com/damianopetrungaro/golog/commit/7a79c65e7a31e3a98069b505984a900e3e2c17f8))
+
+
+### BREAKING CHANGES
+
+* **sentry:** the sentry writer has been simplified and now needs less dependencies to fully operate
+
+
+
 # [2.1.0](https://github.com/damianopetrungaro/golog/compare/v2.0.0...v2.1.0) (2022-09-10)
 
 
@@ -37,15 +51,6 @@
 ### Features
 
 * **datadog:** add dd tracing decorator ([3101db1](https://github.com/damianopetrungaro/golog/commit/3101db1689596c59b5649141b5d7e44b353fe998))
-
-
-
-## [1.9.3](https://github.com/damianopetrungaro/golog/compare/v1.9.2...v1.9.3) (2022-07-28)
-
-
-### Bug Fixes
-
-* **http:** use underscore instead of white space in the default fields ([be87e7f](https://github.com/damianopetrungaro/golog/commit/be87e7fde3315a25f33bdddea9c55c1bac641b44))
 
 
 
