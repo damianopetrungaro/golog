@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1662826055721,
+  "lastUpdate": 1662832709662,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -1370,6 +1370,48 @@ window.BENCHMARK_DATA = {
             "value": 2138,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "515102 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damiano@pento.io",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "cbd0c72d364eb0af43b07a6967f67505dde21e8d",
+          "message": "feat(test): add a fake logger with matcher APIs",
+          "timestamp": "2022-09-10T19:57:30+02:00",
+          "tree_id": "169c6a37ea5109eebb6b01b7632fc72aa514d2a9",
+          "url": "https://github.com/damianopetrungaro/golog/commit/cbd0c72d364eb0af43b07a6967f67505dde21e8d"
+        },
+        "date": 1662832708375,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 9869,
+            "unit": "ns/op\t    6124 B/op\t      69 allocs/op",
+            "extra": "117073 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2649,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "429441 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2770,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "414861 times\n2 procs"
           }
         ]
       }
