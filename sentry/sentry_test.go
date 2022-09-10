@@ -1,16 +1,14 @@
-package sentry_test
+package sentry
 
 import (
-	"bytes"
 	"context"
-	"io"
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/getsentry/sentry-go"
 
 	"github.com/damianopetrungaro/golog"
-	. "github.com/damianopetrungaro/golog/sentry"
 )
 
 var (
@@ -20,91 +18,127 @@ var (
 )
 
 type fakeTransport struct {
-	Message   string
-	Excpetion []sentry.Exception
+	Level   string
+	Message string
+	Extra   map[string]interface{}
 }
 
 func (t *fakeTransport) Configure(sentry.ClientOptions) {}
 
 func (t *fakeTransport) SendEvent(ev *sentry.Event) {
+	t.Level = string(ev.Level)
 	t.Message = ev.Message
-	t.Excpetion = ev.Exception
+	t.Extra = ev.Extra
 }
 
 func (t *fakeTransport) Flush(time.Duration) bool {
 	return true
 }
 
-// FakeEncoder used for internal testing purposes
-type FakeEncoder struct {
-	Entry          golog.Entry
-	ShouldFail     bool
-	ShouldWriterTo io.WriterTo
+func TestWriter_WriteEntry(t *testing.T) {
+	transport := &fakeTransport{}
+
+	hub := getHubHelper(t, transport)
+
+	w := &Writer{
+		Hub:          hub,
+		DefaultLevel: golog.INFO,
+	}
+
+	if _, err := w.Write([]byte(`message`)); err != nil {
+		t.Fatalf("could not write log message: %s", err)
+	}
+
+	if transport.Message != `message` {
+		t.Error("could not match message")
+		t.Errorf("got: %s", transport.Message)
+		t.Errorf("want: %s", debugEntry.Message())
+	}
+
+	if transport.Level != strings.ToLower(w.DefaultLevel.String()) {
+		t.Error("could not match level")
+		t.Errorf("got: %s", transport.Level)
+		t.Errorf("want: %s", debugEntry.Level().String())
+	}
+
+	if len(transport.Extra) > 0 {
+		t.Error("could not match extra")
+		t.Errorf("got: %v", transport.Extra)
+	}
+
+	w.WriteEntry(errorEntry.With(golog.String("extra_key", "extra_value")))
+	if transport.Message != errorEntry.Message() {
+		t.Error("could not match message")
+		t.Errorf("got: %s", transport.Message)
+		t.Errorf("want: %s", errorEntry.Message())
+	}
+
+	if transport.Level != strings.ToLower(errorEntry.Level().String()) {
+		t.Error("could not match level")
+		t.Errorf("got: %s", transport.Level)
+		t.Errorf("want: %s", errorEntry.Level().String())
+	}
+
+	if len(transport.Extra) != 1 {
+		t.Error("could not match extra")
+		t.Errorf("got: %v", transport.Extra)
+	}
+
+	if transport.Extra["extra_key"] != "extra_value" {
+		t.Error("could not match extra key")
+		t.Errorf("got: %v", transport.Extra["extra_key"])
+	}
 }
 
-func (fe *FakeEncoder) Encode(e golog.Entry) (io.WriterTo, error) {
-	fe.Entry = e
-	return fe.ShouldWriterTo, nil
+func TestWriter_Write(t *testing.T) {
+	transport := &fakeTransport{}
+
+	hub := getHubHelper(t, transport)
+
+	w := &Writer{
+		Hub:          hub,
+		DefaultLevel: golog.INFO,
+	}
+
+	w.WriteEntry(debugEntry)
+	if transport.Message != debugEntry.Message() {
+		t.Error("could not match message")
+		t.Errorf("got: %s", transport.Message)
+		t.Errorf("want: %s", debugEntry.Message())
+	}
+
+	if transport.Level != strings.ToLower(debugEntry.Level().String()) {
+		t.Error("could not match level")
+		t.Errorf("got: %s", transport.Level)
+		t.Errorf("want: %s", debugEntry.Level().String())
+	}
+
+	if len(transport.Extra) > 0 {
+		t.Error("could not match extra")
+		t.Errorf("got: %v", transport.Extra)
+	}
 }
 
-func TestWriter(t *testing.T) {
-	t.Run("capture message", func(t *testing.T) {
-		data := []byte(`This is the data written`)
-		writerTo := bytes.NewBuffer(data)
-		transport := &fakeTransport{}
+func Test_toSentryLevel(t *testing.T) {
+	tests := []struct {
+		lvl  golog.Level
+		want sentry.Level
+	}{
+		{lvl: golog.DEBUG, want: sentry.LevelDebug},
+		{lvl: golog.INFO, want: sentry.LevelInfo},
+		{lvl: golog.WARN, want: sentry.LevelWarning},
+		{lvl: golog.ERROR, want: sentry.LevelError},
+		{lvl: golog.FATAL, want: sentry.LevelFatal},
+		{lvl: golog.Level(99), want: sentry.LevelError},
+	}
 
-		hub := getHubHelper(t, transport)
-		enc := &FakeEncoder{ShouldWriterTo: writerTo}
-
-		w := &Writer{
-			Encoder:                   enc,
-			Hub:                       hub,
-			ErrHandler:                golog.DefaultErrorHandler(),
-			DefaultLevel:              golog.INFO,
-			CaptureExceptionFromLevel: golog.WARN,
+	for _, test := range tests {
+		if got := toSentryLevel(test.lvl); got != test.want {
+			t.Error("could not match level")
+			t.Errorf("got: %s", got)
+			t.Errorf("want: %s", test.want)
 		}
-
-		w.WriteEntry(debugEntry)
-		if transport.Message != string(data) {
-			t.Error("could not match message")
-			t.Errorf("got: %s", transport.Message)
-			t.Errorf("want: %s", data)
-		}
-
-		if len(transport.Excpetion) > 0 {
-			t.Error("could not match exception")
-			t.Errorf("got: %v", transport.Excpetion)
-		}
-	})
-
-	t.Run("capture exception", func(t *testing.T) {
-		data := []byte(`This is the data written`)
-		writerTo := bytes.NewBuffer(data)
-		transport := &fakeTransport{}
-
-		hub := getHubHelper(t, transport)
-		enc := &FakeEncoder{ShouldWriterTo: writerTo}
-
-		w := &Writer{
-			Encoder:                   enc,
-			Hub:                       hub,
-			ErrHandler:                golog.DefaultErrorHandler(),
-			DefaultLevel:              golog.INFO,
-			CaptureExceptionFromLevel: golog.WARN,
-		}
-
-		w.WriteEntry(errorEntry)
-		if transport.Excpetion[0].Value != string(data) {
-			t.Error("could not match exception")
-			t.Errorf("got: %s", transport.Message)
-			t.Errorf("want: %s", data)
-		}
-
-		if transport.Message != "" {
-			t.Error("could not match message")
-			t.Errorf("got: %v", transport.Excpetion)
-		}
-	})
+	}
 }
 
 func getHubHelper(t *testing.T, transport sentry.Transport) *sentry.Hub {
