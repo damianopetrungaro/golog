@@ -1,3 +1,12 @@
+# [2.1.0](https://github.com/damianopetrungaro/golog/compare/v2.0.0...v2.1.0) (2022-09-10)
+
+
+### Features
+
+* **test:** add a fake logger with matcher APIs ([cbd0c72](https://github.com/damianopetrungaro/golog/commit/cbd0c72d364eb0af43b07a6967f67505dde21e8d))
+
+
+
 # [2.0.0](https://github.com/damianopetrungaro/golog/compare/v1.11.0...v2.0.0) (2022-09-10)
 
 
@@ -37,15 +46,6 @@
 ### Bug Fixes
 
 * **http:** use underscore instead of white space in the default fields ([be87e7f](https://github.com/damianopetrungaro/golog/commit/be87e7fde3315a25f33bdddea9c55c1bac641b44))
-
-
-
-## [1.9.2](https://github.com/damianopetrungaro/golog/compare/v1.9.1...v1.9.2) (2022-06-30)
-
-
-### Bug Fixes
-
-* **sentry:** writer concurrent safe ([1519590](https://github.com/damianopetrungaro/golog/commit/15195909b0374476f1fa9075389492cb861b7c1f))
 
 
 
