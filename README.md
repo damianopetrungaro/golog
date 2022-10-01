@@ -28,6 +28,11 @@ The `context.Context` in Go is usually the holder for tracing information and
 embedding one of the decorators available to the logger plugs this behavior for free
 in all the places where the logger is used.
 
+## Who uses Golog?
+
+* [Pento](https://www.pento.io) - Used in multiple production services.
+
+
 ## Examples
 
 Based on your needs, you can find some presets available.
