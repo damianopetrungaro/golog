@@ -1,3 +1,12 @@
+# [1.13.0](https://github.com/damianopetrungaro/golog/compare/v1.12.0...v1.13.0) (2022-11-10)
+
+
+### Features
+
+* add mappers API ([1cc675f](https://github.com/damianopetrungaro/golog/commit/1cc675ff1653a33011f600bcdd8422948a7250ed))
+
+
+
 # [1.12.0](https://github.com/damianopetrungaro/golog/compare/v1.10.0...v1.12.0) (2022-09-10)
 
 
@@ -39,15 +48,6 @@
 ### Bug Fixes
 
 * **sentry:** writer concurrent safe ([1519590](https://github.com/damianopetrungaro/golog/commit/15195909b0374476f1fa9075389492cb861b7c1f))
-
-
-
-## [1.9.1](https://github.com/damianopetrungaro/golog/compare/v1.9.0...v1.9.1) (2022-06-10)
-
-
-### Bug Fixes
-
-* **opentelemtery:** change package name ([c8adc6f](https://github.com/damianopetrungaro/golog/commit/c8adc6f78fe65682ae5b1a5d81e879895564b607))
 
 
 
