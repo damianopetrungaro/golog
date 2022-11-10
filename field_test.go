@@ -265,6 +265,15 @@ func Test_Mapper(t *testing.T) {
 	testFieldHelper(t, k, v, f)
 }
 
+func Test_Mappers(t *testing.T) {
+	k := "key name"
+	v1 := user{ID: "ID", Reference: 123, Birthdate: time.Now()}
+	v2 := user{ID: "DI", Reference: 321, Birthdate: time.Now()}
+	vs := []FieldMapper{v1, v2}
+	f := Mappers(k, vs)
+	testFieldHelper(t, k, vs, f)
+}
+
 // tests Key and Value methods as well implicitly
 func testFieldHelper(t *testing.T, k string, v any, f Field) {
 	t.Helper()

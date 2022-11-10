@@ -242,6 +242,21 @@ func (t TextEncoder) encodeField(f Field, w *bytes.Buffer) {
 				}
 			}
 		})
+	case []FieldMapper:
+		t.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, fm := range val {
+				for i, f := range fm.ToFields() {
+					t.encodeField(f, w)
+					if i != len(fm.ToFields())-1 {
+						w.WriteString(` `)
+					}
+				}
+				if i != len(val)-1 {
+					w.WriteString(`,`)
+				}
+			}
+		})
+
 	}
 }
 
@@ -461,6 +476,22 @@ func (j JsonEncoder) encodeField(f Field, w *bytes.Buffer) {
 				}
 			}
 		})
+	case []FieldMapper:
+		j.addElements(w, f.Key(), func(w *bytes.Buffer) {
+			for i, fm := range val {
+				j.addPlainObject(w, func(w *bytes.Buffer) {
+					for i, f := range fm.ToFields() {
+						j.encodeField(f, w)
+						if i != len(fm.ToFields())-1 {
+							w.WriteString(`,`)
+						}
+					}
+				})
+				if i != len(val)-1 {
+					w.WriteString(`,`)
+				}
+			}
+		})
 	}
 }
 
@@ -506,7 +537,12 @@ func (j JsonEncoder) addElements(w *bytes.Buffer, k string, fn func(w *bytes.Buf
 func (j JsonEncoder) addObject(w *bytes.Buffer, k string, fn func(w *bytes.Buffer)) {
 	w.WriteString(`"`)
 	w.WriteString(k)
-	w.WriteString(`":{`)
+	w.WriteString(`":`)
+	j.addPlainObject(w, fn)
+}
+
+func (j JsonEncoder) addPlainObject(w *bytes.Buffer, fn func(w *bytes.Buffer)) {
+	w.WriteString(`{`)
 	fn(w)
 	w.WriteString(`}`)
 }
