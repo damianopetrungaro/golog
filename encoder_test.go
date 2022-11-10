@@ -98,13 +98,17 @@ is	 working!"\`)}),
 			entry:   NewStdEntry(context.Background(), DEBUG, "array of float32", Fields{Float32s("float32s", []float32{1.1, 2.2, 3.3})}),
 			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"array of float32","float32s":[1.1000000238,2.2000000477,3.2999999523]}`),
 		},
-		"entry with time array of time": {
+		"entry with array of time": {
 			entry:   NewStdEntry(context.Background(), DEBUG, "time and an array of time", Fields{Time("25 Dec", date), Times("26/27 Dec", []time.Time{date.AddDate(0, 0, 1), date.AddDate(0, 0, 2)})}),
 			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"time and an array of time","25 Dec":"2000-12-25T00:00:00Z","26/27 Dec":["2000-12-26T00:00:00Z","2000-12-27T00:00:00Z"]}`),
 		},
-		"entry with time mapper": {
+		"entry with mapper": {
 			entry:   NewStdEntry(context.Background(), DEBUG, "mapper", Fields{Mapper("user", user{ID: "1", Reference: 321, Birthdate: date})}),
 			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"mapper","user":{"id":"1","ref":321,"birthdate":"2000-12-25T00:00:00Z"}}`),
+		},
+		"entry with array of mapper": {
+			entry:   NewStdEntry(context.Background(), DEBUG, "mapper", Fields{Mappers("users", []FieldMapper{user{ID: "1", Reference: 321, Birthdate: date}, user{ID: "2", Reference: 123, Birthdate: date}})}),
+			wantLog: fmt.Sprintln(`{"level":"DEBUG","message":"mapper","users":[{"id":"1","ref":321,"birthdate":"2000-12-25T00:00:00Z"},{"id":"2","ref":123,"birthdate":"2000-12-25T00:00:00Z"}]}`),
 		},
 	}
 
@@ -195,13 +199,17 @@ func TestTextEncoder_Encode(t *testing.T) {
 			entry:   NewStdEntry(context.Background(), DEBUG, "array of float32", Fields{Float32s("float32s", []float32{1.1, 2.2, 3.3})}),
 			wantLog: fmt.Sprintln(`level="DEBUG" message="array of float32" float32s=[1.1000000238,2.2000000477,3.2999999523]`),
 		},
-		"entry with time array of time": {
+		"entry with array of time": {
 			entry:   NewStdEntry(context.Background(), DEBUG, "time and an array of time", Fields{Time("25 Dec", date), Times("26/27 Dec", []time.Time{date.AddDate(0, 0, 1), date.AddDate(0, 0, 2)})}),
 			wantLog: fmt.Sprintln(`level="DEBUG" message="time and an array of time" 25 Dec="2000-12-25T00:00:00Z" 26/27 Dec=["2000-12-26T00:00:00Z","2000-12-27T00:00:00Z"]`),
 		},
-		"entry with time mapper": {
+		"entry with mapper": {
 			entry:   NewStdEntry(context.Background(), DEBUG, "mapper", Fields{Mapper("user", user{ID: "1", Reference: 321, Birthdate: date})}),
 			wantLog: fmt.Sprintln(`level="DEBUG" message="mapper" user=[id="1" ref=321 birthdate="2000-12-25T00:00:00Z"]`),
+		},
+		"entry with array of mapper": {
+			entry:   NewStdEntry(context.Background(), DEBUG, "mapper", Fields{Mappers("users", []FieldMapper{user{ID: "1", Reference: 321, Birthdate: date}, user{ID: "2", Reference: 123, Birthdate: date}})}),
+			wantLog: fmt.Sprintln(`level="DEBUG" message="mapper" users=[id="1" ref=321 birthdate="2000-12-25T00:00:00Z",id="2" ref=123 birthdate="2000-12-25T00:00:00Z"]`),
 		},
 	}
 

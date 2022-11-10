@@ -193,6 +193,11 @@ func Mapper(k string, v FieldMapper) Field {
 	return Field{k: k, v: v}
 }
 
+// Mappers creates a field containing a value of type "Fields"
+func Mappers(k string, v []FieldMapper) Field {
+	return Field{k: k, v: v}
+}
+
 // Err creates a field containing a value of type ") Fi"
 func Err(err error) Field {
 	const k = "error"
