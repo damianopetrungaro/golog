@@ -2,15 +2,19 @@ package sentry
 
 import (
 	"context"
-
+	"fmt"
 	"github.com/getsentry/sentry-go"
+	"time"
 
 	"github.com/damianopetrungaro/golog"
 )
 
+var _ golog.Writer = &Writer{}
+
 type Writer struct {
 	Hub          *sentry.Hub
 	DefaultLevel golog.Level
+	FlushTimeout time.Duration
 }
 
 func (w *Writer) WriteEntry(e golog.Entry) {
@@ -30,6 +34,19 @@ func (w *Writer) Write(msg []byte) (int, error) {
 	w.WriteEntry(e)
 
 	return len(msg), nil
+}
+
+// Flush flushes the data
+func (w *Writer) Flush() error {
+	if w.FlushTimeout == 0 {
+		w.FlushTimeout = 5 * time.Second
+	}
+
+	if !w.Hub.Flush(w.FlushTimeout) {
+		return fmt.Errorf("data was not flushed")
+	}
+
+	return nil
 }
 
 func toSentryLevel(lvl golog.Level) sentry.Level {

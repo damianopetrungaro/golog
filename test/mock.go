@@ -272,6 +272,20 @@ func (m *MockWriter) EXPECT() *MockWriterMockRecorder {
 	return m.recorder
 }
 
+// Flush mocks base method.
+func (m *MockWriter) Flush() error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Flush")
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Flush indicates an expected call of Flush.
+func (mr *MockWriterMockRecorder) Flush() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Flush", reflect.TypeOf((*MockWriter)(nil).Flush))
+}
+
 // Write mocks base method.
 func (m *MockWriter) Write(arg0 []byte) (int, error) {
 	m.ctrl.T.Helper()

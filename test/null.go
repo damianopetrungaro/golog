@@ -7,6 +7,10 @@ import (
 	"github.com/damianopetrungaro/golog"
 )
 
+var (
+	_ golog.Writer = &InMemWriter{}
+)
+
 // NewNullLogger returns a null logger
 // useful for passing a logger as dependency
 func NewNullLogger() golog.Logger {
@@ -60,4 +64,9 @@ func (w *InMemWriter) WriteEntry(e golog.Entry) {
 func (w *InMemWriter) Write(msg []byte) (int, error) {
 	w.WriteEntry(golog.NewStdEntry(context.Background(), golog.DEBUG, string(msg), golog.Fields{}))
 	return len(msg), nil
+}
+
+// Flush flushes the data
+func (w *InMemWriter) Flush() error {
+	return nil
 }
