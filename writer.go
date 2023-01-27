@@ -18,18 +18,13 @@ var (
 // Writer is an Entry writer
 type Writer interface {
 	WriteEntry(Entry)
+	Flusher
 	io.Writer
 }
 
 // Flusher ensure that the data that a Writer may hold is written
 type Flusher interface {
 	Flush() error
-}
-
-// WriteFlusher is a Writer and Flusher
-type WriteFlusher interface {
-	Writer
-	Flusher
 }
 
 // BufWriter is a Writer which holds a buffer behind the scene to reduce sys calls
@@ -235,6 +230,26 @@ func (m *MultiWriter) Write(msg []byte) (int, error) {
 
 	wg.Wait()
 	return len(msg), err
+}
+
+// Flush flushes the data to the related Writer
+func (m *MultiWriter) Flush() error {
+	wg := &sync.WaitGroup{}
+	wg.Add(len(m.Writers))
+
+	var err error
+	for _, w := range m.Writers {
+		go func(w Writer) {
+			if ferr := w.Flush(); ferr != nil {
+				err = ferr
+			}
+
+			wg.Done()
+		}(w)
+	}
+
+	wg.Wait()
+	return err
 }
 
 // TickFlusher is a Flusher triggered by a time.Ticker

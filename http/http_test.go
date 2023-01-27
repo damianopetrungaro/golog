@@ -102,3 +102,7 @@ func (i *inmem) WriteEntry(e golog.Entry) {
 func (*inmem) Write([]byte) (int, error) {
 	return 0, nil
 }
+
+func (*inmem) Flush() error {
+	return nil
+}

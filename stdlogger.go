@@ -2,6 +2,7 @@ package golog
 
 import (
 	"context"
+	"fmt"
 )
 
 // StdLogger is a representation of the standard Logger
@@ -67,13 +68,13 @@ func (l StdLogger) CheckInfo(ctx context.Context, msg Message) (CheckedLogger, b
 	return l.check(ctx, INFO, msg)
 }
 
-// Warning writes a log with the WARN Level
+// Warn writes a log with the WARN Level
 func (l StdLogger) Warn(ctx context.Context, msg Message) {
 	l.log(ctx, WARN, msg)
 }
 
-// CheckWarning returns a CheckedLogger and a guard
-// When the guard is true and the CheckWarning is called a log with the WARN Level is written
+// CheckWarn returns a CheckedLogger and a guard
+// When the guard is true and the CheckWarn is called a log with the WARN Level is written
 func (l StdLogger) CheckWarn(ctx context.Context, msg Message) (CheckedLogger, bool) {
 	return l.check(ctx, WARN, msg)
 }
@@ -93,6 +94,9 @@ func (l StdLogger) CheckError(ctx context.Context, msg Message) (CheckedLogger, 
 // Fatal also panic with the given message
 func (l StdLogger) Fatal(ctx context.Context, msg Message) {
 	l.log(ctx, FATAL, msg)
+	if err := l.Writer.Flush(); err != nil {
+		msg = fmt.Sprintf("%s: %s", err, msg)
+	}
 	panic(msg)
 }
 
@@ -100,7 +104,7 @@ func (l StdLogger) Fatal(ctx context.Context, msg Message) {
 // When the guard is true and the with is called a log with the FATAL Level is written
 // CheckFatal will also panic with the given message
 func (l StdLogger) CheckFatal(ctx context.Context, msg Message) (CheckedLogger, bool) {
-	return l.check(ctx, ERROR, msg)
+	return l.check(ctx, FATAL, msg)
 }
 
 // With returns a new Logger appending the given extra Fields

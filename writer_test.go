@@ -41,6 +41,11 @@ func (fw *FakeWriter) Write(msg []byte) (int, error) {
 	return len(msg), nil
 }
 
+// Flush flushes the data
+func (fw *FakeWriter) Flush() error {
+	return nil
+}
+
 // FakeFlusher used for internal testing purposes
 type FakeFlusher struct {
 	Counter    int64

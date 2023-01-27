@@ -31,7 +31,7 @@ func NewWithEncoder(lvl Level, enc Encoder) (StdLogger, Flusher) {
 	return newLogger(lvl, w)
 }
 
-func newLogger(lvl Level, wf WriteFlusher) (StdLogger, Flusher) {
+func newLogger(lvl Level, wf Writer) (StdLogger, Flusher) {
 	log := New(
 		wf,
 		NewLevelCheckerOption(lvl),

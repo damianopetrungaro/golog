@@ -2,6 +2,7 @@ package golog
 
 import (
 	"context"
+	"fmt"
 )
 
 // Logger is a logger able to write custom log Message with Fields
@@ -44,7 +45,14 @@ type StdCheckedLogger struct {
 // Log panics with the message if the Level is FATAL
 func (l StdCheckedLogger) Log(flds ...Field) {
 	l.Writer.WriteEntry(l.Entry.With(flds...))
-	if l.Entry.Level() == FATAL {
-		panic(l.Entry.Message())
+	if l.Entry.Level() != FATAL {
+		return
 	}
+
+	msg := l.Entry.Message()
+	if err := l.Writer.Flush(); err != nil {
+		msg = fmt.Sprintf("%s: %s", err, msg)
+	}
+
+	panic(msg)
 }
