@@ -1,3 +1,12 @@
+# [1.14.0](https://github.com/damianopetrungaro/golog/compare/v1.13.0...v1.14.0) (2023-01-28)
+
+
+### Features
+
+* flush on fatal ([13ab952](https://github.com/damianopetrungaro/golog/commit/13ab952f166a5a951501912ef73a1bf85cfd166c))
+
+
+
 # [1.13.0](https://github.com/damianopetrungaro/golog/compare/v1.12.0...v1.13.0) (2022-11-10)
 
 
@@ -39,15 +48,6 @@
 ### Bug Fixes
 
 * **http:** use underscore instead of white space in the default fields ([be87e7f](https://github.com/damianopetrungaro/golog/commit/be87e7fde3315a25f33bdddea9c55c1bac641b44))
-
-
-
-## [1.9.2](https://github.com/damianopetrungaro/golog/compare/v1.9.1...v1.9.2) (2022-06-30)
-
-
-### Bug Fixes
-
-* **sentry:** writer concurrent safe ([1519590](https://github.com/damianopetrungaro/golog/commit/15195909b0374476f1fa9075389492cb861b7c1f))
 
 
 
