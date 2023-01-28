@@ -138,6 +138,11 @@ func (m *LeveledWriter) Write(msg []byte) (int, error) {
 	return m.Default.Write(msg)
 }
 
+// Flush flushes the data
+func (m *LeveledWriter) Flush() error {
+	return m.Default.Flush()
+}
+
 // DeduplicatorWriter is a Writer which deduplicate fields with the same name
 type DeduplicatorWriter struct {
 	Default Writer
@@ -181,6 +186,11 @@ func (m *DeduplicatorWriter) WriteEntry(e Entry) {
 // Write calls the Default Write method
 func (m *DeduplicatorWriter) Write(msg []byte) (int, error) {
 	return m.Default.Write(msg)
+}
+
+// Flush flushes the data
+func (m *DeduplicatorWriter) Flush() error {
+	return m.Default.Flush()
 }
 
 // MultiWriter is a Writer which based on the log level will write to a writer
