@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1668078081321,
+  "lastUpdate": 1674950484615,
   "repoUrl": "https://github.com/damianopetrungaro/golog",
   "entries": {
     "Log benchmarks": [
@@ -1832,6 +1832,48 @@ window.BENCHMARK_DATA = {
             "value": 2132,
             "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
             "extra": "539828 times\n2 procs"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "committer": {
+            "email": "damianopetrungaro@gmail.com",
+            "name": "Damiano Petrungaro",
+            "username": "damianopetrungaro"
+          },
+          "distinct": true,
+          "id": "909b21ce2bb02eaa15c833f0f5f7a307a9b76a44",
+          "message": "fix: implements flushes in all writer",
+          "timestamp": "2023-01-29T01:00:43+01:00",
+          "tree_id": "ad2df381676c5c9901a709854f446395aeb82942",
+          "url": "https://github.com/damianopetrungaro/golog/commit/909b21ce2bb02eaa15c833f0f5f7a307a9b76a44"
+        },
+        "date": 1674950483298,
+        "tool": "go",
+        "benches": [
+          {
+            "name": "BenchmarkLogger/logrus",
+            "value": 7830,
+            "unit": "ns/op\t    6123 B/op\t      69 allocs/op",
+            "extra": "151080 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/golog",
+            "value": 2033,
+            "unit": "ns/op\t    2840 B/op\t      27 allocs/op",
+            "extra": "528268 times\n2 procs"
+          },
+          {
+            "name": "BenchmarkLogger/zap",
+            "value": 2134,
+            "unit": "ns/op\t    2825 B/op\t      20 allocs/op",
+            "extra": "542274 times\n2 procs"
           }
         ]
       }
