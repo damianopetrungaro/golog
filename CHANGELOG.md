@@ -1,3 +1,12 @@
+## [1.14.1](https://github.com/damianopetrungaro/golog/compare/v1.14.0...v1.14.1) (2023-01-29)
+
+
+### Bug Fixes
+
+* implements flushes in all writer ([909b21c](https://github.com/damianopetrungaro/golog/commit/909b21ce2bb02eaa15c833f0f5f7a307a9b76a44))
+
+
+
 # [1.14.0](https://github.com/damianopetrungaro/golog/compare/v1.13.0...v1.14.0) (2023-01-28)
 
 
@@ -39,15 +48,6 @@
 ### Features
 
 * **datadog:** add dd tracing decorator ([3101db1](https://github.com/damianopetrungaro/golog/commit/3101db1689596c59b5649141b5d7e44b353fe998))
-
-
-
-## [1.9.3](https://github.com/damianopetrungaro/golog/compare/v1.9.2...v1.9.3) (2022-07-28)
-
-
-### Bug Fixes
-
-* **http:** use underscore instead of white space in the default fields ([be87e7f](https://github.com/damianopetrungaro/golog/commit/be87e7fde3315a25f33bdddea9c55c1bac641b44))
 
 
 
